@@ -2154,7 +2154,7 @@ public class PrettyPrintVisitor implements Visitor {
 
 	@Override
 	public void visit(ast.stm.Instruction.ArrayDataDirective inst) {
-		this.sayln(".array-data " + inst.size);
+		this.sayln(".array-data " + inst.width);
 		this.indent();
 		this.printSpace();
 		int cnt = 0;
@@ -2163,7 +2163,7 @@ public class PrettyPrintVisitor implements Visitor {
 				str = this.processChar(str);
 			this.say(str + " ");
 			cnt++;
-			if ((cnt % Integer.decode(inst.size).intValue()) == 0) {
+			if ((cnt % Integer.decode(inst.width).intValue()) == 0) {
 				this.sayln("");
 				this.printSpace();
 			}

@@ -5244,13 +5244,13 @@ public class Instruction
 
   public static class ArrayDataDirective extends T
   {
-    public String size;
+    public String width;
     public List<String> elementList;
 
-    public ArrayDataDirective(String size, List<String> elementList)
+    public ArrayDataDirective(String width, List<String> elementList)
     {
       super();
-      this.size = size;
+      this.width = width;
       this.elementList = elementList;
     }
 
