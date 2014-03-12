@@ -20,7 +20,9 @@ public class ClazzLoader {
     }
 
     private void getASTClass(String clazzName){
+    }
 
+    private void initClazzArea(String clazzName){
     }
 
     private void initClazzArea(ast.classs.Class clazz){
