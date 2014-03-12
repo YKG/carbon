@@ -11,13 +11,12 @@ public class ClazzArea {
      */
     public Map<String, String> clazzz;
 
-    public boolean isLoaded(String clazzName){
-        // TODO
-        return false;
-    }
-
     public ClazzArea() {
         this.clazzz = new HashMap<String, String>();
+    }
+
+    public boolean isLoaded(String clazzName){
+        return this.clazzz.containsKey(clazzName);
     }
 
     public String getSuperClazz(String clazzName){

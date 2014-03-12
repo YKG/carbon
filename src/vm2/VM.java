@@ -1,5 +1,8 @@
 package vm2;
 
+import util.MultiThreadUtils;
+
+import java.util.Map;
 import java.util.Stack;
 
 public class VM {
@@ -7,6 +10,8 @@ public class VM {
     MethodArea methodArea;
     StaticFieldsArea staticFieldsArea;
     InstanceFieldsCopyArea instanceFieldsCopyArea;
+
+    Map<String,MultiThreadUtils.TranslateWorker> classMap;
 
     Object returnValue;         /* hen xian ran --comment by boss */
     Stack<Frame> callstack;     /* you know it  --comment by boss */
