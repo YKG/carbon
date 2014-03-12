@@ -67,7 +67,8 @@ public class Instruction
   {
     public String op;
     public String dest;
-
+    public int addr;
+    
     public Goto(String op, String dest)
     {
       super();
@@ -1631,6 +1632,7 @@ public class Instruction
   {
     public String op;
     public String dest;
+    public int addr;
 
     public Goto16(String op, String dest)
     {
@@ -2173,7 +2175,8 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
-
+    public int addr;
+    
     public IfEqz(String op, String test, String dest)
     {
       super();
@@ -2195,7 +2198,8 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
-
+    public int addr;
+    
     public IfNez(String op, String test, String dest)
     {
       super();
@@ -2217,6 +2221,7 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
+    public int addr;
 
     public IfLtz(String op, String test, String dest)
     {
@@ -2239,6 +2244,7 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
+    public int addr;
 
     public IfGez(String op, String test, String dest)
     {
@@ -2261,6 +2267,7 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
+    public int addr;
 
     public IfGtz(String op, String test, String dest)
     {
@@ -2283,6 +2290,7 @@ public class Instruction
     public String op;
     public String test;
     public String dest;
+    public int addr;
 
     public IfLez(String op, String test, String dest)
     {
@@ -3190,6 +3198,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfEq(String op, String first, String second, String dest)
     {
@@ -3214,6 +3223,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfNe(String op, String first, String second, String dest)
     {
@@ -3238,6 +3248,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfLt(String op, String first, String second, String dest)
     {
@@ -3262,6 +3273,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfGe(String op, String first, String second, String dest)
     {
@@ -3286,6 +3298,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfGt(String op, String first, String second, String dest)
     {
@@ -3310,6 +3323,7 @@ public class Instruction
     public String first;
     public String second;
     public String dest;
+    public int addr;
 
     public IfLe(String op, String first, String second, String dest)
     {
@@ -4642,6 +4656,7 @@ public class Instruction
   {
     public String op;
     public String dest;
+    public int addr;
 
     public Goto32(String op, String dest)
     {
@@ -4741,6 +4756,7 @@ public class Instruction
     public String op;
     public String dest;
     public String src;
+    public int addr;
 
     public FillArrayData(String op, String dest, String src)
     {
@@ -4768,6 +4784,7 @@ public class Instruction
     public String op;
     public String test;
     public String offset;
+    public int addr;
 
     public PackedSwitch(String op, String test, String offset)// throws
                                                               // Exception
@@ -4797,6 +4814,7 @@ public class Instruction
     public String op;
     public String test;
     public String offset;
+    public int addr;
 
     public SparseSwitch(String op, String test, String offset) // throws
                                                                // Exception
