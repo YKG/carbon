@@ -40,4 +40,12 @@ public class VM {
             code[pc].accept(interpreter);
         }
     }
+
+    Object getObjectByReg(String regStr){
+        return regs[Integer.parseInt(regStr)];
+    }
+
+    void setObjectToReg(String regStr, Object obj){
+        regs[Integer.parseInt(regStr)] = obj;
+    }
 }

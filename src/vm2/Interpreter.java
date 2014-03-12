@@ -222,7 +222,8 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.arrayLength inst) {
-
+        vm.setObjectToReg(inst.dest, ((Array)vm.getObjectByReg(inst.src)).getLength());
+        vm.pc++;
     }
 
     @Override
@@ -232,7 +233,8 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.NewArray inst) {
-
+        vm.setObjectToReg(inst.dest, new Array(inst.type, inst.size));
+        vm.pc++;
     }
 
     @Override
@@ -365,74 +367,84 @@ public class Interpreter implements Visitor {
 
     }
 
+    private void aget(String dstReg, String arrReg, String index){
+        vm.setObjectToReg(dstReg, ((Array)vm.getObjectByReg(arrReg)).aget(index));
+        vm.pc++;
+    }
+
+    private void aput(String srcReg, String arrReg, String index){
+        ((Array)vm.getObjectByReg(arrReg)).aput(index, vm.getObjectByReg(srcReg));
+        vm.pc++;
+    }
+
     @Override
     public void visit(Instruction.Aget inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetWide inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetObject inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetBoolean inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetByte inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetChar inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AgetShort inst) {
-
+        aget(inst.dest, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.Aput inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputWide inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputObject inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputBoolean inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputByte inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputChar inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
     public void visit(Instruction.AputShort inst) {
-
+        aput(inst.src, inst.array, inst.index);
     }
 
     @Override
