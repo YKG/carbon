@@ -258,10 +258,12 @@ public class Interpreter implements Visitor {
         vm.pc++;
     }
 
-	@Override
-	public void visit(Instruction.FilledNewArrayRange inst) {
-
-	}
+    @Override
+    public void visit(Instruction.FilledNewArrayRange inst) {
+        assert inst.type.equals("[I");
+        vm.returnValue = vm.getObjectsByRegRange(inst.start, inst.end);
+        vm.pc++;
+    }
 
 	@Override
 	public void visit(Instruction.FillArrayData inst) {
