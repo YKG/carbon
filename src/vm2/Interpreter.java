@@ -301,30 +301,66 @@ public class Interpreter extends VisitorAdapter {
 		vm.pc = dest;
 	}
 
-	@Override
-	public void visit(Instruction.CmplFloat inst) {
+    @Override
+    public void visit(Instruction.CmplFloat inst) {
+        Float val1 = (Float) vm.getObjectByReg(inst.first);
+        Float val2 = (Float) vm.getObjectByReg(inst.second);
+        if (val1.isNaN() || val2.isNaN()) {
+            vm.setObjectToReg(inst.dest, new Integer(-1));
+        } else {
+            int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
+            vm.setObjectToReg(inst.dest, new Integer(result));
+        }
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.CmpgFloat inst) {
+        Float val1 = (Float) vm.getObjectByReg(inst.first);
+        Float val2 = (Float) vm.getObjectByReg(inst.second);
+        if (val1.isNaN() || val2.isNaN()) {
+            vm.setObjectToReg(inst.dest, new Integer(1));
+        } else {
+            int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
+            vm.setObjectToReg(inst.dest, new Integer(result));
+        }
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.CmpgFloat inst) {
+    @Override
+    public void visit(Instruction.CmplDouble inst) {
+        Double val1 = (Double) vm.getObjectByReg(inst.first);
+        Double val2 = (Double) vm.getObjectByReg(inst.second);
+        if (val1.isNaN() || val2.isNaN()) {
+            vm.setObjectToReg(inst.dest, new Integer(-1));
+        } else {
+            int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
+            vm.setObjectToReg(inst.dest, new Integer(result));
+        }
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.Cmpgdouble inst) {
+        Double val1 = (Double) vm.getObjectByReg(inst.first);
+        Double val2 = (Double) vm.getObjectByReg(inst.second);
+        if (val1.isNaN() || val2.isNaN()) {
+            vm.setObjectToReg(inst.dest, new Integer(1));
+        } else {
+            int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
+            vm.setObjectToReg(inst.dest, new Integer(result));
+        }
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.CmplDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.Cmpgdouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.CmpLong inst) {
-
-	}
+    @Override
+    public void visit(Instruction.CmpLong inst) {
+        Long val1 = (Long) vm.getObjectByReg(inst.first);
+        Long val2 = (Long) vm.getObjectByReg(inst.second);
+        int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
+        vm.setObjectToReg(inst.dest, new Integer(result));
+        vm.pc++;
+    }
 
 	@Override
 	public void visit(Instruction.IfEq inst) {
