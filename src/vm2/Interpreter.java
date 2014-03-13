@@ -781,419 +781,616 @@ public class Interpreter implements Visitor {
 
 	}
 
-	@Override
-	public void visit(Instruction.AddInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AndInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.OrInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.XorInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShlInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShrInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.UshrInt inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AndLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.OrLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.XorLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShlLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShrLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.UshrLong inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddFloat inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubFloat inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulFloat inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivFloat inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemFloat inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemDouble inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AndInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.OrInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.XorInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShlInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShrInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.UshrInt2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AndLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.OrLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.XorLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShlLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ShrLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.UshrLong2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddFloat2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubFloat2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulFloat2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivFloat2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemFloat2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.AddDouble2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.SubDouble2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.MulDouble2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.DivDouble2Addr inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.RemDouble2Addr inst) {
-
-	}
+    private void biopLit(String dstReg, String srcReg, String literal, String op) {
+        Object result = null;
+        Integer src = (Integer) vm.getObjectByReg(srcReg);
+        Integer lit = new Integer(literal);
+
+        int indexEnd = op.indexOf("/");
+        if (indexEnd == -1)
+            indexEnd = op.length();
+        switch (op.substring(0, indexEnd)) {
+            case "add-int":
+                result = src + lit;
+                break;
+            case "rsub-int":
+                result = lit - src;
+                break;
+            case "mul-int":
+                result = src * lit;
+                break;
+            case "div-int":
+                result = src / lit;
+                break;
+            case "rem-int":
+                result = src % lit;
+                break;
+            case "and-int":
+                result = src & lit;
+                break;
+            case "or-int":
+                result = src | lit;
+                break;
+            case "xor-int":
+                result = src ^ lit;
+                break;
+            case "shl-int":
+                result = src << lit;
+                break;
+            case "shr-int":
+                result = src >> lit;
+                break;
+            case "ushr-int":
+                result = src >>> lit;
+                break;
+            default:
+                Util.printErr("biopLit..swith..op.sub: unkown");
+                break;
+        }
+        vm.pc++;
+    }
+
+    private void biop2addr(String firstReg, String secondReg, String op) {
+        biop(firstReg, firstReg, secondReg, op.substring(0, op.indexOf("/")));
+    }
+
+    private void biop(String dstReg, String firstReg, String secondReg, String op) {
+        Object result = null;
+
+        switch (op.substring(op.indexOf("-") + 1)) {
+            case "int":
+                Integer int1 = (Integer) vm.getObjectByReg(firstReg);
+                Integer int2 = (Integer) vm.getObjectByReg(secondReg);
+                switch (op) {
+                    case "add-int":
+                        result = int1 + int2;
+                        break;
+                    case "sub-int":
+                        result = int1 - int2;
+                        break;
+                    case "mul-int":
+                        result = int1 * int2;
+                        break;
+                    case "div-int":
+                        result = int1 / int2;
+                        break;
+                    case "rem-int":
+                        result = int1 % int2;
+                        break;
+                    case "and-int":
+                        result = int1 & int2;
+                        break;
+                    case "or-int":
+                        result = int1 | int2;
+                        break;
+                    case "xor-int":
+                        result = int1 ^ int2;
+                        break;
+                    case "shl-int":
+                        result = int1 << int2;
+                        break;
+                    case "shr-int":
+                        result = int1 >> int2;
+                        break;
+                    case "ushr-int":
+                        result = int1 >>> int2;
+                        break;
+                    default:
+                        Util.printErr("biop..swith..int..op: unkown");
+                        break;
+                }
+                break;
+            case "long":
+                Long long1 = (Long) vm.getObjectByReg(firstReg);
+                Long long2 = (Long) vm.getObjectByReg(secondReg);
+                switch (op) {
+                    case "add-long":
+                        result = long1 + long2;
+                        break;
+                    case "sub-long":
+                        result = long1 - long2;
+                        break;
+                    case "mul-long":
+                        result = long1 * long2;
+                        break;
+                    case "div-long":
+                        result = long1 / long2;
+                        break;
+                    case "rem-long":
+                        result = long1 % long2;
+                        break;
+                    case "and-long":
+                        result = long1 & long2;
+                        break;
+                    case "or-long":
+                        result = long1 | long2;
+                        break;
+                    case "xor-long":
+                        result = long1 ^ long2;
+                        break;
+                    case "shl-long":
+                        result = long1 << long2;
+                        break;
+                    case "shr-long":
+                        result = long1 >> long2;
+                        break;
+                    case "ushr-long":
+                        result = long1 >> long2;
+                        break;
+                    default:
+                        Util.printErr("biop..swith..long..op: unkown");
+                        break;
+                }
+                break;
+            case "float":
+                Float float1 = (Float) vm.getObjectByReg(firstReg);
+                Float float2 = (Float) vm.getObjectByReg(secondReg);
+                switch (op) {
+                    case "add-float":
+                        result = float1 + float2;
+                        break;
+                    case "sub-float":
+                        result = float1 - float2;
+                        break;
+                    case "mul-float":
+                        result = float1 * float2;
+                        break;
+                    case "div-float":
+                        result = float1 / float2;
+                        break;
+                    case "rem-float":
+                        result = float1 % float2;
+                        break;
+                    default:
+                        Util.printErr("biop..swith..float..op: unkown");
+                        break;
+                }
+                break;
+            case "double":
+                Double double1 = (Double) vm.getObjectByReg(firstReg);
+                Double double2 = (Double) vm.getObjectByReg(secondReg);
+                switch (op) {
+                    case "add-double":
+                        result = double1 + double2;
+                        break;
+                    case "sub-double":
+                        result = double1 - double2;
+                        break;
+                    case "mul-double":
+                        result = double1 * double2;
+                        break;
+                    case "div-double":
+                        result = double1 / double2;
+                        break;
+                    case "rem-double":
+                        result = double1 % double2;
+                        break;
+                    default:
+                        Util.printErr("biop..swith..double..op: unkown");
+                        break;
+                }
+                break;
+            default:
+                Util.printErr("biop..swith..op's endwith: unkown");
+                break;
+        }
+        vm.setObjectToReg(dstReg, result);
+        vm.pc++;
+    }
+
+    @Override
+    public void visit(Instruction.AddInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AndInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.OrInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.XorInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShlInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShrInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.UshrInt inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AndLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.OrLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.XorLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShlLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShrLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.UshrLong inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddFloat inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubFloat inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulFloat inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivFloat inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemFloat inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddDouble inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubDouble inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulDouble inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivDouble inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemDouble inst) {
+        biop(inst.dest, inst.first, inst.second, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AndInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.OrInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.XorInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShlInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShrInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.UshrInt2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AndLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.OrLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.XorLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShlLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.ShrLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.UshrLong2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddFloat2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubFloat2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulFloat2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivFloat2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemFloat2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.AddDouble2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.SubDouble2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.MulDouble2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.DivDouble2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
+
+    @Override
+    public void visit(Instruction.RemDouble2Addr inst) {
+        biop2addr(inst.dest, inst.src, inst.op);
+    }
 
 	@Override
 	public void visit(Instruction.AddIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RsubInt inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MulIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.DivIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RemIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AndIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.OrIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.XorIntLit16 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AddIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RsubIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MulIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.DivIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RemIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AndIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.OrIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.XorIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.ShlIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.ShrIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.UshrIntLit8 inst) {
-
+        biopLit(inst.dest, inst.src, inst.value, inst.op);
 	}
 
 	@Override
