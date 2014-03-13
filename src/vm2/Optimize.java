@@ -1602,21 +1602,23 @@ public class Optimize implements ast.Visitor {
 
 	@Override
 	public void visit(PackedSwitchDirective inst) {
-		Map<Integer, String> switchMap = new HashMap<Integer, String>();
+		Map<Integer, Integer> switchMap = new HashMap<Integer, Integer>();
 		int firstKey = Util.hex2int(inst.key);
 		for (int i = 0; i < inst.labList.size(); i++) {
-			switchMap.put(new Integer(i + firstKey), inst.labList.get(i));
+			Integer key = new Integer(i + firstKey);
+			Integer value = labelMap.get(inst.labList.get(i));
+			switchMap.put(key,value);
 		}
 		inst.switchMap = switchMap;
 	}
 
 	@Override
 	public void visit(SparseSwitchDirective inst) {
-		Map<Integer, String> switchMap = new HashMap<Integer, String>();
+		Map<Integer, Integer> switchMap = new HashMap<Integer, Integer>();
 		int size = inst.labList.size();
 		for (int i = 0; i < size; i++) {
 			int key = Util.hex2int(inst.keyList.get(i));
-			String value = inst.labList.get(i);
+			Integer value = labelMap.get(inst.labList.get(i));
 			switchMap.put(new Integer(key), value);
 		}
 		inst.switchMap = switchMap;

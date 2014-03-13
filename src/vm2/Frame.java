@@ -1,9 +1,7 @@
 package vm2;
 
-import ast.stm.Instruction;
-
 public class Frame {
     Object[] regs;
-    Instruction[] code;
+    ast.stm.T[] code;
     int pc;
 }

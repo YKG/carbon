@@ -18,8 +18,8 @@ public class MethodArea {
         this.methods = new HashMap<String,Method>();
     }
 
-    public Method getMethod(String fullQualifiedMethodName){
-        return this.methods.get(fullQualifiedMethodName);
+    public Method getMethod(ast.classs.MethodItem methodItem){
+        return this.methods.get(Util.getFullMethodName(methodItem));
     }
 
     public void setMethod(String fullQualifiedMethodName, Method method){
