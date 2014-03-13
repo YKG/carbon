@@ -53,4 +53,8 @@ public class VM {
     void setObjectToReg(String regStr, Object obj){
         regs[Integer.parseInt(regStr)] = obj;
     }
+
+    Object[] getArrayPayload(int index){
+        return ((ast.stm.Instruction.ArrayDataDirective)code[index]).toArray();
+    }
 }

@@ -249,7 +249,8 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.FillArrayData inst) {
-
+        ((Array)vm.getObjectByReg(inst.dest)).fillArrayData(vm.getArrayPayload(inst.addr));
+        vm.pc++;
     }
 
     @Override

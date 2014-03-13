@@ -5246,12 +5246,32 @@ public class Instruction
   {
     public String width;
     public List<String> elementList;
+    private int size;
 
     public ArrayDataDirective(String width, List<String> elementList)
     {
       super();
       this.width = width;
       this.elementList = elementList;
+      this.size = elementList.size()/Integer.parseInt(width);
+    }
+
+    private Object getArrayElementByIndex(int index){
+        long value = 0L;
+        long e;
+        for(int i = 0; i < Integer.parseInt(width); i++){
+            e = vm2.Util.hex2long(elementList.get(index + i));
+            value |= e << (i * 8);
+        }
+        return value;
+    }
+
+    public Object[] toArray(){
+        Object[] arr = new Object[size];
+        for(int i = 0; i < size; i++){
+            arr[i] = getArrayElementByIndex(i);
+        }
+        return arr;
     }
 
     @Override

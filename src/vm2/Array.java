@@ -23,4 +23,8 @@ public class Array {
     public void aput(String iStr, Object v){
         value[Integer.parseInt(iStr)] = v;
     }
+
+    public void fillArrayData(Object[] arr){
+        value = arr;
+    }
 }
