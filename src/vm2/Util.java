@@ -6,6 +6,15 @@ import java.util.List;
 
 public class Util {
 
+	public static String getFullMethodName(String className,
+			ast.method.Method method) {
+		String fullMethodName = className + "->" + method.name + "(";
+		for (String str : method.prototype.argsType)
+			fullMethodName = fullMethodName + str;
+		fullMethodName = fullMethodName + ")" + method.prototype.returnType;
+		return fullMethodName;
+	}
+	
 	public static String getFullMethodName(ast.classs.MethodItem methodItem) {
 		String fullMethodName = methodItem.classType + "->"
 				+ methodItem.methodName + "(";

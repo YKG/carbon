@@ -1,6 +1,7 @@
 package vm2;
 
 
+import ast.classs.MethodItem;
 import util.MultiThreadUtils;
 import vm.Source;
 
@@ -41,7 +42,7 @@ public class ClazzLoader {
     private void initMethodArea(ast.classs.Class clazz){
         for(ast.method.Method method : clazz.methods)
         {
-            String methodFullName = Util.getFullMethodName(method.name, method);
+            String methodFullName = Util.getFullMethodName(clazz.FullyQualifiedName,method);
 
           //  vm.methodArea.setMethod;
         }
