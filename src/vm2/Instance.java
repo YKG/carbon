@@ -15,7 +15,7 @@ public class Instance {
 
     public Instance(String clazzName) {
         this.clazzName = clazzName;
-        this.fields = vm.instanceFieldsCopyArea.getInstanceFieldsCopy(clazzName);
+        this.fields = vm.instanceFieldsArea.getInstanceFields(clazzName);
     }
 
     public Object iget(String fieldName){

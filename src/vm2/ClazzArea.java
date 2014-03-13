@@ -24,6 +24,7 @@ public class ClazzArea {
     }
 
     public void setSuperClazz(String clazzName, String superClazzName){
+        assert !clazzz.containsKey(clazzName);
         this.clazzz.put(clazzName,superClazzName);
     }
 

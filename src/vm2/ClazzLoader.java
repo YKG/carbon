@@ -1,11 +1,11 @@
 package vm2;
 
 
+import ast.classs.Class.Field;
+import util.MultiThreadUtils;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import util.MultiThreadUtils;
-import ast.classs.Class.Field;
 
 public class ClazzLoader {
     VM vm;
@@ -37,6 +37,7 @@ public class ClazzLoader {
 
     private void initClazzArea(ast.classs.Class clazz){
         vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName,clazz.superName);
+        loadClazz(clazz.superName);
     }
 
     private void initMethodArea(ast.classs.Class clazz){
