@@ -46,12 +46,27 @@ public class VM {
         }
     }
 
+    Object[] getObjectsByRegRange(String regFirst, String regLast){
+        int first = vm2.Util.hex2int(regFirst.substring(1));
+        int last  = vm2.Util.hex2int(regLast.substring(1));
+        int count = last - first + 1;
+        Object[] objs = new Object[count];
+        for(int i = 0; i < count; i++){
+            objs[i] = getObjectByReg(i);
+        }
+        return objs;
+    }
+
+    Object getObjectByReg(int index){
+        return regs[index];
+    }
+
     Object getObjectByReg(String regStr){
-        return regs[Integer.parseInt(regStr)];
+        return regs[Integer.parseInt(regStr.substring(1))];
     }
 
     void setObjectToReg(String regStr, Object obj){
-        regs[Integer.parseInt(regStr)] = obj;
+        regs[Integer.parseInt(regStr.substring(1))] = obj;
     }
 
     Object[] getArrayPayload(int index){

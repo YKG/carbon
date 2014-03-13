@@ -5207,6 +5207,8 @@ public class Instruction
       this.start = start;
       this.end = end;
       this.type = type;
+
+      assert start.startsWith("v") && end.startsWith("v");
     }
 
     public void accept(Visitor v)

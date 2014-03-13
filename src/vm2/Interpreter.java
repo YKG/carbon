@@ -239,12 +239,20 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.FilledNewArray inst) {
-
+        assert inst.type.equals("[I");
+        int dimensions[] = new int[inst.argList.size()];
+        for(int i = 0; i < dimensions.length; i++){
+            dimensions[i] = ((Integer)vm.getObjectByReg(inst.argList.get(i))).intValue();
+        }
+        vm.returnValue = dimensions;
+        vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FilledNewArrayRange inst) {
-
+        assert inst.type.equals("[I");
+        vm.returnValue = vm.getObjectsByRegRange(inst.start, inst.end);
+        vm.pc++;
     }
 
     @Override
