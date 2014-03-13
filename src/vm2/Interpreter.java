@@ -251,7 +251,7 @@ public class Interpreter implements Visitor {
         assert inst.type.equals("[I");
         int dimensions[] = new int[inst.argList.size()];
         for(int i = 0; i < dimensions.length; i++){
-            dimensions[i] = ((Integer)vm.getObjectByReg(inst.argList.get(i))).intValue();
+            dimensions[i] = (Integer) vm.getObjectByReg(inst.argList.get(i));
         }
         vm.returnValue = dimensions;
         vm.pc++;
@@ -297,7 +297,7 @@ public class Interpreter implements Visitor {
 		Integer dest = switchMap.get((Integer) test);
 		if (dest == null)
 			Util.printErr("Can not find the switchMap");
-		vm.pc = dest.intValue();
+		vm.pc = dest;
 	}
 
 	@Override
@@ -307,7 +307,7 @@ public class Interpreter implements Visitor {
 		Integer dest = switchMap.get((Integer) test);
 		if (dest == null)
 			Util.printErr("Can not find the switchMap");
-		vm.pc = dest.intValue();
+		vm.pc = dest;
 	}
 
 	@Override
@@ -621,8 +621,7 @@ public class Interpreter implements Visitor {
 		Object[] parameters = vm.getParameters(argList);
 		frame.regs = new Object[method.registerCount];
 		int pstart = method.registerCount - parameters.length;
-		for (int i = 0; i < parameters.length; i++)
-			frame.regs[i + pstart] = parameters[i];
+        System.arraycopy(parameters, 0, frame.regs, 0 + pstart, parameters.length);
 		return frame;
 	}
 
@@ -679,147 +678,147 @@ public class Interpreter implements Visitor {
     @Override
     public void visit(Instruction.NegInt inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Integer(-((Integer) src).intValue()));
+        vm.setObjectToReg(inst.dest, -(Integer) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NotInt inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Integer(((Integer) src).intValue() ^ 0xffffffff));
+        vm.setObjectToReg(inst.dest, ~(Integer) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegLong inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Long(-((Long) src).longValue()));
+        vm.setObjectToReg(inst.dest, -(Long) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NotLong inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Long(((Long) src).longValue()) ^ 0xffffffffffffffffL);
+        vm.setObjectToReg(inst.dest, ~(Long) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegFloat inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Float(-((Float) src).floatValue()));
+        vm.setObjectToReg(inst.dest, -(Float) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegDouble inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Double(-((Double) src).doubleValue()));
+        vm.setObjectToReg(inst.dest, -(Double) src);
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToLong inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Long(((Integer) src).longValue()));
+        vm.setObjectToReg(inst.dest, ((Integer) src).longValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToFloat inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Float(((Integer) src).floatValue()));
+        vm.setObjectToReg(inst.dest, ((Integer) src).floatValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToDouble inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Double(((Integer) src).doubleValue()));
+        vm.setObjectToReg(inst.dest, ((Integer) src).doubleValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToInt inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Integer(((Long) src).intValue()));
+        vm.setObjectToReg(inst.dest, ((Long) src).intValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToFloat inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Float(((Long) src).floatValue()));
+        vm.setObjectToReg(inst.dest, ((Long) src).floatValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToDouble inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Double(((Long) src).doubleValue()));
+        vm.setObjectToReg(inst.dest, ((Long) src).doubleValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToInt inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Integer(((Float) src).intValue()));
+        vm.setObjectToReg(inst.dest, ((Float) src).intValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToLong inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Long(((Float) src).longValue()));
+        vm.setObjectToReg(inst.dest, ((Float) src).longValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToDouble inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Double(((Float) src).doubleValue()));
+        vm.setObjectToReg(inst.dest, ((Float) src).doubleValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToInt inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Integer(((Double) src).intValue()));
+        vm.setObjectToReg(inst.dest, ((Double) src).intValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToLong inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Long(((Double) src).longValue()));
+        vm.setObjectToReg(inst.dest, ((Double) src).longValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToFloat inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Float(((Double) src).floatValue()));
+        vm.setObjectToReg(inst.dest, ((Double) src).floatValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToByte inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Byte(((Integer) src).byteValue()));
+        vm.setObjectToReg(inst.dest, ((Integer) src).byteValue());
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToChar inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Character((char) ((Integer) src).intValue())); // Right?
+        vm.setObjectToReg(inst.dest, (char) ((Integer) src).intValue()); // Right?
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToShort inst) {
         Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, new Short(((Integer) src).shortValue()));
+        vm.setObjectToReg(inst.dest, ((Integer) src).shortValue());
         vm.pc++;
     }
 
@@ -869,6 +868,7 @@ public class Interpreter implements Visitor {
                 Util.printErr("biopLit..swith..op.sub: unkown");
                 break;
         }
+        vm.setObjectToReg(dstReg, result);
         vm.pc++;
     }
 
