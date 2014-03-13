@@ -555,74 +555,84 @@ public class Interpreter implements Visitor {
         iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
+    private void sget(String dstReg, String fieldName){
+        vm.setObjectToReg(dstReg, vm.staticFieldsArea.getStaticField(fieldName));
+        vm.pc++;
+    }
+
+    private void sput(String srcReg, String fieldName){
+        vm.staticFieldsArea.setStaticField(fieldName, vm.getObjectByReg(srcReg));
+        vm.pc++;
+    }
+
 	@Override
 	public void visit(Instruction.Sget inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetWide inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetObject inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetBoolean inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetByte inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetChar inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SgetShort inst) {
-
+        sget(inst.dest, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.Sput inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputWide inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputObject inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputBoolean inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputByte inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputChar inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	@Override
 	public void visit(Instruction.SputShort inst) {
-
+        sput(inst.src, inst.type.toString());
 	}
 
 	public Frame newFrame(ast.classs.MethodItem methodItem, List<String> argList) {
