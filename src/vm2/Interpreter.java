@@ -1,11 +1,7 @@
 package vm2;
 
-import ast.Visitor;
+import ast.VisitorAdapter;
 import ast.annotation.Annotation;
-import ast.classs.FieldItem;
-import ast.classs.MethodItem;
-import ast.method.Method;
-import ast.program.Program;
 import ast.stm.Instruction;
 
 import java.util.List;
@@ -14,7 +10,7 @@ import java.util.Map;
 import static vm2.Util.hex2int;
 import static vm2.Util.hex2long;
 
-public class Interpreter implements Visitor {
+public class Interpreter extends VisitorAdapter {
 	VM vm;
 
 	// invoke-*:
@@ -25,41 +21,6 @@ public class Interpreter implements Visitor {
 	// return-*:
 	//  1. set result
 	//  2. pop frame to code/pc/reg
-
-	@Override
-	public void visit(MethodItem item) {
-
-	}
-
-	@Override
-	public void visit(FieldItem item) {
-
-	}
-
-	@Override
-	public void visit(Method method) {
-
-	}
-
-	@Override
-	public void visit(Method.MethodPrototype prototype) {
-
-	}
-
-	@Override
-	public void visit(Program program) {
-
-	}
-
-	@Override
-	public void visit(ast.classs.Class clazz) {
-
-	}
-
-	@Override
-	public void visit(Instruction instruction) {
-
-	}
 
 	@Override
 	public void visit(Instruction.Nop inst) {
