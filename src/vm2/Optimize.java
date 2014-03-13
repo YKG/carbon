@@ -243,14 +243,14 @@ public class Optimize implements ast.Visitor {
 	public static Map<String, Integer> instLen = ast.PrettyPrintVisitor.instLen;
 	public int pStart;
 	public int ip;
-	
+
 	/*
 	 *  key : addr of sparse/packed switch directive
 	 *  value : sparse/packed switch directive
 	 *          key : condition
 	 *          value : label
 	 */
-	public Map<Integer,Map<Integer,String>> allSwitchMap;
+	public Map<Integer, Map<Integer, String>> allSwitchMap;
 
 	public Optimize() {
 		labelMap = new HashMap<String, Integer>();
@@ -280,12 +280,14 @@ public class Optimize implements ast.Visitor {
 			}
 		}
 		this.ip = 0;
-		allSwitchMap = new HashMap<Integer,Map<Integer,String>>();
+		allSwitchMap = new HashMap<Integer, Map<Integer, String>>();
 		for (ast.stm.T stm : method.statements) {
 			stm.accept(this);
-			this.ip ++;
+			this.ip++;
 		}
-		
+		/*
+		 * combine switch witch switch area
+		 */
 	}
 
 	public void printErr(Object obj) {
@@ -1604,14 +1606,25 @@ public class Optimize implements ast.Visitor {
 	}
 
 	@Override
-	public void visit(PackedSwitchDirective packedSwitchDirective) {
-		Map<Integer,String> switchMap = new HashMap<Integer,String>();
+	public void visit(PackedSwitchDirective inst) {
+		Map<Integer, String> switchMap = new HashMap<Integer, String>();
+		int firstKey = Util.hex2int(inst.key);
+		for (int i = 0; i < inst.labList.size(); i++) {
+			switchMap.put(new Integer(i + firstKey), inst.labList.get(i));
+		}
+		allSwitchMap.put(new Integer(this.ip), switchMap);
 	}
 
 	@Override
-	public void visit(SparseSwitchDirective sparseSwitchDirective) {
-		// TODO Auto-generated method stub
-
+	public void visit(SparseSwitchDirective inst) {
+		Map<Integer, String> switchMap = new HashMap<Integer, String>();
+		int size = inst.labList.size();
+		for(int i=0;i<size;i++) {
+			int key = Util.hex2int(inst.keyList.get(i));
+			String value = inst.labList.get(i);
+			switchMap.put(new Integer(key), value);
+		}
+		allSwitchMap.put(new Integer(this.ip), switchMap);
 	}
 
 	@Override

@@ -16,4 +16,18 @@ public class Util {
         return fieldItem.classType + "->" + fieldItem.fieldName + ":"
                 + fieldItem.fieldType;
     }
+    
+	public static int hex2int(String s) {
+		if (s.startsWith("-"))
+			return -(Integer.parseInt(s.substring(3), 16));
+		else
+			return Integer.parseInt(s.substring(2), 16);
+	}
+
+	public static long hex2long(String s) {
+		if (s.startsWith("-"))
+			return -(Long.parseLong(s.substring(3), 16));
+		else
+			return Long.parseLong(s.substring(2), 16);
+	}
 }
