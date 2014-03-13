@@ -11,6 +11,7 @@ public class VM {
 	MethodArea methodArea;
 	StaticFieldsArea staticFieldsArea;
 	InstanceFieldsArea instanceFieldsArea;
+	private ClazzLoader clazzLoader;
 
 	Map<String, MultiThreadUtils.TranslateWorker> classMap;
 
@@ -34,6 +35,10 @@ public class VM {
 		// init
 	}
 
+	public void loadClazz(String clazzName) {
+		this.clazzLoader.loadClazz(clazzName);
+	}
+	
 	public void setMainClazzName(String mainClazzName) {
 		this.mainClazzName = mainClazzName;
 
