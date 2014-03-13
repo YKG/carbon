@@ -1,6 +1,7 @@
 package vm2;
 
 import java.util.Map;
+import ast.classs.Class.Field;
 
 public class StaticFieldsArea {
     VM vm;
@@ -13,11 +14,12 @@ public class StaticFieldsArea {
 
 
     public Object getStaticField(String fieldName){
-        // TODO
+        // TODO didn't complete Authorization check
         return null;
     }
 
     public void setStaticField(String fieldName, Object field){
+    	 // TODO didn't complete Authorization check
         this.staticFields.put(fieldName, field);
     }
 }

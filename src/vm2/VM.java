@@ -10,7 +10,7 @@ public class VM {
 	ClazzArea clazzArea;
 	MethodArea methodArea;
 	StaticFieldsArea staticFieldsArea;
-	InstanceFieldsCopyArea instanceFieldsCopyArea;
+	InstanceFieldsArea instanceFieldsArea;
 
 	Map<String, MultiThreadUtils.TranslateWorker> classMap;
 

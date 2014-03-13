@@ -1,9 +1,11 @@
 package vm2;
 
 
-import ast.classs.MethodItem;
+import java.util.ArrayList;
+import java.util.List;
+
 import util.MultiThreadUtils;
-import vm.Source;
+import ast.classs.Class.Field;
 
 public class ClazzLoader {
     VM vm;
@@ -13,15 +15,13 @@ public class ClazzLoader {
 
     public void loadClazz(String clazzName){
 
-        if(vm.clazzArea.isLoaded(clazzName)){
+        if(vm.clazzArea.isLoaded(clazzName) || clazzName.equals("java/lang/Object")){
             return;
         }
-
         ast.classs.Class clazz = this.getASTClass(clazzName);
         initClazzArea(clazz);
         initMethodArea(clazz);
-        initStaticFields(clazz);
-        initInstanceFieldsCopy(clazz);
+        initFields(clazz);
     }
 
     private ast.classs.Class getASTClass(String clazzName){
@@ -48,11 +48,40 @@ public class ClazzLoader {
         }
     }
 
-    private void initStaticFields(ast.classs.Class clazz){
-
+    private void initFields(ast.classs.Class clazz) {
+    	List<Field> sFields = new ArrayList<Field>();
+    	List<Field> iFields = new ArrayList<Field>();
+    	for(Field field : clazz.fieldList) {
+    		boolean isStatic = false;
+    		for(String str : field.accessList) {
+    			if(str.equals("static")) {
+    				isStatic = true;
+    				sFields.add(field);
+    				break;
+    			}
+    		}
+    		if(isStatic == false)
+    			iFields.add(field);
+    	}
+    	initStaticFields(clazz.FullyQualifiedName,sFields);
+    	initInstanceFields(clazz.FullyQualifiedName,iFields);
+    }
+    private void initStaticFields(String clazzName,List<Field> fieldList) {
+    	//TODO new for every static Field
     }
 
-    private void initInstanceFieldsCopy(ast.classs.Class clazz){
 
+    private void initInstanceFields(String clazzName, List<Field> fieldList) {
+    	vm.instanceFieldsArea.setInstanceFields(clazzName, fieldList);
     }
 }
+
+
+
+
+
+
+
+
+
+

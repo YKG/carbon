@@ -1870,7 +1870,7 @@ public class SimplifyVisitor implements ast.Visitor {
 	@Override
 	public void visit(ast.stm.Instruction.ArrayDataDirective inst) {
 		method.statements.add(new sim.stm.Instruction.ArrayDataDirective(
-				inst.size, inst.elementList));
+				inst.width, inst.elementList));
 	}
 
 	@Override
