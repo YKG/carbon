@@ -13,9 +13,9 @@ public class Instance {
      */
     Map<String, Object> fields;
 
-    public Instance(String clazzName, Map<String, Object> fields) {
+    public Instance(String clazzName) {
         this.clazzName = clazzName;
-        this.fields = fields;
+        this.fields = vm.instanceFieldsCopyArea.getInstanceFieldsCopy(clazzName);
     }
 
     public Object iget(String fieldName){

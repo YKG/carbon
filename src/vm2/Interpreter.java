@@ -237,7 +237,8 @@ public class Interpreter implements Visitor {
 
 	@Override
 	public void visit(Instruction.NewInstance inst) {
-
+        vm.setObjectToReg(inst.dest, new Instance(inst.type));
+        vm.pc++;
 	}
 
 	@Override
