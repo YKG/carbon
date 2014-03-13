@@ -1,6 +1,7 @@
 package ast.stm;
 
 import java.util.List;
+import java.util.Map;
 
 import ast.Visitor;
 import ast.classs.FieldItem;
@@ -5288,6 +5289,7 @@ public class Instruction
     public String key;
     public String count;
     public List<String> labList;
+    public Map<Integer,String> switchMap;
 
     public PackedSwitchDirective(String key, String count, List<String> labList)
     {
@@ -5311,7 +5313,8 @@ public class Instruction
     public String count;
     public List<String> keyList;
     public List<String> labList;
-
+    public Map<Integer,String> switchMap;
+    
     public SparseSwitchDirective(String count, List<String> keyList,
         List<String> labList)
     {

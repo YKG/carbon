@@ -239,18 +239,16 @@ import ast.stm.Instruction.arrayLength;
 
 public class Optimize implements ast.Visitor {
 
+	/*
+	 * what we have done
+	 * 1. change the inst's register to an String that represent an precise index at method.statmes
+	 * 2. optimize PackedSwitchDirective and SparseSwitchDirective
+	 *    init it's switchMap according to it'scase area  
+	 */
 	public Map<String, Integer> labelMap;
 	public static Map<String, Integer> instLen = ast.PrettyPrintVisitor.instLen;
 	public int pStart;
 	public int ip;
-
-	/*
-	 *  key : addr of sparse/packed switch directive
-	 *  value : sparse/packed switch directive
-	 *          key : condition
-	 *          value : label
-	 */
-	public Map<Integer, Map<Integer, String>> allSwitchMap;
 
 	public Optimize() {
 		labelMap = new HashMap<String, Integer>();
@@ -280,14 +278,10 @@ public class Optimize implements ast.Visitor {
 			}
 		}
 		this.ip = 0;
-		allSwitchMap = new HashMap<Integer, Map<Integer, String>>();
 		for (ast.stm.T stm : method.statements) {
 			stm.accept(this);
 			this.ip++;
 		}
-		/*
-		 * combine switch witch switch area
-		 */
 	}
 
 	public void printErr(Object obj) {
@@ -335,6 +329,7 @@ public class Optimize implements ast.Visitor {
 			if (!(stm instanceof ast.stm.Instruction.Nop)) {
 				if (labelIndex >= labelList.size())
 					printErr("label mismatch in Optimize");
+
 				this.labelMap.put(currentLabel.lab, stmIndex);
 				labelIndex++;
 				if (labelIndex < labelList.size()) {
@@ -1612,19 +1607,19 @@ public class Optimize implements ast.Visitor {
 		for (int i = 0; i < inst.labList.size(); i++) {
 			switchMap.put(new Integer(i + firstKey), inst.labList.get(i));
 		}
-		allSwitchMap.put(new Integer(this.ip), switchMap);
+		inst.switchMap = switchMap;
 	}
 
 	@Override
 	public void visit(SparseSwitchDirective inst) {
 		Map<Integer, String> switchMap = new HashMap<Integer, String>();
 		int size = inst.labList.size();
-		for(int i=0;i<size;i++) {
+		for (int i = 0; i < size; i++) {
 			int key = Util.hex2int(inst.keyList.get(i));
 			String value = inst.labList.get(i);
 			switchMap.put(new Integer(key), value);
 		}
-		allSwitchMap.put(new Integer(this.ip), switchMap);
+		inst.switchMap = switchMap;
 	}
 
 	@Override
