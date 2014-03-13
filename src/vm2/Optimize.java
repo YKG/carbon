@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.omg.CORBA.Current;
-
 import ast.annotation.Annotation;
 import ast.annotation.Annotation.ElementLiteral;
 import ast.annotation.Annotation.SubAnnotation;
@@ -244,6 +242,15 @@ public class Optimize implements ast.Visitor {
 	public Map<String, Integer> labelMap;
 	public static Map<String, Integer> instLen = ast.PrettyPrintVisitor.instLen;
 	public int pStart;
+	public int ip;
+	
+	/*
+	 *  key : addr of sparse/packed switch directive
+	 *  value : sparse/packed switch directive
+	 *          key : condition
+	 *          value : label
+	 */
+	public Map<Integer,Map<Integer,String>> allSwitchMap;
 
 	public Optimize() {
 		labelMap = new HashMap<String, Integer>();
@@ -272,9 +279,13 @@ public class Optimize implements ast.Visitor {
 				break;
 			}
 		}
+		this.ip = 0;
+		allSwitchMap = new HashMap<Integer,Map<Integer,String>>();
 		for (ast.stm.T stm : method.statements) {
 			stm.accept(this);
+			this.ip ++;
 		}
+		
 	}
 
 	public void printErr(Object obj) {
@@ -1594,8 +1605,7 @@ public class Optimize implements ast.Visitor {
 
 	@Override
 	public void visit(PackedSwitchDirective packedSwitchDirective) {
-		// TODO Auto-generated method stub
-
+		Map<Integer,String> switchMap = new HashMap<Integer,String>();
 	}
 
 	@Override
