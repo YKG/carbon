@@ -11,6 +11,9 @@ import ast.stm.Instruction;
 import java.util.List;
 import java.util.Map;
 
+import static vm2.Util.hex2int;
+import static vm2.Util.hex2long;
+
 public class Interpreter implements Visitor {
 	VM vm;
 
@@ -154,59 +157,76 @@ public class Interpreter implements Visitor {
 		vm.popFrame();
 	}
 
-	@Override
-	public void visit(Instruction.Const4 inst) {
+    @Override
+    public void visit(Instruction.Const4 inst) {
+        vm.setObjectToReg(inst.dest, hex2int(inst.value));
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.Const16 inst) {
+        vm.setObjectToReg(inst.dest, hex2int(inst.value));
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.Const16 inst) {
+    @Override
+    public void visit(Instruction.Const inst) {
+        vm.setObjectToReg(inst.dest, hex2int(inst.value));
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.ConstHigh16 inst) {
+        vm.setObjectToReg(inst.dest, hex2int(inst.value) << 16);
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.Const inst) {
+    @Override
+    public void visit(Instruction.ConstWide16 inst) {
+        vm.setObjectToReg(inst.dest, (long) hex2int(inst.value));
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.ConstWide32 inst) {
+        vm.setObjectToReg(inst.dest, (long) hex2int(inst.value));
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.ConstHigh16 inst) {
+    @Override
+    public void visit(Instruction.ConstWide inst) {
+        vm.setObjectToReg(inst.dest, hex2long(inst.value));
+        vm.pc++;
+    }
 
-	}
+    @Override
+    public void visit(Instruction.ConstWideHigh16 inst) {
+        vm.setObjectToReg(inst.dest, hex2long(inst.value) << 48);
+        vm.pc++;
+    }
 
-	@Override
-	public void visit(Instruction.ConstWide16 inst) {
+    @Override
+    public void visit(Instruction.ConstString inst) {
+        vm.setObjectToReg(inst.dest, inst.str.substring(1, inst.str.length() - 1));
+        vm.pc++;
+    }
 
-	}
-
-	@Override
-	public void visit(Instruction.ConstWide32 inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ConstWide inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ConstWideHigh16 inst) {
-
-	}
-
-	@Override
-	public void visit(Instruction.ConstString inst) {
-    
+    @Override
+    public void visit(Instruction.ConstStringJumbo inst) {
+        vm.setObjectToReg(inst.dest, inst.str.substring(1, inst.str.length() - 1));
+        vm.pc++;
     }
 
 	@Override
-	public void visit(Instruction.ConstStringJumbo inst) {
-
-	}
-
-	@Override
 	public void visit(Instruction.ConstClass inst) {
-
+        // TODO
+        /**
+         * NOTE:
+         *      maybe const-class is java.lang.reflect concern and multi thread concern.
+         *      refer:
+         *         https://android.googlesource.com/platform/dalvik/+/master/dx/tests/062-dex-synch-method/Blort.java
+         *         https://android.googlesource.com/platform/dalvik/+/master/dx/tests/070-dex-multianewarray/Blort.java
+         */
 	}
 
 	@Override
