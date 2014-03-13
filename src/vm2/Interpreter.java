@@ -362,64 +362,101 @@ public class Interpreter extends VisitorAdapter {
         vm.pc++;
     }
 
+
+    private boolean intTest(Object obj1, Object obj2, String cmp){
+        assert !(obj1 instanceof Float  || obj2 instanceof Float);
+        assert !(obj1 instanceof Long   || obj2 instanceof Long);
+        assert !(obj1 instanceof Double || obj2 instanceof Double);
+
+        int val1 = ((Integer)obj1).intValue();
+        int val2 = ((Integer)obj2).intValue();
+        switch (cmp){
+            case "eq": return val1 == val2;
+            case "ne": return val1 != val2;
+            case "lt": return val1  < val2;
+            case "ge": return val1 >= val2;
+            case "gt": return val1  > val2;
+            case "le": return val1 <= val2;
+            default:
+                Util.printErr("Interpreter.inTest: invalid arg 'cmp'");
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * refer to: androguard-060441150eba/specs/dalvik/opcodes/opcode-32-if-test.html
+     */
+    private void iftest(String op, String firstReg, String secondReg, int addr){
+        Object val1 = vm.getObjectByReg(firstReg);
+        Object val2 = vm.getObjectByReg(secondReg);
+        vm.pc = intTest(val1, val2, op.substring(3, 5)) ? addr : vm.pc + 1;
+    }
+
+    private void iftestz(String op, String testReg, int addr){
+        Object val1 = vm.getObjectByReg(testReg);
+        Object val2 = 0;
+        vm.pc = intTest(val1, val2, op.substring(3, 5)) ? addr : vm.pc + 1;
+    }
+
 	@Override
 	public void visit(Instruction.IfEq inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfNe inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLt inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGe inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGt inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLe inst) {
-
+        iftest(inst.op, inst.first, inst.second, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfEqz inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfNez inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLtz inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGez inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGtz inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLez inst) {
-
+        iftestz(inst.op, inst.test, inst.addr);
 	}
 
 	private void aget(String dstReg, String arrReg, String index) {
