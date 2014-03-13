@@ -508,8 +508,7 @@ public class InterpreterVisitor implements Visitor {
 	@Override
 	public void visit(NotInt inst) {
 		Object src = getObjectByReg(inst.src);
-		setObjectToReg(inst.dest, new Integer(
-				((Integer) src).intValue() ^ 0xffffffff));
+		setObjectToReg(inst.dest, new Integer(((Integer) src).intValue() ^ 0xffffffff));
 		this.ip++;
 	}
 
@@ -523,8 +522,7 @@ public class InterpreterVisitor implements Visitor {
 	@Override
 	public void visit(NotLong inst) {
 		Object src = getObjectByReg(inst.src);
-		setObjectToReg(inst.dest,
-				new Long(((Long) src).longValue()) ^ 0xffffffffffffffffL);
+		setObjectToReg(inst.dest, new Long(((Long) src).longValue()) ^ 0xffffffffffffffffL);
 		this.ip++;
 	}
 
@@ -636,8 +634,7 @@ public class InterpreterVisitor implements Visitor {
 	@Override
 	public void visit(IntToChar inst) {
 		Object src = getObjectByReg(inst.src);
-		setObjectToReg(inst.dest,
-				new Character((char) ((Integer) src).intValue())); // Right?
+		setObjectToReg(inst.dest, new Character((char) ((Integer) src).intValue())); // Right?
 		this.ip++;
 	}
 
