@@ -475,74 +475,84 @@ public class Interpreter implements Visitor {
 		aput(inst.src, inst.array, inst.index);
 	}
 
+    private void iget(String dstReg, String objReg, String fieldName){
+        vm.setObjectToReg(dstReg, ((Instance)vm.getObjectByReg(objReg)).iget(fieldName));
+        vm.pc++;
+    }
+
+    private void iput(String srcReg, String objReg, String fieldName){
+        ((Instance)vm.getObjectByReg(objReg)).iput(fieldName, vm.getObjectByReg(srcReg));
+        vm.pc++;
+    }
+
 	@Override
 	public void visit(Instruction.Iget inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetWide inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetOjbect inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetBoolean inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetByte inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetChar inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetShort inst) {
-
+        iget(inst.dest, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.Iput inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputWide inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputObject inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputBoolean inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputByte inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputChar inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputShort inst) {
-
+        iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
 	@Override

@@ -17,4 +17,14 @@ public class Instance {
         this.clazzName = clazzName;
         this.fields = fields;
     }
+
+    public Object iget(String fieldName){
+        assert fields.containsKey(fieldName);
+        return fields.get(fieldName);
+    }
+
+    public void iput(String fieldName, Object value){
+        assert fields.containsKey(fieldName);
+        fields.put(fieldName, value);
+    }
 }
