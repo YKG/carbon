@@ -27,4 +27,12 @@ public class Instance {
         assert fields.containsKey(fieldName);
         fields.put(fieldName, value);
     }
+
+    /**
+     * instace-of
+     */
+    public int isA(String type){
+        // TODO: remember primitive type
+        return vm.clazzArea.isA(clazzName, type) ? 1 : 0;
+    }
 }

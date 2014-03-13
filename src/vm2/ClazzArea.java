@@ -26,4 +26,23 @@ public class ClazzArea {
     public void setSuperClazz(String clazzName, String superClazzName){
         this.clazzz.put(clazzName,superClazzName);
     }
+
+    /**
+     * instace-of
+     */
+    public boolean isA(String subClazz, String testClazz){
+        // TODO: handle interface
+        if (subClazz.equals(testClazz))
+            return true;
+
+        String superClazz = clazzz.get(subClazz);
+        while(superClazz != null){
+            if(superClazz.equals(testClazz)){
+                return true;
+            }else{
+                superClazz = clazzz.get(subClazz);
+            }
+        }
+        return false;
+    }
 }
