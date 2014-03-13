@@ -24,52 +24,60 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.Nop inst) {
-
+        vm.pc++;
 	}
+
+    private void move(String dstReg, String srcReg){
+        vm.setObjectToReg(dstReg, vm.getObjectByReg(srcReg));
+        vm.pc++;
+    }
 
 	@Override
 	public void visit(Instruction.Move inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveFrom16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.Move16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveWide inst) {
-
+        // TODO:
+        //      Be careful with 'wide' operation!
+        //      Our 'wide' operation handler may introduce a bug.
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveWideFrom16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveWide16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObject inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObjectFrom16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObject16 inst) {
-
+        move(inst.dest, inst.src);
 	}
 
 	@Override
