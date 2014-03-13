@@ -1,8 +1,5 @@
 package vm2;
 
-import java.util.List;
-import java.util.Map;
-
 import ast.Visitor;
 import ast.annotation.Annotation;
 import ast.classs.FieldItem;
@@ -10,6 +7,9 @@ import ast.classs.MethodItem;
 import ast.method.Method;
 import ast.program.Program;
 import ast.stm.Instruction;
+
+import java.util.List;
+import java.util.Map;
 
 public class Interpreter implements Visitor {
 	VM vm;
@@ -231,8 +231,7 @@ public class Interpreter implements Visitor {
 
 	@Override
 	public void visit(Instruction.arrayLength inst) {
-		vm.setObjectToReg(inst.dest,
-				((Array) vm.getObjectByReg(inst.src)).getLength());
+		vm.setObjectToReg(inst.dest, ((Array) vm.getObjectByReg(inst.src)).getLength());
 		vm.pc++;
 	}
 
@@ -267,8 +266,7 @@ public class Interpreter implements Visitor {
 
 	@Override
 	public void visit(Instruction.FillArrayData inst) {
-		((Array) vm.getObjectByReg(inst.dest)).fillArrayData(vm
-				.getArrayPayload(inst.addr));
+		((Array) vm.getObjectByReg(inst.dest)).fillArrayData(vm.getArrayPayload(inst.addr));
 		vm.pc++;
 	}
 
@@ -398,14 +396,12 @@ public class Interpreter implements Visitor {
 	}
 
 	private void aget(String dstReg, String arrReg, String index) {
-		vm.setObjectToReg(dstReg,
-				((Array) vm.getObjectByReg(arrReg)).aget(index));
+		vm.setObjectToReg(dstReg, ((Array) vm.getObjectByReg(arrReg)).aget(index));
 		vm.pc++;
 	}
 
 	private void aput(String srcReg, String arrReg, String index) {
-		((Array) vm.getObjectByReg(arrReg)).aput(index,
-				vm.getObjectByReg(srcReg));
+		((Array) vm.getObjectByReg(arrReg)).aput(index, vm.getObjectByReg(srcReg));
 		vm.pc++;
 	}
 
