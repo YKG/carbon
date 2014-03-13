@@ -100,7 +100,8 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.MoveException inst) {
-
+        // TODO
+        Util.printErr("Unimplement instruction: MoveException");
 	}
 
 	@Override
@@ -196,21 +197,25 @@ public class Interpreter extends VisitorAdapter {
          *         https://android.googlesource.com/platform/dalvik/+/master/dx/tests/062-dex-synch-method/Blort.java
          *         https://android.googlesource.com/platform/dalvik/+/master/dx/tests/070-dex-multianewarray/Blort.java
          */
+        Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MonitorEnter inst) {
-
+        // TODO
+        Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MonitorExit inst) {
-
+        // TODO
+        Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.CheckCast inst) {
-
+        // TODO
+        Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 
 	@Override
@@ -263,7 +268,8 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.Throw inst) {
-
+        // TODO
+        Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 
 	@Override
@@ -306,10 +312,10 @@ public class Interpreter extends VisitorAdapter {
         Float val1 = (Float) vm.getObjectByReg(inst.first);
         Float val2 = (Float) vm.getObjectByReg(inst.second);
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, new Integer(-1));
+            vm.setObjectToReg(inst.dest, -1);
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, new Integer(result));
+            vm.setObjectToReg(inst.dest, result);
         }
         vm.pc++;
     }
@@ -319,10 +325,10 @@ public class Interpreter extends VisitorAdapter {
         Float val1 = (Float) vm.getObjectByReg(inst.first);
         Float val2 = (Float) vm.getObjectByReg(inst.second);
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, new Integer(1));
+            vm.setObjectToReg(inst.dest, 1);
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, new Integer(result));
+            vm.setObjectToReg(inst.dest, result);
         }
         vm.pc++;
     }
@@ -332,10 +338,10 @@ public class Interpreter extends VisitorAdapter {
         Double val1 = (Double) vm.getObjectByReg(inst.first);
         Double val2 = (Double) vm.getObjectByReg(inst.second);
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, new Integer(-1));
+            vm.setObjectToReg(inst.dest, -1);
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, new Integer(result));
+            vm.setObjectToReg(inst.dest, result);
         }
         vm.pc++;
     }
@@ -345,10 +351,10 @@ public class Interpreter extends VisitorAdapter {
         Double val1 = (Double) vm.getObjectByReg(inst.first);
         Double val2 = (Double) vm.getObjectByReg(inst.second);
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, new Integer(1));
+            vm.setObjectToReg(inst.dest, 1);
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, new Integer(result));
+            vm.setObjectToReg(inst.dest, result);
         }
         vm.pc++;
     }
@@ -358,7 +364,7 @@ public class Interpreter extends VisitorAdapter {
         Long val1 = (Long) vm.getObjectByReg(inst.first);
         Long val2 = (Long) vm.getObjectByReg(inst.second);
         int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-        vm.setObjectToReg(inst.dest, new Integer(result));
+        vm.setObjectToReg(inst.dest, result);
         vm.pc++;
     }
 
@@ -368,8 +374,8 @@ public class Interpreter extends VisitorAdapter {
         assert !(obj1 instanceof Long   || obj2 instanceof Long);
         assert !(obj1 instanceof Double || obj2 instanceof Double);
 
-        int val1 = ((Integer)obj1).intValue();
-        int val2 = ((Integer)obj2).intValue();
+        int val1 = (Integer) obj1;
+        int val2 = (Integer) obj2;
         switch (cmp){
             case "eq": return val1 == val2;
             case "ne": return val1 != val2;
@@ -705,7 +711,7 @@ public class Interpreter extends VisitorAdapter {
 		Object[] parameters = vm.getParameters(argList);
 		frame.regs = new Object[method.registerCount];
 		int pstart = method.registerCount - parameters.length;
-        System.arraycopy(parameters, 0, frame.regs, 0 + pstart, parameters.length);
+        System.arraycopy(parameters, 0, frame.regs, pstart, parameters.length);
 		return frame;
 	}
 
