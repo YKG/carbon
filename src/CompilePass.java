@@ -3,6 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -10,14 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 import org.antlr.runtime.RecognitionException;
 
-import control.Control;
 import util.MultiThreadUtils.ParserWorker;
-import util.MultiThreadUtils.SimplifyWorker;
-import util.MultiThreadUtils.TranslateWorker;
 import util.MultiThreadUtils.PrettyPrintSimWorker;
 import util.MultiThreadUtils.PrettyPrintWorker;
-import vm.InterpreterVisitor;
+import util.MultiThreadUtils.SimplifyWorker;
+import util.MultiThreadUtils.TranslateWorker;
 import vm.Source;
+import vm2.VM;
+import control.Control;
 
 
 public class CompilePass {
@@ -106,27 +107,20 @@ public class CompilePass {
 	 * format of worker.parserWorker.path : /tmp/output/com/example/Main.smali
 	 * format of className : Lcom/example/Main;
 	 */
-	public static void astInterpreter(List<TranslateWorker> workers,
-			String mainClassName) throws ClassNotFoundException,
+	public static void  startUpVm(List<TranslateWorker> workers,
+			String mainClazzName) throws ClassNotFoundException,
 			NoSuchMethodException, SecurityException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-		Source.classMap = new HashMap<String, TranslateWorker>();
+		Map<String, TranslateWorker> clazzMap = new HashMap<String, TranslateWorker>();
 		for (TranslateWorker worker : workers) {
 			String className = worker.parserWorker.path;
 			className = "L"
 					+ className.substring(Control.apkoutput.length() + 1,
 							className.length() - 6) + ";";
-			Source.classMap.put(className, worker);
+			clazzMap.put(className, worker);
 		}
-		InterpreterVisitor visitor = new InterpreterVisitor();
-		ast.classs.MethodItem methodItem = new ast.classs.MethodItem();
-		ast.method.Method.MethodPrototype prototype = new ast.method.Method.MethodPrototype();
-		prototype.argsType = new ArrayList<String>();
-		prototype.argsType.add("[Ljava/lang/String;");
-		prototype.returnType = "V";
-		methodItem.classType = mainClassName;
-		methodItem.methodName = "main";
-		methodItem.prototype = prototype;
-		visitor.Init(methodItem);
+		VM vm = new VM(clazzMap);
+		vm.setMainClazzName(mainClazzName);
+		vm.run();
 	}
 }

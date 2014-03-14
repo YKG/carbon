@@ -62,9 +62,7 @@ public class Carbon {
 
 			CompilePass.prettyPrintSim(sims);
 		} else if (Control.dump.equals("astvm")) {
-			//			CompilePass.astInterpreter(classes, "Lhong/example/Person;");
-			//			CompilePass.astInterpreter(classes, "LHello;");
-			//			CompilePass.astInterpreter(classes, "Lcomplex/Complex;");
+			CompilePass.startUpVm(classes, "Lhong/example/Person;");
 			System.out.println("perfect!");
 		} else {
 			System.err.println("unknow dump args " + Control.dump);
