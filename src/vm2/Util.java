@@ -17,17 +17,6 @@ public class Util {
 		return fullMethodName;
 	}
 
-    /**
-     * TODO: MOVE THIS FUNCTION TO ast.method.Method
-     */
-    public static String getMethodSign(ast.method.Method method){
-        String fullMethodName = method.name + "(";
-        for (String str : method.prototype.argsType)
-            fullMethodName = fullMethodName + str;
-        fullMethodName = fullMethodName + ")" + method.prototype.returnType;
-        return fullMethodName;
-    }
-
 	public static String getFullFieldName(String clazzName, Field field) {
 		return clazzName + "->" + field.name + ":" + field.type;
 	}

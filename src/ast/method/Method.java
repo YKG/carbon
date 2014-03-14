@@ -1,10 +1,10 @@
 package ast.method;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import ast.Visitor;
 import ast.annotation.Annotation;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Method extends T
 {
@@ -276,4 +276,12 @@ public class Method extends T
   {
     v.visit(this);
   }
+
+    public String getMethodSign(){
+        String methodSign = name + "(";
+        for (String str : prototype.argsType)
+            methodSign = methodSign + str;
+        methodSign = methodSign + ")" + prototype.returnType;
+        return methodSign;
+    }
 }
