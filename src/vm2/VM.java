@@ -1,10 +1,10 @@
 package vm2;
 
+import util.MultiThreadUtils;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-
-import util.MultiThreadUtils;
 
 public class VM {
 	ClazzArea clazzArea;
@@ -47,6 +47,13 @@ public class VM {
 	}
 
 	public void run() {
+        /**
+         * When the main() method finished, we expect the pc is -1.
+         * To ensure the expectation, we should set the initial value of pc to -2,
+         * because 'invoke-static' should do an pc++ operation first before pushFrame.
+         */
+        ast.stm.Instruction.InvokeStatic inst = new ast.stm.Instruction.InvokeStatic();
+
 		while (pc != -1) {
 			code[pc].accept(interpreter);
 		}
@@ -116,6 +123,25 @@ public class VM {
 			parameters[i] = getObjectByReg(argList.get(i));
 		return parameters;
 	}
+
+    Method getMethod(String clazzName, String methodSign){
+        return methodArea.getMethod(clazzName, methodSign);
+    }
+
+    // TODO FIX MY NAME
+    //      the meaning should represent saving VM status to a
+    //      frame, then push this saved frame on callstack.
+    void saveFrame(){
+        Frame frame = new Frame(regs, code, pc);
+        callstack.push(frame);
+    }
+
+    // TODO FIX MY NAME
+    void setExecuteEnv(Method method){
+        regs = new Object[method.registerCount];
+        code = method.code;
+        pc = 0;
+    }
 }
 
 

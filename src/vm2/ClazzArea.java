@@ -13,6 +13,7 @@ public class ClazzArea {
 
     public ClazzArea() {
         this.clazzz = new HashMap<String, String>();
+        this.clazzz.put("java/lang/Object", null);
     }
 
     public boolean isLoaded(String clazzName){

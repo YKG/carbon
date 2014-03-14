@@ -11,18 +11,37 @@ public class MethodArea {
      *          key:    fullQualifiedMethodName
      *          value:  vm2.Method
      */
-    public Map<String, Method> methods;
+    public Map<String, Map<String, Method>> methods;
 
 
     public MethodArea() {
-        this.methods = new HashMap<String,Method>();
+        this.methods = new HashMap<String, Map<String, Method>>();
     }
 
-    public Method getMethod(ast.classs.MethodItem methodItem){
-        return this.methods.get(Util.getFullMethodName(methodItem));
+    public Method getMethod(String clazzName, String methodSign){
+        if(!methods.containsKey(clazzName)){
+            vm.loadClazz(clazzName);
+        }
+
+        String clazz = clazzName;
+        while(clazz != null){
+            Map<String, Method> map = methods.get(clazz);
+            if(map.containsKey(methodSign)){
+                return map.get(methodSign);
+            }else{
+                clazz = vm.clazzArea.getSuperClazz(clazzName);
+            }
+        }
+        Util.printErr("MethodArea.getMethod: Never reach.");
+        return null;
     }
 
-    public void setMethod(String fullQualifiedMethodName, Method method){
-        this.methods.put(fullQualifiedMethodName, method);
+    public void setMethod(String clazzName, String methodSign, Method method){
+        if (!methods.containsKey(clazzName)){
+            Map<String, Method> map = new HashMap<String, Method>();
+            methods.put(clazzName, map);
+        }
+
+        methods.get(clazzName).put(methodSign, method);
     }
 }

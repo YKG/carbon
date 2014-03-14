@@ -22,5 +22,9 @@ public class MethodItem extends T{
 		}
 		return this.classType+"->"+this.methodName+"("+tmp +")"+this.prototype.returnType;
 	}
-	
+
+    public String getMethodSign(){
+        String full = toString();
+        return full.substring(full.indexOf(">") + 1);
+    }
 }
