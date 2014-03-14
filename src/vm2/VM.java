@@ -144,7 +144,6 @@ public class VM {
     private void passParameters(int regCount, List<String> argList){
         Object[] parameters = getParameters(argList);
         int p0index = regCount - parameters.length;
-        //add by hong
         regs = new Object[regCount];
         System.arraycopy(parameters, 0, regs, p0index, parameters.length);
     }
