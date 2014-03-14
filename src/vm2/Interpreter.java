@@ -630,6 +630,13 @@ public class Interpreter extends VisitorAdapter {
 	}
 
     private void sget(String dstReg, FieldItem fieldItem){
+    	//TODO FIXME
+    	if(fieldItem.fieldName.equals("out")) {
+    		vm.pc++;
+    		return ;
+    	}
+    	
+    	//ORIG VERSION
         vm.setObjectToReg(dstReg, vm.staticFieldsArea.getStaticField(fieldItem));
         vm.pc++;
     }
@@ -711,6 +718,15 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeVirtual inst) {
+		//TODO FIXME
+		if(inst.type.methodName.equals("println")) {
+			vm.pc++;
+			Object result = vm.getObjectByReg(inst.argList.get(1));
+			System.err.println(result);
+			return ;
+		}
+		
+		//TODO ORIG VERSION
         vm.pc++;
         vm.saveFrame(); // TODO FIX MY NAME
         vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
