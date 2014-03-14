@@ -709,29 +709,25 @@ public class Interpreter extends VisitorAdapter {
         sput(inst.src, inst.type.toString());
 	}
 
-	public Frame newFrame(ast.classs.MethodItem methodItem, List<String> argList) {
-		Frame frame = new Frame();
-		vm2.Method method = vm.methodArea.getMethod(methodItem);
-		Object[] parameters = vm.getParameters(argList);
-		frame.regs = new Object[method.registerCount];
-		int pstart = method.registerCount - parameters.length;
-        System.arraycopy(parameters, 0, frame.regs, pstart, parameters.length);
-		return frame;
-	}
-
 	@Override
 	public void visit(Instruction.InvokeVirtual inst) {
-		vm.pushFrame(newFrame(inst.type, inst.argList));
+        vm.pc++;
+        vm.saveFrame(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeSuper inst) {
-		//TODO
+        vm.pc++;
+        vm.saveFrame();// TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(vm.clazzArea.getSuperClazz(inst.type.classType),inst.type.getMethodSign()),inst.argList);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeDirect inst) {
-		vm.pushFrame(newFrame(inst.type, inst.argList));
+        vm.pc++;
+        vm.saveFrame(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
 	}
 
 	@Override
@@ -743,12 +739,14 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeInterface inst) {
-		//TODO
+		//TODO InvokeInterface
 	}
 
 	@Override
 	public void visit(Instruction.InvokeVirtualRange inst) {
-		vm.pushFrame(newFrame(inst.type, Util.getRegList(inst.start, inst.end)));
+        vm.pc++;
+        vm.saveFrame(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
 	}
 
 	@Override
@@ -758,12 +756,16 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeDirectRange inst) {
-		vm.pushFrame(newFrame(inst.type, Util.getRegList(inst.start, inst.end)));
+        vm.pc++;
+        vm.saveFrame(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
 	}
 
 	@Override
 	public void visit(Instruction.InvokeStaticRange inst) {
-		vm.pushFrame(newFrame(inst.type, Util.getRegList(inst.start, inst.end)));
+        vm.pc++;
+        vm.saveFrame(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
 	}
 
 	@Override
