@@ -2,6 +2,7 @@ package vm2;
 
 import util.MultiThreadUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
@@ -52,7 +53,7 @@ public class VM {
          */
         pc = -1;
         saveFrame();
-        setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"));
+        setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"), new LinkedList<String>());
 
 		while (pc != -1) {
 			code[pc].accept(interpreter);
@@ -75,11 +76,15 @@ public class VM {
     }
 
 	Object getObjectByReg(String regStr) {
-		return regs[Integer.parseInt(regStr)];
+		return regs[Integer.parseInt(regStr.substring(1))];
 	}
 
+    void setObjectToReg(int index, Object obj) {
+        regs[index] = obj;
+    }
+
 	void setObjectToReg(String regStr, Object obj) {
-		regs[Integer.parseInt(regStr)] = obj;
+		regs[Integer.parseInt(regStr.substring(1))] = obj;
 	}
 
 	Object[] getArrayPayload(int index) {
@@ -117,6 +122,7 @@ public class VM {
 	}
 
 	Object[] getParameters(List<String> argList) {
+        assert argList != null;
 		int size = argList.size();
 		Object[] parameters = new Object[size];
 		for(int i =0 ;i<size ;i++)
@@ -136,9 +142,15 @@ public class VM {
         callstack.push(frame);
     }
 
+    private void setRegs(int regCount, List<String> argList){
+        Object[] parameters = getParameters(argList);
+        int p0index = regCount - parameters.length;
+        System.arraycopy(parameters, 0, regs, p0index, parameters.length);
+    }
+
     // TODO FIX MY NAME
-    void setExecuteEnv(Method method){
-        regs = new Object[method.registerCount];
+    void setExecuteEnv(Method method, List<String> argList){
+        setRegs(method.registerCount, argList);
         code = method.code;
         pc = 0;
     }

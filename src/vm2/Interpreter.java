@@ -734,7 +734,7 @@ public class Interpreter extends VisitorAdapter {
 	public void visit(Instruction.InvokeStatic inst) {
         vm.pc++;
         vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()));
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
 	}
 
 	@Override
