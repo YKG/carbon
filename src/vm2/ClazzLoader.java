@@ -14,9 +14,8 @@ public class ClazzLoader {
     }
 
     public void loadClazz(String clazzName){
-        if(vm.clazzArea.isLoaded(clazzName) || clazzName.equals("java/lang/Object")){
-            return;
-        }
+        if(vm.clazzArea.isLoaded(clazzName))
+        	return ;
         ast.classs.Class clazz = this.getASTClass(clazzName);
         initClazzArea(clazz);
         initMethodArea(clazz);
@@ -49,6 +48,7 @@ public class ClazzLoader {
     }
 
     private void initFields(ast.classs.Class clazz) {
+    	//TODO didn't handle private static
     	List<Field> sFields = new ArrayList<Field>();
     	List<Field> iFields = new ArrayList<Field>();
     	for(Field field : clazz.fieldList) {
@@ -66,11 +66,12 @@ public class ClazzLoader {
     	initStaticFields(clazz.FullyQualifiedName,sFields);
     	initInstanceFields(clazz.FullyQualifiedName,iFields);
     }
+    
 	private void initStaticFields(String clazzName, List<Field> fieldList) {
 		for (Field field : fieldList) {
 			String fullFieldName = Util.getFullFieldName(clazzName, field);
 			Object newObject = Util.getNewObject(field.type);
-			vm.staticFieldsArea.staticFields.put(fullFieldName, newObject);
+			vm.staticFieldsArea.setStaticField(fullFieldName, newObject);
 		}
 	}
 
@@ -78,13 +79,3 @@ public class ClazzLoader {
 		vm.instanceFieldsArea.setInstanceFields(clazzName, fieldList);
 	}
 }
-
-
-
-
-
-
-
-
-
-

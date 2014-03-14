@@ -1,25 +1,28 @@
 package vm2;
 
 import java.util.Map;
-import ast.classs.Class.Field;
+
+import ast.classs.FieldItem;
 
 public class StaticFieldsArea {
     VM vm;
 
     /**
      * key:    fullQualifiedStaticFieldName
-     * value:  field
+     * value:  field object
      */
-    public Map<String, Object> staticFields;
+    private Map<String, Object> staticFields;
 
-
-    public Object getStaticField(String fieldName){
+    public Object getStaticField(FieldItem fieldItem){
         // TODO didn't complete Authorization check
-        return null;
+    	String fullFieldName = Util.getFullFieldName(fieldItem);
+    	if( !this.staticFields.containsKey(fullFieldName))
+    		vm.loadClazz(fieldItem.classType);
+    	return this.staticFields.get(fullFieldName);
     }
 
-    public void setStaticField(String fieldName, Object field){
+    public void setStaticField(String fullFieldName, Object newObject){
     	 // TODO didn't complete Authorization check
-        this.staticFields.put(fieldName, field);
+        this.staticFields.put(fullFieldName,newObject);
     }
 }

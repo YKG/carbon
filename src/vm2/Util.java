@@ -2,6 +2,7 @@ package vm2;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import ast.classs.Class.Field;
 
@@ -87,5 +88,11 @@ public class Util {
 			break;
 		}
 		return newObject;
+	}
+	
+	public static void updatefieldMap(Map<String,Object> fieldMap, List<Field> fieldList) {
+		for(Field field : fieldList) {
+			fieldMap.put(field.name, getNewObject(field.type));
+		}
 	}
 }

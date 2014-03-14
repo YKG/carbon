@@ -9,7 +9,7 @@ public class ClazzArea {
      * key:    clazzName
      * value:  superClazzName
      */
-    public Map<String, String> clazzz;
+    private Map<String, String> clazzz;
 
     public ClazzArea() {
         this.clazzz = new HashMap<String, String>();
