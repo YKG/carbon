@@ -22,6 +22,10 @@ public class Interpreter extends VisitorAdapter {
 	//  1. set result
 	//  2. pop frame to code/pc/reg
 
+    public Interpreter(VM vm){
+        this.vm = vm;
+    }
+
 	@Override
 	public void visit(Instruction.Nop inst) {
         vm.pc++;

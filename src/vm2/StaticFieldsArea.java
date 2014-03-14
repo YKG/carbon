@@ -1,8 +1,8 @@
 package vm2;
 
-import java.util.Map;
-
 import ast.classs.FieldItem;
+
+import java.util.Map;
 
 public class StaticFieldsArea {
     VM vm;
@@ -12,6 +12,10 @@ public class StaticFieldsArea {
      * value:  field object
      */
     private Map<String, Object> staticFields;
+
+    public StaticFieldsArea(VM vm){
+        this.vm = vm;
+    }
 
     public Object getStaticField(FieldItem fieldItem){
         // TODO didn't complete Authorization check

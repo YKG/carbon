@@ -4,14 +4,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClazzArea {
-
+    VM vm;
     /**
      * key:    clazzName
      * value:  superClazzName
      */
     private Map<String, String> clazzz;
 
-    public ClazzArea() {
+    public ClazzArea(VM vm) {
+        this.vm = vm;
         this.clazzz = new HashMap<String, String>();
         this.clazzz.put("java/lang/Object", null);
     }

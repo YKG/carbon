@@ -32,8 +32,17 @@ public class VM {
 
 	private Interpreter interpreter;
 
-	public VM() {
+	public VM(Map<String, MultiThreadUtils.TranslateWorker> classMap) {
 		// init
+        this.clazzArea = new ClazzArea(this);
+        this.methodArea = new MethodArea(this);
+        this.staticFieldsArea = new StaticFieldsArea(this);
+        this.instanceFieldsArea = new InstanceFieldsArea(this);
+        this.clazzLoader = new ClazzLoader(this);
+        this.classMap = classMap;
+        this.returnValue = new Object();
+        this.callstack = new Stack<Frame>();
+        this.interpreter = new Interpreter(this);
 	}
 
 	public void loadClazz(String clazzName) {
@@ -42,9 +51,6 @@ public class VM {
 	
 	public void setMainClazzName(String mainClazzName) {
 		this.mainClazzName = mainClazzName;
-
-		// pc = -1;
-		// invoke-static mainClazz->main.
 	}
 
 	public void run() {

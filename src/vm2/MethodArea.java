@@ -14,7 +14,8 @@ public class MethodArea {
     public Map<String, Map<String, Method>> methods;
 
 
-    public MethodArea() {
+    public MethodArea(VM vm) {
+        this.vm = vm;
         this.methods = new HashMap<String, Map<String, Method>>();
     }
 
