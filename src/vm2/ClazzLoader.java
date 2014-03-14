@@ -39,11 +39,8 @@ public class ClazzLoader {
     }
 
     private void initMethodArea(ast.classs.Class clazz){
-        for(ast.method.Method method : clazz.methods)
-        {
-            String methodFullName = Util.getFullMethodName(clazz.FullyQualifiedName,method);
-
-          //  vm.methodArea.setMethod;
+        for(ast.method.Method method : clazz.methods){
+            vm.methodArea.setMethod(clazz.FullyQualifiedName, Util.getMethodSign(method), new Method(method));
         }
     }
 

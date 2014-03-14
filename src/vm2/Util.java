@@ -1,10 +1,10 @@
 package vm2;
 
+import ast.classs.Class.Field;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import ast.classs.Class.Field;
 
 public class Util {
 
@@ -16,6 +16,17 @@ public class Util {
 		fullMethodName = fullMethodName + ")" + method.prototype.returnType;
 		return fullMethodName;
 	}
+
+    /**
+     * TODO: MOVE THIS FUNCTION TO ast.method.Method
+     */
+    public static String getMethodSign(ast.method.Method method){
+        String fullMethodName = method.name + "(";
+        for (String str : method.prototype.argsType)
+            fullMethodName = fullMethodName + str;
+        fullMethodName = fullMethodName + ")" + method.prototype.returnType;
+        return fullMethodName;
+    }
 
 	public static String getFullFieldName(String clazzName, Field field) {
 		return clazzName + "->" + field.name + ":" + field.type;

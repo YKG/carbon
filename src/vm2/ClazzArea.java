@@ -14,7 +14,7 @@ public class ClazzArea {
     public ClazzArea(VM vm) {
         this.vm = vm;
         this.clazzz = new HashMap<String, String>();
-        this.clazzz.put("java/lang/Object", null);
+        this.clazzz.put("Ljava/lang/Object;", null);
     }
 
     public boolean isLoaded(String clazzName){
