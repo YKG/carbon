@@ -29,7 +29,7 @@ public class VM {
 	ast.stm.T[] code;
 	int pc;
 
-	Interpreter interpreter;
+	private Interpreter interpreter;
 
 	public VM() {
 		// init
@@ -49,10 +49,10 @@ public class VM {
 	public void run() {
         /**
          * When the main() method finished, we expect the pc is -1.
-         * To ensure the expectation, we should set the initial value of pc to -2,
-         * because 'invoke-static' should do an pc++ operation first before pushFrame.
          */
-        ast.stm.Instruction.InvokeStatic inst = new ast.stm.Instruction.InvokeStatic();
+        pc = -1;
+        saveFrame();
+        setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"));
 
 		while (pc != -1) {
 			code[pc].accept(interpreter);
