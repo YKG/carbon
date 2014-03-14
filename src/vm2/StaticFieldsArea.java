@@ -19,7 +19,7 @@ public class StaticFieldsArea {
 
     public Object getStaticField(FieldItem fieldItem){
         // TODO didn't complete Authorization check
-    	String fullFieldName = Util.getFullFieldName(fieldItem);
+    	String fullFieldName = fieldItem.toString();
     	if( !this.staticFields.containsKey(fullFieldName))
     		vm.loadClazz(fieldItem.classType);
     	return this.staticFields.get(fullFieldName);

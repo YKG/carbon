@@ -106,10 +106,10 @@ public class VM {
 	}
 
 	void popFrame() {
-		callstack.pop();
 		pc = callstack.peek().pc;
 		code = callstack.peek().code;
 		regs = callstack.peek().regs;
+		callstack.pop();
 	}
 
 	void setReturnValue(String regstr) {
@@ -118,13 +118,6 @@ public class VM {
 
 	Object getReturnValue() {
 		return returnValue;
-	}
-
-	void pushFrame(Frame frame) {
-		callstack.push(frame);
-		pc = 0;
-		code = callstack.peek().code;
-		regs = callstack.peek().regs;
 	}
 
 	Object[] getParameters(List<String> argList) {
@@ -148,15 +141,17 @@ public class VM {
         callstack.push(frame);
     }
 
-    private void setRegs(int regCount, List<String> argList){
+    private void passParameters(int regCount, List<String> argList){
         Object[] parameters = getParameters(argList);
         int p0index = regCount - parameters.length;
+        //add by hong
+        regs = new Object[regCount];
         System.arraycopy(parameters, 0, regs, p0index, parameters.length);
     }
 
     // TODO FIX MY NAME
     void setExecuteEnv(Method method, List<String> argList){
-        setRegs(method.registerCount, argList);
+    	passParameters(method.registerCount, argList);
         code = method.code;
         pc = 0;
     }

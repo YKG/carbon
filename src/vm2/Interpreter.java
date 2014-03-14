@@ -1,14 +1,14 @@
 package vm2;
 
-import ast.VisitorAdapter;
-import ast.annotation.Annotation;
-import ast.stm.Instruction;
-
-import java.util.List;
-import java.util.Map;
-
 import static vm2.Util.hex2int;
 import static vm2.Util.hex2long;
+
+import java.util.Map;
+
+import ast.VisitorAdapter;
+import ast.annotation.Annotation;
+import ast.classs.FieldItem;
+import ast.stm.Instruction;
 
 public class Interpreter extends VisitorAdapter {
 	VM vm;
@@ -629,8 +629,8 @@ public class Interpreter extends VisitorAdapter {
         iput(inst.src, inst.field, inst.type.fieldName);
 	}
 
-    private void sget(String dstReg, String fieldName){
-        vm.setObjectToReg(dstReg, vm.staticFieldsArea.getStaticField(fieldName));
+    private void sget(String dstReg, FieldItem fieldItem){
+        vm.setObjectToReg(dstReg, vm.staticFieldsArea.getStaticField(fieldItem));
         vm.pc++;
     }
 
@@ -641,37 +641,37 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.Sget inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetWide inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetObject inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetBoolean inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetByte inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetChar inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetShort inst) {
-        sget(inst.dest, inst.type.toString());
+        sget(inst.dest, inst.type);
 	}
 
 	@Override

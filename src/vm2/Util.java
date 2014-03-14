@@ -17,20 +17,6 @@ public class Util {
 		return fullMethodName;
 	}
 
-	public static String getFullMethodName(ast.classs.MethodItem methodItem) {
-		String fullMethodName = methodItem.classType + "->"
-				+ methodItem.methodName + "(";
-		for (String str : methodItem.prototype.argsType)
-			fullMethodName = fullMethodName + str;
-		fullMethodName = fullMethodName + ")" + methodItem.prototype.returnType;
-		return fullMethodName;
-	}
-
-	public static String getFullFieldName(ast.classs.FieldItem fieldItem) {
-		return fieldItem.classType + "->" + fieldItem.fieldName + ":"
-				+ fieldItem.fieldType;
-	}
-
 	public static String getFullFieldName(String clazzName, Field field) {
 		return clazzName + "->" + field.name + ":" + field.type;
 	}
