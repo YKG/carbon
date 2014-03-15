@@ -514,6 +514,7 @@ public class Optimize implements ast.Visitor {
 	@Override
 	public void visit(ConstString inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.str =  inst.str.substring(1,inst.str.length()-1);
 	}
 
 	@Override
