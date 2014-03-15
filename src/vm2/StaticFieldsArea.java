@@ -3,6 +3,7 @@ package vm2;
 import ast.classs.Class;
 import ast.classs.FieldItem;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,6 +18,7 @@ public class StaticFieldsArea {
 
     public StaticFieldsArea(VM vm){
         this.vm = vm;
+        this.staticFields = new HashMap<String,Object>();
     }
 
     public Object getStaticField(FieldItem fieldItem){

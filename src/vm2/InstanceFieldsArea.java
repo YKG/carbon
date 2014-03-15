@@ -20,6 +20,8 @@ public class InstanceFieldsArea {
     	this.vm = vm;
     	extendFields = new HashMap<String, List<Field>>();
         privateFields = new HashMap<String, List<Field>>();
+        extendFields.put("Ljava/lang/Object;",new ArrayList<Field>());
+        privateFields.put("Ljava/lang/Object;",new ArrayList<Field>());
     }
 
     /*
@@ -31,7 +33,7 @@ public class InstanceFieldsArea {
     	Util.updatefieldMap(fieldMap, extendFields.get(clazzName));
     	Util.updatefieldMap(fieldMap, privateFields.get(clazzName));
     	String currentClazzName = vm.clazzArea.getSuperClazz(clazzName);
-    	while(!currentClazzName.equals("Ljava/lang/Object;")){ // TODO is test null better?
+    	while(currentClazzName != null){ // TODO is test null better?
     		Util.updatefieldMap(fieldMap, extendFields.get(currentClazzName));
     		currentClazzName = vm.clazzArea.getSuperClazz(currentClazzName);
     	}
