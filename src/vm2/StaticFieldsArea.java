@@ -28,8 +28,12 @@ public class StaticFieldsArea {
     	return staticFields.get(fullFieldName);
     }
 
-    public void setStaticField(String fieldName, Object value){
-        staticFields.put(fieldName, value);
+    public void setStaticField(FieldItem fieldItem, Object value){
+        String fullFieldName = fieldItem.toString();
+        if(!staticFields.containsKey(fullFieldName)){
+            vm.loadClazz(fieldItem.classType);
+        }
+        staticFields.put(fullFieldName, value);
     }
 
     public void setStaticFields(String clazzName, List<Class.Field> fieldList){
