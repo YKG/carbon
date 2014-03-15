@@ -103,27 +103,32 @@ public class Interpreter extends VisitorAdapter {
     // return-*:
     //  1. set result
     //  2. pop frame to code/pc/reg
+    //  3. pc++
 	@Override
 	public void visit(Instruction.ReturnVoid inst) {
-		vm.popFrame();
+		vm.restoreThreadState();
+        vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.Return inst) {
         vm.returnValue = vm.reg[inst.vret];
-		vm.popFrame();
+		vm.restoreThreadState();
+        vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.ReturnWide inst) {
         vm.returnValue = vm.reg[inst.vret];
-		vm.popFrame();
+		vm.restoreThreadState();
+        vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.ReturnObject inst) {
         vm.returnValue = vm.reg[inst.vret];
-		vm.popFrame();
+		vm.restoreThreadState();
+        vm.pc++;
 	}
 
     private void _const(int dest, Object val){
@@ -250,7 +255,7 @@ public class Interpreter extends VisitorAdapter {
     @Override
     public void visit(Instruction.FilledNewArrayRange inst) {
         assert inst.type.equals("[I");
-        vm.returnValue = vm.getObjectsByRegRange(inst.start, inst.end);
+        vm.returnValue = vm.getObjectsByRegRange(inst.vstart, inst.vend);
         vm.pc++;
     }
 
@@ -720,28 +725,28 @@ public class Interpreter extends VisitorAdapter {
 		
 		//TODO ORIG VERSION
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
+        vm.saveThreadState(); // TODO FIX MY NAME
         vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeSuper inst) {
         vm.pc++;
-        vm.saveFrame();// TODO FIX MY NAME
+        vm.saveThreadState();// TODO FIX MY NAME
         vm.setExecuteEnv(vm.getMethod(vm.clazzArea.getSuperClazz(inst.type.classType), inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeDirect inst) {
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
+        vm.saveThreadState(); // TODO FIX MY NAME
         vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeStatic inst) {
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
+        vm.saveThreadState(); // TODO FIX MY NAME
         vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
@@ -753,8 +758,8 @@ public class Interpreter extends VisitorAdapter {
 	@Override
 	public void visit(Instruction.InvokeVirtualRange inst) {
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
+        vm.saveThreadState(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
@@ -765,15 +770,15 @@ public class Interpreter extends VisitorAdapter {
 	@Override
 	public void visit(Instruction.InvokeDirectRange inst) {
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
+        vm.saveThreadState(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeStaticRange inst) {
         vm.pc++;
-        vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), Util.getRegList(inst.start, inst.end));
+        vm.saveThreadState(); // TODO FIX MY NAME
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override

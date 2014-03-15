@@ -51,8 +51,8 @@ public class VM {
         /**
          * When the main() method finished, we expect the pc is -1.
          */
-        pc = -1;
-        saveFrame();
+        pc = -2;
+        saveThreadState();
         setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"), new int[0]);
 
 		while (pc != -1) {
@@ -63,9 +63,7 @@ public class VM {
     /**
      * FIXME conflict to Util.getRegList()
      */
-    Object[] getObjectsByRegRange(String regFirst, String regLast){
-        int first = Util.hex2int(regFirst.substring(1));
-        int last  = Util.hex2int(regLast.substring(1));
+    Object[] getObjectsByRegRange(int first, int last){
         int count = last - first + 1;
         Object[] objs = new Object[count];
         for(int i = 0; i < count; i++){
@@ -102,7 +100,7 @@ public class VM {
 			return ((ast.stm.Instruction.SparseSwitchDirective) inst).switchMap;
 	}
 
-	void popFrame() {
+	void restoreThreadState() {
         Frame frame = callstack.pop();
         reg = frame.regs;
         code = frame.code;
@@ -133,7 +131,7 @@ public class VM {
     // TODO FIX MY NAME
     //      the meaning should represent saving VM status to a
     //      frame, then push this saved frame on callstack.
-    void saveFrame(){
+    void saveThreadState(){
         Frame frame = new Frame(reg, code, pc);
         callstack.push(frame);
     }
