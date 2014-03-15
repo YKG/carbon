@@ -355,8 +355,7 @@ public class Optimize extends VisitorAdapter {
 
 	@Override
 	public void visit(FilledNewArrayRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
 	}
 
 	@Override

@@ -4973,8 +4973,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public String type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public FilledNewArrayRange(String op, String start, String end, String type) {
             super();
