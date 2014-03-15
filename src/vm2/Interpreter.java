@@ -22,24 +22,24 @@ public class Interpreter extends VisitorAdapter {
         vm.pc++;
 	}
 
-    private void move(String dstReg, String srcReg){
-        vm.setObjectToReg(dstReg, vm.getObjectByReg(srcReg));
+    private void move(int dest, int src){
+        vm.reg[dest] = vm.reg[src];
         vm.pc++;
     }
 
 	@Override
 	public void visit(Instruction.Move inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveFrom16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.Move16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
@@ -47,50 +47,51 @@ public class Interpreter extends VisitorAdapter {
         // TODO:
         //      Be careful with 'wide' operation!
         //      Our 'wide' operation handler may introduce a bug.
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveWideFrom16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveWide16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObject inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObjectFrom16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
 	@Override
 	public void visit(Instruction.MoveObject16 inst) {
-        move(inst.dest, inst.src);
+        move(inst.vdest, inst.vsrc);
 	}
 
+    private void moveResult(int dest){
+        vm.reg[dest] = vm.returnValue;
+        vm.pc++;
+    }
 	@Override
 	public void visit(Instruction.MoveResult inst) {
-		vm.setObjectToReg(inst.dest, vm.returnValue);
-		vm.pc++;
+        moveResult(inst.vdest);
 	}
 
 	@Override
 	public void visit(Instruction.MoveResultWide inst) {
-		vm.setObjectToReg(inst.dest, vm.returnValue);
-		vm.pc++;
+        moveResult(inst.vdest);
 	}
 
 	@Override
 	public void visit(Instruction.MoveResultObject inst) {
-		vm.setObjectToReg(inst.dest, vm.returnValue);
-		vm.pc++;
+        moveResult(inst.vdest);
 	}
 
 	@Override
@@ -109,80 +110,75 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.Return inst) {
-		vm.setReturnValue(inst.ret);
+        vm.returnValue = vm.reg[inst.vret];
 		vm.popFrame();
 	}
 
 	@Override
 	public void visit(Instruction.ReturnWide inst) {
-		vm.setReturnValue(inst.ret);
+        vm.returnValue = vm.reg[inst.vret];
 		vm.popFrame();
 	}
 
 	@Override
 	public void visit(Instruction.ReturnObject inst) {
-		vm.setReturnValue(inst.ret);
+        vm.returnValue = vm.reg[inst.vret];
 		vm.popFrame();
 	}
 
+    private void _const(int dest, Object val){
+        vm.reg[dest] = val;
+        vm.pc++;
+    }
+
     @Override
     public void visit(Instruction.Const4 inst) {
-        vm.setObjectToReg(inst.dest, hex2int(inst.value));
-        vm.pc++;
+        _const(inst.vdest, hex2int(inst.value));
     }
 
     @Override
     public void visit(Instruction.Const16 inst) {
-        vm.setObjectToReg(inst.dest, hex2int(inst.value));
-        vm.pc++;
+        _const(inst.vdest, hex2int(inst.value));
     }
 
     @Override
     public void visit(Instruction.Const inst) {
-        vm.setObjectToReg(inst.dest, hex2int(inst.value));
-        vm.pc++;
+        _const(inst.vdest, hex2int(inst.value));
     }
 
     @Override
     public void visit(Instruction.ConstHigh16 inst) {
-        vm.setObjectToReg(inst.dest, hex2int(inst.value) << 16);
-        vm.pc++;
+        _const(inst.vdest, hex2int(inst.value) << 16);
     }
 
     @Override
     public void visit(Instruction.ConstWide16 inst) {
-        vm.setObjectToReg(inst.dest, (long) hex2int(inst.value));
-        vm.pc++;
+        _const(inst.vdest, (long) hex2int(inst.value));
     }
 
     @Override
     public void visit(Instruction.ConstWide32 inst) {
-        vm.setObjectToReg(inst.dest, (long) hex2int(inst.value));
-        vm.pc++;
+        _const(inst.vdest, (long) hex2int(inst.value));
     }
 
     @Override
     public void visit(Instruction.ConstWide inst) {
-        vm.setObjectToReg(inst.dest, hex2long(inst.value));
-        vm.pc++;
+        _const(inst.vdest, (long) hex2long(inst.value));
     }
 
     @Override
     public void visit(Instruction.ConstWideHigh16 inst) {
-        vm.setObjectToReg(inst.dest, hex2long(inst.value) << 48);
-        vm.pc++;
+        _const(inst.vdest, hex2long(inst.value) << 48);
     }
 
     @Override
     public void visit(Instruction.ConstString inst) {
-        vm.setObjectToReg(inst.dest, inst.str.substring(1, inst.str.length() - 1));
-        vm.pc++;
+        _const(inst.vdest, inst.str);
     }
 
     @Override
     public void visit(Instruction.ConstStringJumbo inst) {
-        vm.setObjectToReg(inst.dest, inst.str.substring(1, inst.str.length() - 1));
-        vm.pc++;
+        _const(inst.vdest, inst.str);
     }
 
 	@Override
@@ -218,34 +214,34 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InstanceOf inst) {
-        vm.setObjectToReg(inst.dest, ((Instance)vm.getObjectByReg(inst.ref)).isA(inst.type));
+        vm.reg[inst.vdest] = ((Instance)vm.reg[inst.vref]).isA(inst.type);
         vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.arrayLength inst) {
-		vm.setObjectToReg(inst.dest, ((Array) vm.getObjectByReg(inst.src)).getLength());
+        vm.reg[inst.vdest] = ((Array) vm.reg[inst.vsrc]).getLength();
 		vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.NewInstance inst) {
-        vm.setObjectToReg(inst.dest, new Instance(vm, inst.type));
+        vm.reg[inst.vdest] = new Instance(vm, inst.type);
         vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.NewArray inst) {
-		vm.setObjectToReg(inst.dest, new Array(inst.type, inst.size));
+        vm.reg[inst.vdest] = new Array(inst.type, inst.size);
 		vm.pc++;
 	}
 
     @Override
     public void visit(Instruction.FilledNewArray inst) {
         assert inst.type.equals("[I");
-        int dimensions[] = new int[inst.argList.size()];
+        int dimensions[] = new int[inst.argvs.length];
         for(int i = 0; i < dimensions.length; i++){
-            dimensions[i] = (Integer) vm.getObjectByReg(inst.argList.get(i));
+            dimensions[i] = (Integer) vm.reg[inst.argvs[i]];
         }
         vm.returnValue = dimensions;
         vm.pc++;
@@ -260,7 +256,7 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.FillArrayData inst) {
-		((Array) vm.getObjectByReg(inst.dest)).fillArrayData(vm.getArrayPayload(inst.addr));
+		((Array) vm.reg[inst.vdest]).fillArrayData(vm.getArrayPayload(inst.addr));
 		vm.pc++;
 	}
 
@@ -288,7 +284,7 @@ public class Interpreter extends VisitorAdapter {
 	@Override
 	public void visit(Instruction.PackedSwitch inst) {
 		Map<Integer, Integer> switchMap = vm.getSwitchMap(inst.addr);
-		Object test = vm.getObjectByReg(inst.test);
+		Object test = vm.reg[inst.vtest];
 		Integer dest = switchMap.get((Integer) test);
         vm.pc = dest == null ? vm.pc+1 : dest.intValue();
 	}
@@ -296,69 +292,69 @@ public class Interpreter extends VisitorAdapter {
 	@Override
 	public void visit(Instruction.SparseSwitch inst) {
 		Map<Integer, Integer> switchMap = vm.getSwitchMap(inst.addr);
-		Object test = vm.getObjectByReg(inst.test);
+		Object test = vm.reg[inst.vtest];
 		Integer dest = switchMap.get((Integer) test);
         vm.pc = dest == null ? vm.pc+1 : dest.intValue();
 	}
 
     @Override
     public void visit(Instruction.CmplFloat inst) {
-        Float val1 = (Float) vm.getObjectByReg(inst.first);
-        Float val2 = (Float) vm.getObjectByReg(inst.second);
+        Float val1 = (Float) vm.reg[inst.vfirst];
+        Float val2 = (Float) vm.reg[inst.vsecond];
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, -1);
+            vm.reg[inst.vdest] = -1;
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, result);
+            vm.reg[inst.vdest] = result;
         }
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.CmpgFloat inst) {
-        Float val1 = (Float) vm.getObjectByReg(inst.first);
-        Float val2 = (Float) vm.getObjectByReg(inst.second);
+        Float val1 = (Float) vm.reg[inst.vfirst];
+        Float val2 = (Float) vm.reg[inst.vsecond];
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, 1);
+            vm.reg[inst.vdest] = 1;
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, result);
+            vm.reg[inst.vdest] = result;
         }
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.CmplDouble inst) {
-        Double val1 = (Double) vm.getObjectByReg(inst.first);
-        Double val2 = (Double) vm.getObjectByReg(inst.second);
+        Double val1 = (Double) vm.reg[inst.vfirst];
+        Double val2 = (Double) vm.reg[inst.vsecond];
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, -1);
+            vm.reg[inst.vdest] = -1;
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, result);
+            vm.reg[inst.vdest] = result;
         }
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.Cmpgdouble inst) {
-        Double val1 = (Double) vm.getObjectByReg(inst.first);
-        Double val2 = (Double) vm.getObjectByReg(inst.second);
+        Double val1 = (Double) vm.reg[inst.vfirst];
+        Double val2 = (Double) vm.reg[inst.vsecond];
         if (val1.isNaN() || val2.isNaN()) {
-            vm.setObjectToReg(inst.dest, 1);
+            vm.reg[inst.vdest] = 1;
         } else {
             int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-            vm.setObjectToReg(inst.dest, result);
+            vm.reg[inst.vdest] = result;
         }
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.CmpLong inst) {
-        Long val1 = (Long) vm.getObjectByReg(inst.first);
-        Long val2 = (Long) vm.getObjectByReg(inst.second);
+        Long val1 = (Long) vm.reg[inst.vfirst];
+        Long val2 = (Long) vm.reg[inst.vsecond];
         int result = val1.equals(val2) ? 0 : val1 > val2 ? 1 : -1;
-        vm.setObjectToReg(inst.dest, result);
+        vm.reg[inst.vdest] = result;
         vm.pc++;
     }
 
@@ -387,241 +383,241 @@ public class Interpreter extends VisitorAdapter {
     /**
      * refer to: androguard-060441150eba/specs/dalvik/opcodes/opcode-32-if-test.html
      */
-    private void iftest(String opFull, String firstReg, String secondReg, int addr){
+    private void iftest(String opFull, int firstReg, int secondReg, int addr){
         String op = opFull.substring(3, 5); // e.g. if-eq --> eq / if-ge --> ge
-        Object val1 = vm.getObjectByReg(firstReg);
-        Object val2 = vm.getObjectByReg(secondReg);
+        Object val1 = vm.reg[firstReg];
+        Object val2 = vm.reg[secondReg];
         vm.pc = intTest(val1, val2, op) ? addr : vm.pc + 1;
     }
 
-    private void iftestz(String opFull, String testReg, int addr){
+    private void iftestz(String opFull, int testReg, int addr){
         String op = opFull.substring(3, 5); // e.g. if-eqz --> eq / if-gez --> ge
-        Object val1 = vm.getObjectByReg(testReg);
+        Object val1 = vm.reg[testReg];
         Object val2 = 0;
         vm.pc = intTest(val1, val2, op) ? addr : vm.pc + 1;
     }
 
 	@Override
 	public void visit(Instruction.IfEq inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfNe inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLt inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGe inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGt inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLe inst) {
-        iftest(inst.op, inst.first, inst.second, inst.addr);
+        iftest(inst.op, inst.vfirst, inst.vsecond, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfEqz inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfNez inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLtz inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGez inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfGtz inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
 	@Override
 	public void visit(Instruction.IfLez inst) {
-        iftestz(inst.op, inst.test, inst.addr);
+        iftestz(inst.op, inst.vtest, inst.addr);
 	}
 
-	private void aget(String dstReg, String arrReg, String index) {
-		vm.setObjectToReg(dstReg, ((Array) vm.getObjectByReg(arrReg)).aget(index));
+	private void aget(int dstReg, int arrReg, String index) {
+		vm.reg[dstReg] = ((Array) vm.reg[arrReg]).aget(index);
 		vm.pc++;
 	}
 
-	private void aput(String srcReg, String arrReg, String index) {
-		((Array) vm.getObjectByReg(arrReg)).aput(index, vm.getObjectByReg(srcReg));
+	private void aput(int srcReg, int arrReg, String index) {
+		((Array) vm.reg[arrReg]).aput(index, vm.reg[srcReg]);
 		vm.pc++;
 	}
 
 	@Override
 	public void visit(Instruction.Aget inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetWide inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetObject inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetBoolean inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetByte inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetChar inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AgetShort inst) {
-		aget(inst.dest, inst.array, inst.index);
+		aget(inst.vdest, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.Aput inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputWide inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputObject inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputBoolean inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputByte inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputChar inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
 	@Override
 	public void visit(Instruction.AputShort inst) {
-		aput(inst.src, inst.array, inst.index);
+		aput(inst.vsrc, inst.varray, inst.index);
 	}
 
-    private void iget(String dstReg, String objReg, String fieldName){
-        vm.setObjectToReg(dstReg, ((Instance)vm.getObjectByReg(objReg)).iget(fieldName));
+    private void iget(int dstReg, int objReg, String fieldName){
+        vm.reg[dstReg] = ((Instance)vm.reg[objReg]).iget(fieldName);
         vm.pc++;
     }
 
-    private void iput(String srcReg, String objReg, String fieldName){
-        ((Instance)vm.getObjectByReg(objReg)).iput(fieldName, vm.getObjectByReg(srcReg));
+    private void iput(int srcReg, int objReg, String fieldName){
+        ((Instance)vm.reg[objReg]).iput(fieldName, vm.reg[srcReg]);
         vm.pc++;
     }
 
 	@Override
 	public void visit(Instruction.Iget inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetWide inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetOjbect inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetBoolean inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetByte inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetChar inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IgetShort inst) {
-        iget(inst.dest, inst.field, inst.type.fieldName);
+        iget(inst.vdest, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.Iput inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputWide inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputObject inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputBoolean inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputByte inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputChar inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
 	@Override
 	public void visit(Instruction.IputShort inst) {
-        iput(inst.src, inst.field, inst.type.fieldName);
+        iput(inst.vsrc, inst.vfield, inst.type.fieldName);
 	}
 
-    private void sget(String dstReg, FieldItem fieldItem){
+    private void sget(int dstReg, FieldItem fieldItem){
     	//TODO FIXME
     	if(fieldItem.fieldName.equals("out")) {
     		vm.pc++;
@@ -629,83 +625,83 @@ public class Interpreter extends VisitorAdapter {
     	}
     	
     	//ORIG VERSION
-        vm.setObjectToReg(dstReg, vm.staticFieldsArea.getStaticField(fieldItem));
+        vm.reg[dstReg] = vm.staticFieldsArea.getStaticField(fieldItem);
         vm.pc++;
     }
 
-    private void sput(String srcReg, String fieldName){
-        vm.staticFieldsArea.setStaticField(fieldName, vm.getObjectByReg(srcReg));
+    private void sput(int srcReg, FieldItem fieldItem){
+        vm.staticFieldsArea.setStaticField(fieldItem, vm.reg[srcReg]);
         vm.pc++;
     }
 
 	@Override
 	public void visit(Instruction.Sget inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetWide inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetObject inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetBoolean inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetByte inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetChar inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SgetShort inst) {
-        sget(inst.dest, inst.type);
+        sget(inst.vdest, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.Sput inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputWide inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputObject inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputBoolean inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputByte inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputChar inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
 	@Override
 	public void visit(Instruction.SputShort inst) {
-        sput(inst.src, inst.type.toString());
+        sput(inst.vsrc, inst.type);
 	}
 
     // invoke-*:
@@ -717,7 +713,7 @@ public class Interpreter extends VisitorAdapter {
 		//TODO FIXME
 		if(inst.type.methodName.equals("println")) {
 			vm.pc++;
-			Object result = vm.getObjectByReg(inst.argList.get(1));
+			Object result = vm.reg[inst.argvs[0]];
 			System.err.println(result);
 			return ;
 		}
@@ -725,28 +721,28 @@ public class Interpreter extends VisitorAdapter {
 		//TODO ORIG VERSION
         vm.pc++;
         vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeSuper inst) {
         vm.pc++;
         vm.saveFrame();// TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(vm.clazzArea.getSuperClazz(inst.type.classType),inst.type.getMethodSign()),inst.argList);
+        vm.setExecuteEnv(vm.getMethod(vm.clazzArea.getSuperClazz(inst.type.classType), inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeDirect inst) {
         vm.pc++;
         vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
 	public void visit(Instruction.InvokeStatic inst) {
         vm.pc++;
         vm.saveFrame(); // TODO FIX MY NAME
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argList);
+        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
 	}
 
 	@Override
@@ -787,154 +783,154 @@ public class Interpreter extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.NegInt inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, -(Integer) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = -(Integer) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NotInt inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ~(Integer) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ~(Integer) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegLong inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, -(Long) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = -(Long) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NotLong inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ~(Long) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ~(Long) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegFloat inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, -(Float) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = -(Float) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.NegDouble inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, -(Double) src);
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = -(Double) src;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToLong inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Integer) src).longValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Integer) src).longValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToFloat inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Integer) src).floatValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Integer) src).floatValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToDouble inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Integer) src).doubleValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Integer) src).doubleValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToInt inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Long) src).intValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Long) src).intValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToFloat inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Long) src).floatValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Long) src).floatValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.LongToDouble inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Long) src).doubleValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Long) src).doubleValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToInt inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Float) src).intValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Float) src).intValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToLong inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Float) src).longValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Float) src).longValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.FloatToDouble inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Float) src).doubleValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Float) src).doubleValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToInt inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Double) src).intValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Double) src).intValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToLong inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Double) src).longValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Double) src).longValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.DoubleToFloat inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Double) src).floatValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Double) src).floatValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToByte inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Integer) src).byteValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Integer) src).byteValue();
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToChar inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, (char) ((Integer) src).intValue()); // Right?
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = (char) ((Integer) src).intValue(); // Right?
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.IntToShort inst) {
-        Object src = vm.getObjectByReg(inst.src);
-        vm.setObjectToReg(inst.dest, ((Integer) src).shortValue());
+        Object src = vm.reg[inst.vsrc];
+        vm.reg[inst.vdest] = ((Integer) src).shortValue();
         vm.pc++;
     }
 
-    private void biopLit(String dstReg, String srcReg, String literal, String op) {
+    private void biopLit(int dstReg, int srcReg, String literal, String op) {
         Object result = null;
-        Integer src = (Integer) vm.getObjectByReg(srcReg);
+        Integer src = (Integer) vm.reg[srcReg];
         Integer lit = new Integer(literal);
 
         int indexEnd = op.indexOf("/");
@@ -978,21 +974,21 @@ public class Interpreter extends VisitorAdapter {
                 Util.printErr("biopLit..swith..op.sub: unkown");
                 break;
         }
-        vm.setObjectToReg(dstReg, result);
+        vm.reg[dstReg] = result;
         vm.pc++;
     }
 
-    private void biop2addr(String firstReg, String secondReg, String op) {
+    private void biop2addr(int firstReg, int secondReg, String op) {
         biop(firstReg, firstReg, secondReg, op.substring(0, op.indexOf("/")));
     }
 
-    private void biop(String dstReg, String firstReg, String secondReg, String op) {
+    private void biop(int dstReg, int firstReg, int secondReg, String op) {
         Object result = null;
 
         switch (op.substring(op.indexOf("-") + 1)) {
             case "int":
-                Integer int1 = (Integer) vm.getObjectByReg(firstReg);
-                Integer int2 = (Integer) vm.getObjectByReg(secondReg);
+                Integer int1 = (Integer) vm.reg[firstReg];
+                Integer int2 = (Integer) vm.reg[secondReg];
                 switch (op) {
                     case "add-int":
                         result = int1 + int2;
@@ -1033,8 +1029,8 @@ public class Interpreter extends VisitorAdapter {
                 }
                 break;
             case "long":
-                Long long1 = (Long) vm.getObjectByReg(firstReg);
-                Long long2 = (Long) vm.getObjectByReg(secondReg);
+                Long long1 = (Long) vm.reg[firstReg];
+                Long long2 = (Long) vm.reg[secondReg];
                 switch (op) {
                     case "add-long":
                         result = long1 + long2;
@@ -1075,8 +1071,8 @@ public class Interpreter extends VisitorAdapter {
                 }
                 break;
             case "float":
-                Float float1 = (Float) vm.getObjectByReg(firstReg);
-                Float float2 = (Float) vm.getObjectByReg(secondReg);
+                Float float1 = (Float) vm.reg[firstReg];
+                Float float2 = (Float) vm.reg[secondReg];
                 switch (op) {
                     case "add-float":
                         result = float1 + float2;
@@ -1099,8 +1095,8 @@ public class Interpreter extends VisitorAdapter {
                 }
                 break;
             case "double":
-                Double double1 = (Double) vm.getObjectByReg(firstReg);
-                Double double2 = (Double) vm.getObjectByReg(secondReg);
+                Double double1 = (Double) vm.reg[firstReg];
+                Double double2 = (Double) vm.reg[secondReg];
                 switch (op) {
                     case "add-double":
                         result = double1 + double2;
@@ -1126,423 +1122,423 @@ public class Interpreter extends VisitorAdapter {
                 Util.printErr("biop..swith..op's endwith: unkown");
                 break;
         }
-        vm.setObjectToReg(dstReg, result);
+        vm.reg[dstReg] = result;
         vm.pc++;
     }
 
     @Override
     public void visit(Instruction.AddInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AndInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.OrInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.XorInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShlInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShrInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.UshrInt inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AndLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.OrLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.XorLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShlLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShrLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.UshrLong inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddFloat inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubFloat inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulFloat inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivFloat inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemFloat inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddDouble inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubDouble inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulDouble inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivDouble inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemDouble inst) {
-        biop(inst.dest, inst.first, inst.second, inst.op);
+        biop(inst.vdest, inst.vfirst, inst.vsecond, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.AndInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.OrInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.XorInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShlInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShrInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.UshrInt2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.AndLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.OrLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.XorLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShlLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.ShrLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.UshrLong2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddFloat2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubFloat2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulFloat2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivFloat2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemFloat2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.AddDouble2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.SubDouble2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.MulDouble2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.DivDouble2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
     @Override
     public void visit(Instruction.RemDouble2Addr inst) {
-        biop2addr(inst.dest, inst.src, inst.op);
+        biop2addr(inst.vdest, inst.vsrc, inst.op);
     }
 
 	@Override
 	public void visit(Instruction.AddIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RsubInt inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MulIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.DivIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RemIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AndIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.OrIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.XorIntLit16 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AddIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RsubIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.MulIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.DivIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.RemIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.AndIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.OrIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.XorIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.ShlIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.ShrIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override
 	public void visit(Instruction.UshrIntLit8 inst) {
-        biopLit(inst.dest, inst.src, inst.value, inst.op);
+        biopLit(inst.vdest, inst.vsrc, inst.value, inst.op);
 	}
 
 	@Override

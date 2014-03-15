@@ -2,8 +2,6 @@ package vm2;
 
 import util.MultiThreadUtils;
 
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
@@ -14,7 +12,7 @@ public class VM {
      *         '-1' indicate the program finished,
      *         'code[pc]' is the current instruction.
      */
-    Object[] regs;
+    Object[] reg;
     ast.stm.T[] code;
     int pc;
 
@@ -55,7 +53,7 @@ public class VM {
          */
         pc = -1;
         saveFrame();
-        setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"), new LinkedList<String>());
+        setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"), new int[0]);
 
 		while (pc != -1) {
 			code[pc].accept(interpreter);
@@ -71,27 +69,27 @@ public class VM {
         int count = last - first + 1;
         Object[] objs = new Object[count];
         for(int i = 0; i < count; i++){
-            objs[i] = getObjectByReg(i);
+            objs[i] = reg[i];
         }
         return objs;
     }
     
-    Object getObjectByReg(int index){
-        return regs[index];
-    }
-
-	Object getObjectByReg(String regStr) {
-		return regs[Integer.parseInt(regStr.substring(1))];
-	}
-
-    void setObjectToReg(int index, Object obj) {
-        regs[index] = obj;
-    }
-
-	void setObjectToReg(String regStr, Object obj) {
-		regs[Integer.parseInt(regStr.substring(1))] = obj;
-	}
-
+//    Object getObjectByReg(int index){
+//        return reg[index];
+//    }
+//
+//	Object getObjectByReg(String regStr) {
+//		return reg[Integer.parseInt(regStr.substring(1))];
+//	}
+//
+//    void setObjectToReg(int index, Object obj) {
+//        reg[index] = obj;
+//    }
+//
+//	void setObjectToReg(String regStr, Object obj) {
+//		reg[Integer.parseInt(regStr.substring(1))] = obj;
+//	}
+//
 	Object[] getArrayPayload(int index) {
 		return ((ast.stm.Instruction.ArrayDataDirective) code[index]).toArray();
 	}
@@ -106,25 +104,25 @@ public class VM {
 
 	void popFrame() {
         Frame frame = callstack.pop();
-        regs = frame.regs;
+        reg = frame.regs;
         code = frame.code;
         pc   = frame.pc;
 	}
 
-	void setReturnValue(String regstr) {
-		setObjectToReg(regstr, returnValue);
-	}
+//	void setReturnValue(String regstr) {
+//		setObjectToReg(regstr, returnValue);
+//	}
 
-	Object getReturnValue() {
-		return returnValue;
-	}
+//	Object getReturnValue() {
+//		return returnValue;
+//	}
 
-	Object[] getParameters(List<String> argList) {
-        assert argList != null;
-		int size = argList.size();
+	Object[] getParameters(int argvs[]) {
+        assert argvs != null;
+		int size = argvs.length;
 		Object[] parameters = new Object[size];
 		for(int i =0 ;i<size ;i++)
-			parameters[i] = getObjectByReg(argList.get(i));
+			parameters[i] = reg[argvs[i]];
 		return parameters;
 	}
 
@@ -136,20 +134,20 @@ public class VM {
     //      the meaning should represent saving VM status to a
     //      frame, then push this saved frame on callstack.
     void saveFrame(){
-        Frame frame = new Frame(regs, code, pc);
+        Frame frame = new Frame(reg, code, pc);
         callstack.push(frame);
     }
 
-    private void passParameters(int regCount, List<String> argList){
-        Object[] parameters = getParameters(argList);
+    private void passParameters(int regCount, int[] argvs){
+        Object[] parameters = getParameters(argvs);
         int p0index = regCount - parameters.length;
-        regs = new Object[regCount];
-        System.arraycopy(parameters, 0, regs, p0index, parameters.length);
+        reg = new Object[regCount];
+        System.arraycopy(parameters, 0, reg, p0index, parameters.length);
     }
 
     // TODO FIX MY NAME
-    void setExecuteEnv(Method method, List<String> argList){
-    	passParameters(method.registerCount, argList);
+    void setExecuteEnv(Method method, int[] argvs){
+    	passParameters(method.registerCount, argvs);
         code = method.code;
         pc = 0;
     }
