@@ -8,7 +8,7 @@ public class MethodArea {
     /**
      * key:    clazzName
      * value:  Map
-     *          key:    fullQualifiedMethodName
+     *          key:    MethodSign
      *          value:  vm2.Method
      */
     private Map<String, Map<String, Method>> methods;

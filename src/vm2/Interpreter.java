@@ -730,6 +730,7 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeSuper inst) {
+<<<<<<< HEAD
         vm.saveThreadState();
         String superType = ((Instance)vm.reg[inst.argvs[0]]).getSuperClazz();
         vm.setExecuteEnv(vm.getMethod(superType, inst.type.getMethodSign()), inst.argvs);
