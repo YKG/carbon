@@ -1,11 +1,13 @@
 package vm2;
 
+import ast.classs.Class;
 import ast.classs.FieldItem;
 
+import java.util.List;
 import java.util.Map;
 
 public class StaticFieldsArea {
-    VM vm;
+    private VM vm;
 
     /**
      * key:    fullQualifiedStaticFieldName
@@ -20,13 +22,22 @@ public class StaticFieldsArea {
     public Object getStaticField(FieldItem fieldItem){
         // TODO didn't complete Authorization check
     	String fullFieldName = fieldItem.toString();
-    	if( !this.staticFields.containsKey(fullFieldName))
+    	if(!staticFields.containsKey(fullFieldName)){
     		vm.loadClazz(fieldItem.classType);
-    	return this.staticFields.get(fullFieldName);
+        }
+    	return staticFields.get(fullFieldName);
     }
 
-    public void setStaticField(String fullFieldName, Object newObject){
-    	 // TODO didn't complete Authorization check
-        this.staticFields.put(fullFieldName,newObject);
+    public void setStaticField(String fieldName, Object value){
+        staticFields.put(fieldName, value);
+    }
+
+    public void setStaticFields(String clazzName, List<Class.Field> fieldList){
+    	// TODO didn't complete Authorization check
+        for (Class.Field field : fieldList) {
+            String fullFieldName = Util.getFullFieldName(clazzName, field);
+            Object newObject = Util.getNewObject(field.type);
+            staticFields.put(fullFieldName,newObject);
+        }
     }
 }

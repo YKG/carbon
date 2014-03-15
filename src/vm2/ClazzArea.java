@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ClazzArea {
-    VM vm;
+    private VM vm;
     /**
      * key:    clazzName
      * value:  superClazzName

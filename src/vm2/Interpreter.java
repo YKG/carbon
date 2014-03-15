@@ -1,26 +1,17 @@
 package vm2;
 
-import static vm2.Util.hex2int;
-import static vm2.Util.hex2long;
-
-import java.util.Map;
-
 import ast.VisitorAdapter;
 import ast.annotation.Annotation;
 import ast.classs.FieldItem;
 import ast.stm.Instruction;
 
+import java.util.Map;
+
+import static vm2.Util.hex2int;
+import static vm2.Util.hex2long;
+
 public class Interpreter extends VisitorAdapter {
-	VM vm;
-
-	// invoke-*:
-	//  1. pc++
-	//  2. save frame
-	//  3. set code/pc/reg
-
-	// return-*:
-	//  1. set result
-	//  2. pop frame to code/pc/reg
+	private VM vm;
 
     public Interpreter(VM vm){
         this.vm = vm;
@@ -108,6 +99,9 @@ public class Interpreter extends VisitorAdapter {
         Util.printErr("Unimplement instruction: MoveException");
 	}
 
+    // return-*:
+    //  1. set result
+    //  2. pop frame to code/pc/reg
 	@Override
 	public void visit(Instruction.ReturnVoid inst) {
 		vm.popFrame();
@@ -236,7 +230,7 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.NewInstance inst) {
-        vm.setObjectToReg(inst.dest, new Instance(inst.type));
+        vm.setObjectToReg(inst.dest, new Instance(vm, inst.type));
         vm.pc++;
 	}
 
@@ -397,16 +391,18 @@ public class Interpreter extends VisitorAdapter {
     /**
      * refer to: androguard-060441150eba/specs/dalvik/opcodes/opcode-32-if-test.html
      */
-    private void iftest(String op, String firstReg, String secondReg, int addr){
+    private void iftest(String opFull, String firstReg, String secondReg, int addr){
+        String op = opFull.substring(3, 5); // e.g. if-eq --> eq / if-ge --> ge
         Object val1 = vm.getObjectByReg(firstReg);
         Object val2 = vm.getObjectByReg(secondReg);
-        vm.pc = intTest(val1, val2, op.substring(3, 5)) ? addr : vm.pc + 1;
+        vm.pc = intTest(val1, val2, op) ? addr : vm.pc + 1;
     }
 
-    private void iftestz(String op, String testReg, int addr){
+    private void iftestz(String opFull, String testReg, int addr){
+        String op = opFull.substring(3, 5); // e.g. if-eqz --> eq / if-gez --> ge
         Object val1 = vm.getObjectByReg(testReg);
         Object val2 = 0;
-        vm.pc = intTest(val1, val2, op.substring(3, 5)) ? addr : vm.pc + 1;
+        vm.pc = intTest(val1, val2, op) ? addr : vm.pc + 1;
     }
 
 	@Override
@@ -716,6 +712,10 @@ public class Interpreter extends VisitorAdapter {
         sput(inst.src, inst.type.toString());
 	}
 
+    // invoke-*:
+    //  1. pc++
+    //  2. save frame
+    //  3. set code/pc/reg
 	@Override
 	public void visit(Instruction.InvokeVirtual inst) {
 		//TODO FIXME
@@ -1071,7 +1071,7 @@ public class Interpreter extends VisitorAdapter {
                         result = long1 >> long2;
                         break;
                     case "ushr-long":
-                        result = long1 >> long2;
+                        result = long1 >>> long2;
                         break;
                     default:
                         Util.printErr("biop..swith..long..op: unkown");

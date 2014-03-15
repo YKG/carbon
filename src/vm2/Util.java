@@ -7,16 +7,6 @@ import java.util.List;
 import java.util.Map;
 
 public class Util {
-
-	public static String getFullMethodName(String className,
-			ast.method.Method method) {
-		String fullMethodName = className + "->" + method.name + "(";
-		for (String str : method.prototype.argsType)
-			fullMethodName = fullMethodName + str;
-		fullMethodName = fullMethodName + ")" + method.prototype.returnType;
-		return fullMethodName;
-	}
-
 	public static String getFullFieldName(String clazzName, Field field) {
 		return clazzName + "->" + field.name + ":" + field.type;
 	}
@@ -35,6 +25,9 @@ public class Util {
 			return Long.parseLong(s.substring(2), 16);
 	}
 
+    /**
+     * FIXME conflict to VM.getObjectsByRegRange()
+     */
 	public static List<String> getRegList(String regStart, String regEnd) {
 		int indexStart = Integer.parseInt(regStart);
 		int indexEnd = Integer.parseInt(regEnd);

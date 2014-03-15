@@ -6,11 +6,15 @@ import util.MultiThreadUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ClazzLoader {
-    VM vm;
-    public ClazzLoader(VM vm){
+    private VM vm;
+    private Map<String, MultiThreadUtils.TranslateWorker> classMap;
+
+    public ClazzLoader(VM vm, Map<String, MultiThreadUtils.TranslateWorker> classMap){
         this.vm = vm;
+        this.classMap = classMap;
     }
 
     public void loadClazz(String clazzName){
@@ -23,7 +27,7 @@ public class ClazzLoader {
     }
 
     private ast.classs.Class getASTClass(String clazzName){
-        MultiThreadUtils.TranslateWorker worker = vm.classMap.get(clazzName);
+        MultiThreadUtils.TranslateWorker worker = classMap.get(clazzName);
         ast.classs.Class clazz  = null;
         try {
             clazz = worker.call();
@@ -35,7 +39,7 @@ public class ClazzLoader {
 
     private void initClazzArea(ast.classs.Class clazz){
         vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName,clazz.superName);
-        loadClazz(clazz.superName);
+        loadClazz(clazz.superName); // recursive load all ancestor clazz.
     }
 
     private void initMethodArea(ast.classs.Class clazz){
@@ -65,11 +69,7 @@ public class ClazzLoader {
     }
     
 	private void initStaticFields(String clazzName, List<Field> fieldList) {
-		for (Field field : fieldList) {
-			String fullFieldName = Util.getFullFieldName(clazzName, field);
-			Object newObject = Util.getNewObject(field.type);
-			vm.staticFieldsArea.setStaticField(fullFieldName, newObject);
-		}
+        vm.staticFieldsArea.setStaticFields(clazzName, fieldList);
 	}
 
 	private void initInstanceFields(String clazzName, List<Field> fieldList) {

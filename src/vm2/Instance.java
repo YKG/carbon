@@ -3,7 +3,7 @@ package vm2;
 import java.util.Map;
 
 public class Instance {
-    VM vm;
+    private VM vm;
 
     String clazzName;
 
@@ -13,7 +13,10 @@ public class Instance {
      */
     Map<String, Object> fields;
 
-    public Instance(String clazzName) {
+    public Instance(VM vm, String clazzName) {
+        vm.loadClazz(clazzName);
+
+        this.vm = vm;
         this.clazzName = clazzName;
         this.fields = vm.instanceFieldsArea.getInstanceFields(clazzName);
     }

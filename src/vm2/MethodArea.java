@@ -4,15 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class MethodArea {
-    VM vm;
+    private VM vm;
     /**
      * key:    clazzName
      * value:  Map
      *          key:    fullQualifiedMethodName
      *          value:  vm2.Method
      */
-    public Map<String, Map<String, Method>> methods;
-
+    private Map<String, Map<String, Method>> methods;
 
     public MethodArea(VM vm) {
         this.vm = vm;

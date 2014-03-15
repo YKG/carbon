@@ -1,14 +1,14 @@
 package vm2;
 
+import ast.classs.Class.Field;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import ast.classs.Class.Field;
-
 public class InstanceFieldsArea {
-	VM vm;
+	private VM vm;
     /**
      *  key:    clazzName
      *  value:  List<ast.classs.Class.Field>
@@ -23,18 +23,16 @@ public class InstanceFieldsArea {
     }
 
     /*
-     * return the new copy rather than  the old copy
-     * should't extends superclass's private field
+     * return a new copy rather than the old copy
+     * shouldn't extends superclass's private fields
      */
-    public  Map<String,Object> getInstanceFields(String clazzName){
-    	vm.loadClazz(clazzName);
+    public Map<String,Object> getInstanceFields(String clazzName){
     	Map<String,Object> fieldMap = new HashMap<String,Object>();
-    	Util.updatefieldMap(fieldMap,extendFields.get(clazzName));
-    	Util.updatefieldMap(fieldMap,privateFields.get(clazzName));
+    	Util.updatefieldMap(fieldMap, extendFields.get(clazzName));
+    	Util.updatefieldMap(fieldMap, privateFields.get(clazzName));
     	String currentClazzName = vm.clazzArea.getSuperClazz(clazzName);
-    	while(currentClazzName.equals("java/lang/Object"))
-    	{
-    		Util.updatefieldMap(fieldMap,extendFields.get(currentClazzName));
+    	while(!currentClazzName.equals("Ljava/lang/Object;")){ // TODO is test null better?
+    		Util.updatefieldMap(fieldMap, extendFields.get(currentClazzName));
     		currentClazzName = vm.clazzArea.getSuperClazz(currentClazzName);
     	}
     	return fieldMap;
@@ -44,7 +42,7 @@ public class InstanceFieldsArea {
      * divide fieldList to extendfields and privatefields
      */
     public void setInstanceFields(String clazzName, List<Field> fieldList){
-    	//DOTO 
+    	//TODO
     	List<Field> eFields = new  ArrayList<Field>();
     	List<Field> pFields = new  ArrayList<Field>();
     	for(Field field : fieldList ) {
