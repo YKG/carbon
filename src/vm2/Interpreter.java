@@ -290,9 +290,7 @@ public class Interpreter extends VisitorAdapter {
 		Map<Integer, Integer> switchMap = vm.getSwitchMap(inst.addr);
 		Object test = vm.getObjectByReg(inst.test);
 		Integer dest = switchMap.get((Integer) test);
-		if (dest == null)
-			Util.printErr("Can not find the switchMap");
-		vm.pc = dest;
+        vm.pc = dest == null ? vm.pc+1 : dest.intValue();
 	}
 
 	@Override
@@ -300,9 +298,7 @@ public class Interpreter extends VisitorAdapter {
 		Map<Integer, Integer> switchMap = vm.getSwitchMap(inst.addr);
 		Object test = vm.getObjectByReg(inst.test);
 		Integer dest = switchMap.get((Integer) test);
-		if (dest == null)
-			Util.printErr("Can not find the switchMap");
-		vm.pc = dest;
+        vm.pc = dest == null ? vm.pc+1 : dest.intValue();
 	}
 
     @Override

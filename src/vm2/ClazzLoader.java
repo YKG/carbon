@@ -21,6 +21,7 @@ public class ClazzLoader {
         if(vm.clazzArea.isLoaded(clazzName))
         	return ;
         ast.classs.Class clazz = this.getASTClass(clazzName);
+        clazz.accept(new Optimize());
         initClazzArea(clazz);
         initMethodArea(clazz);
         initFields(clazz);

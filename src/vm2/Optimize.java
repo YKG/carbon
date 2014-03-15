@@ -243,16 +243,33 @@ public class Optimize implements ast.Visitor {
 	 * what we have done
 	 * 1. change the inst's register to an String that represent an precise index at method.statmes
 	 * 2. optimize PackedSwitchDirective and SparseSwitchDirective
-	 *    init it's switchMap according to it'scase area  
+	 *    init it's switchMap according to it's case area
+	 * 3. add "v" int field for ever instruction's register field
 	 */
 	public Map<String, Integer> labelMap;
 	public static Map<String, Integer> instLen = ast.PrettyPrintVisitor.instLen;
 	public int pStart;
 	public int ip;
 
-	public Optimize() {
-		labelMap = new HashMap<String, Integer>();
-	}
+    @Override
+    public void visit(MethodPrototype prototype) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void visit(Program program) {
+        // TODO Auto-generated method stub
+
+    }
+
+    @Override
+    public void visit(Class clazz) {
+        for(Method method : clazz.methods) {
+            labelMap = new HashMap<String, Integer>();
+            method.accept(this);
+        }
+    }
 
 	@Override
 	public void visit(MethodItem item) {
@@ -340,53 +357,11 @@ public class Optimize implements ast.Visitor {
 		}
 	}
 
-	public void simplifiedReg(String reg) {
-		String tmp = reg.substring(1);
+	public int simplifiedReg(String reg) {
+        int result = Integer.parseInt(reg.substring(1));
 		if (reg.charAt(0) == 'v')
-			reg = tmp;
-		reg = Integer.toString(Integer.parseInt(tmp) + this.pStart);
-	}
-
-	public void simplifiedReg(String reg1, String reg2) {
-		simplifiedReg(reg1);
-		simplifiedReg(reg2);
-	}
-
-	public void simplifiedReg(String reg1, String reg2, String reg3) {
-		simplifiedReg(reg1);
-		simplifiedReg(reg2);
-		simplifiedReg(reg3);
-	}
-
-	public void simplifiedReg(String reg1, String reg2, String reg3, String reg4) {
-		simplifiedReg(reg1);
-		simplifiedReg(reg2);
-		simplifiedReg(reg3);
-		simplifiedReg(reg4);
-	}
-
-	public void simplifiedReg(List<String> argList) {
-		for (String str : argList) {
-			simplifiedReg(str);
-		}
-	}
-
-	@Override
-	public void visit(MethodPrototype prototype) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(Program program) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void visit(Class clazz) {
-		// TODO Auto-generated method stub
-
+            return result;
+		return result + this.pStart;
 	}
 
 	@Override
@@ -403,67 +378,76 @@ public class Optimize implements ast.Visitor {
 
 	@Override
 	public void visit(Move inst) {
-		simplifiedReg(inst.dest, inst.src);
+		inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveFrom16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(Move16 inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveWide inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveWideFrom16 inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveWide16 inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveObject inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveObjectFrom16 inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveObject16 inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MoveResult inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(MoveResultWide inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(MoveResultObject inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(MoveException inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
@@ -474,130 +458,134 @@ public class Optimize implements ast.Visitor {
 
 	@Override
 	public void visit(Return inst) {
-		simplifiedReg(inst.ret);
+        inst.vret = simplifiedReg(inst.ret);
 	}
 
 	@Override
 	public void visit(ReturnWide inst) {
-		simplifiedReg(inst.ret);
+        inst.vret = simplifiedReg(inst.ret);
 	}
 
 	@Override
 	public void visit(ReturnObject inst) {
-		simplifiedReg(inst.ret);
+        inst.vret = simplifiedReg(inst.ret);
 	}
 
 	@Override
 	public void visit(Const4 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(Const16 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(Const inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstHigh16 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstWide16 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstWide32 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstWide inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstWideHigh16 inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstString inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstStringJumbo inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(ConstClass inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(MonitorEnter inst) {
-		simplifiedReg(inst.ref);
-	}
+        inst.vref = simplifiedReg(inst.ref);
+    }
 
 	@Override
 	public void visit(MonitorExit inst) {
-		simplifiedReg(inst.ref);
-
+        inst.vref = simplifiedReg(inst.ref);
 	}
 
 	@Override
 	public void visit(CheckCast inst) {
-		simplifiedReg(inst.ref);
+        inst.vref = simplifiedReg(inst.ref);
 	}
 
 	@Override
 	public void visit(InstanceOf inst) {
-		simplifiedReg(inst.ref);
-
+        inst.vref = simplifiedReg(inst.ref);
 	}
 
 	@Override
 	public void visit(arrayLength inst) {
-		simplifiedReg(inst.dest, inst.src);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(NewInstance inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(NewArray inst) {
-		simplifiedReg(inst.dest, inst.size);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsize = simplifiedReg(inst.size);
 	}
 
 	@Override
 	public void visit(FilledNewArray inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(FilledNewArrayRange inst) {
-		simplifiedReg(inst.start, inst.end);
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
 	}
 
 	@Override
 	public void visit(FillArrayData inst) {
-		simplifiedReg(inst.dest);
+        inst.vdest = simplifiedReg(inst.dest);
 		inst.addr = this.labelMap.get(inst.src);
 	}
 
 	@Override
 	public void visit(Throw inst) {
-		simplifiedReg(inst.kind);
+        inst.vkind = simplifiedReg(inst.kind);
 	}
 
 	@Override
@@ -617,987 +605,1134 @@ public class Optimize implements ast.Visitor {
 
 	@Override
 	public void visit(PackedSwitch inst) {
-		simplifiedReg(inst.test);
+		inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.offset);
 	}
 
 	@Override
 	public void visit(SparseSwitch inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.offset);
 	}
 
 	@Override
 	public void visit(CmplFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(CmpgFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(CmplDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(Cmpgdouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(CmpLong inst) {
-		simplifiedReg(inst.dest);
-		simplifiedReg(inst.first);
-		simplifiedReg(inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(IfEq inst) {
-		simplifiedReg(inst.first, inst.second);
-		inst.addr = this.labelMap.get(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+        inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfNe inst) {
-		simplifiedReg(inst.first, inst.second);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfLt inst) {
-		simplifiedReg(inst.first, inst.second);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfGe inst) {
-		simplifiedReg(inst.first, inst.second);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfGt inst) {
-		simplifiedReg(inst.first, inst.second);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfLe inst) {
-		simplifiedReg(inst.first, inst.second);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfEqz inst) {
-		simplifiedReg(inst.test);
-		inst.addr = this.labelMap.get(inst.dest);
+        inst.vtest = simplifiedReg(inst.test);
+        inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfNez inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfLtz inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfGez inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfGtz inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(IfLez inst) {
-		simplifiedReg(inst.test);
+        inst.vtest = simplifiedReg(inst.test);
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
 	@Override
 	public void visit(Aget inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
 	}
 
 	@Override
 	public void visit(AgetWide inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AgetObject inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AgetBoolean inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AgetByte inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AgetChar inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AgetShort inst) {
-		simplifiedReg(inst.dest, inst.array, inst.index);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(Aput inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputWide inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputObject inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputBoolean inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputByte inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputChar inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(AputShort inst) {
-		simplifiedReg(inst.src, inst.array, inst.index);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.varray = simplifiedReg(inst.array);
+        inst.vindex = this.labelMap.get(inst.index);
+    }
 
 	@Override
 	public void visit(Iget inst) {
-		simplifiedReg(inst.dest, inst.field);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
 	}
 
 	@Override
 	public void visit(IgetWide inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IgetOjbect inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IgetBoolean inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IgetByte inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IgetChar inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IgetShort inst) {
-		simplifiedReg(inst.dest, inst.field);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(Iput inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputWide inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputObject inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputBoolean inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputByte inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputChar inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(IputShort inst) {
-		simplifiedReg(inst.src, inst.field);
-	}
+        inst.vsrc = simplifiedReg(inst.src);
+        inst.vfield = simplifiedReg(inst.field);
+    }
 
 	@Override
 	public void visit(Sget inst) {
-		simplifiedReg(inst.dest);
+		inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetWide inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetObject inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetBoolean inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetByte inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetChar inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(SgetShort inst) {
-		simplifiedReg(inst.dest);
-
+        inst.vdest = simplifiedReg(inst.dest);
 	}
 
 	@Override
 	public void visit(Sput inst) {
-		simplifiedReg(inst.src);
-
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SputWide inst) {
-		simplifiedReg(inst.src);
-
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SputObject inst) {
-		simplifiedReg(inst.src);
+        inst.vsrc = simplifiedReg(inst.src);
 
 	}
 
 	@Override
 	public void visit(SputBoolean inst) {
-		simplifiedReg(inst.src);
+        inst.vsrc = simplifiedReg(inst.src);
 
 	}
 
 	@Override
 	public void visit(SputByte inst) {
-		simplifiedReg(inst.src);
+        inst.vsrc = simplifiedReg(inst.src);
 
 	}
 
 	@Override
 	public void visit(SputChar inst) {
-		simplifiedReg(inst.src);
+        inst.vsrc = simplifiedReg(inst.src);
 
 	}
 
 	@Override
 	public void visit(SputShort inst) {
-		simplifiedReg(inst.src);
+        inst.vsrc = simplifiedReg(inst.src);
 
 	}
 
 	@Override
 	public void visit(InvokeVirtual inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(InvokeSuper inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(InvokeDirect inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(InvokeStatic inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(InvokeInterface inst) {
-		simplifiedReg(inst.argList);
+        inst.argvs = new int[inst.argList.size()];
+        for(int i=0; i<inst.argList.size(); i++) {
+            inst.argvs[i] = simplifiedReg(inst.argList.get(i));
+        }
 	}
 
 	@Override
 	public void visit(InvokeVirtualRange inst) {
-		simplifiedReg(inst.start, inst.end);
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
 	}
 
 	@Override
 	public void visit(InvokeSuperRange inst) {
-		simplifiedReg(inst.start, inst.end);
-	}
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
+    }
 
 	@Override
 	public void visit(InvokeDirectRange inst) {
-		simplifiedReg(inst.start, inst.end);
-	}
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
+    }
 
 	@Override
 	public void visit(InvokeStaticRange inst) {
-		simplifiedReg(inst.start, inst.end);
-	}
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
+    }
 
 	@Override
 	public void visit(InvokeInterfaceRange inst) {
-		simplifiedReg(inst.start, inst.end);
-	}
+        inst.vstart = simplifiedReg(inst.start);
+        inst.vend = simplifiedReg(inst.end);
+    }
 
 	@Override
 	public void visit(NegInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(NotInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(NegLong inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(NotLong inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(NegFloat inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(NegDouble inst) {
-		simplifiedReg(inst.dest, inst.src);
-
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToLong inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToFloat inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToDouble inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(LongToInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(LongToFloat inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(LongToDouble inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(FloatToInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(FloatToLong inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(FloatToDouble inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(DoubleToInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(DoubleToLong inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(DoubleToFloat inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToByte inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToChar inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(IntToShort inst) {
-		simplifiedReg(inst.dest, inst.src);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
+    }
 
 	@Override
 	public void visit(AddInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 	}
 
 	@Override
 	public void visit(SubInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(MulInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(DivInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(RemInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(AndInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(OrInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(XorInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
-
-	}
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
+    }
 
 	@Override
 	public void visit(ShlInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(ShrInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(UshrInt inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(AddLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(SubLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(MulLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(DivLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(RemLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(AndLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(OrLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(XorLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(ShlLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(ShrLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(UshrLong inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(AddFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(SubFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(MulFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(DivFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(RemFloat inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(AddDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(SubDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(MulDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(DivDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(RemDouble inst) {
-		simplifiedReg(inst.dest, inst.first, inst.second);
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vfirst = simplifiedReg(inst.first);
+        inst.vsecond = simplifiedReg(inst.second);
 
-	}
+    }
 
 	@Override
 	public void visit(AddInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SubInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AndInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(OrInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(XorInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShlInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShrInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(UshrInt2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AddLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SubLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AndLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(OrLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(XorLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShlLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShrLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(UshrLong2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AddFloat2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SubFloat2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulFloat2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivFloat2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemFloat2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AddDouble2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(SubDouble2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulDouble2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivDouble2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemDouble2Addr inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AddIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RsubInt inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AndIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(OrIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(XorIntLit16 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AddIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RsubIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(MulIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(DivIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(RemIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(AndIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(OrIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(XorIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShlIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(ShrIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
 	public void visit(UshrIntLit8 inst) {
-		simplifiedReg(inst.dest, inst.src);
-
+        inst.vdest = simplifiedReg(inst.dest);
+        inst.vsrc = simplifiedReg(inst.src);
 	}
 
 	@Override
