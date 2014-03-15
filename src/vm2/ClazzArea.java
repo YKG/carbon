@@ -26,7 +26,8 @@ public class ClazzArea {
     }
 
     public String getSuperClazz(String clazzName){
-        return this.clazzz.get(clazzName).get(0);
+        List<String> superClazzList = clazzz.get(clazzName);
+        return superClazzList.get(superClazzList.size()-1);
     }
 
 
