@@ -9,20 +9,16 @@ public class ClazzArea {
     /**
      * key:    clazzName
      * value:  superClazzName
+     *         List[1] is the real superClazz
+     *         others are the implemented interface
      */
-    private Map<String, String> clazzz;
-    /**
-     * key:    clazzName
-     * value:  implement interface name
-     */
-    private Map<String, List<String>> interfaces;
+    private Map<String, List<String>> clazzz;
 
 
     public ClazzArea(VM vm) {
         this.vm = vm;
-        this.clazzz = new HashMap<String, String>();
+        this.clazzz = new HashMap<String, List<String>>();
         this.clazzz.put("Ljava/lang/Object;", null);
-        this.interfaces = new HashMap<String, List<String>>();
     }
 
     public boolean isLoaded(String clazzName){
@@ -30,21 +26,13 @@ public class ClazzArea {
     }
 
     public String getSuperClazz(String clazzName){
-        return this.clazzz.get(clazzName);
+        return this.clazzz.get(clazzName).get(0);
     }
 
-    public List<String> getImplementInterfaces(String clazzName){
-        return this.interfaces.get(clazzName);
-    }
 
-    public void setSuperClazz(String clazzName, String superClazzName){
+    public void setSuperClazz(String clazzName, List<String> superClazzList){
         assert !clazzz.containsKey(clazzName);
-        this.clazzz.put(clazzName,superClazzName);
-    }
-
-    public void setImplementInterfaces(String clazzName, List<String> implementInterfaces){
-        assert !clazzz.containsKey(clazzName);
-        this.interfaces.put(clazzName, implementInterfaces);
+        this.clazzz.put(clazzName,superClazzList);
     }
 
     /**
@@ -55,12 +43,12 @@ public class ClazzArea {
         if (subClazz.equals(testClazz))
             return true;
 
-        String superClazz = clazzz.get(subClazz);
-        while(superClazz != null){
-            if(superClazz.equals(testClazz)){
-                return true;
-            }else{
-                superClazz = clazzz.get(subClazz);
+        List<String> superClazz = clazzz.get(subClazz);
+        if(superClazz != null){
+            for (String subClazzName:superClazz)
+            {
+                if (isA(subClazzName, testClazz))
+                    return true;
             }
         }
         return false;
