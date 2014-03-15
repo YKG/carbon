@@ -27,6 +27,7 @@ public class StaticFieldsArea {
     	if(!staticFields.containsKey(fullFieldName)){
     		vm.loadClazz(fieldItem.classType);
         }
+        assert staticFields.containsKey(fullFieldName); // TODO. think about interface.
     	return staticFields.get(fullFieldName);
     }
 

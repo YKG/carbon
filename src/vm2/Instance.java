@@ -21,6 +21,10 @@ public class Instance {
         this.fields = vm.instanceFieldsArea.getInstanceFields(clazzName);
     }
 
+    public String getSuperClazz(){
+        return vm.clazzArea.getSuperClazz(clazzName);
+    }
+
     public Object iget(String fieldName){
         assert fields.containsKey(fieldName);
         return fields.get(fieldName);
@@ -32,7 +36,7 @@ public class Instance {
     }
 
     /**
-     * instace-of
+     * instance-of
      */
     public int isA(String type){
         // TODO: remember primitive type

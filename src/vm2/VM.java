@@ -39,10 +39,6 @@ public class VM {
         this.interpreter = new Interpreter(this);
 	}
 
-	public void loadClazz(String clazzName) {
-		this.clazzLoader.loadClazz(clazzName);
-	}
-	
 	public void setMainClazzName(String mainClazzName) {
 		this.mainClazzName = mainClazzName;
 	}
@@ -60,112 +56,57 @@ public class VM {
 		}
 	}
 
-    /**
-     * FIXME conflict to Util.getRegList()
-     */
-    Object[] getObjectsByRegRange(int first, int last){
-        int count = last - first + 1;
-        Object[] objs = new Object[count];
-        for(int i = 0; i < count; i++){
-            objs[i] = reg[i];
-        }
-        return objs;
-    }
-    
-//    Object getObjectByReg(int index){
-//        return reg[index];
-//    }
-//
-//	Object getObjectByReg(String regStr) {
-//		return reg[Integer.parseInt(regStr.substring(1))];
-//	}
-//
-//    void setObjectToReg(int index, Object obj) {
-//        reg[index] = obj;
-//    }
-//
-//	void setObjectToReg(String regStr, Object obj) {
-//		reg[Integer.parseInt(regStr.substring(1))] = obj;
-//	}
-//
-	Object[] getArrayPayload(int index) {
-		return ((ast.stm.Instruction.ArrayDataDirective) code[index]).toArray();
-	}
-
-	Map<Integer, Integer> getSwitchMap(int targetPc) {
-		Object inst = code[targetPc];
-		if (inst instanceof ast.stm.Instruction.PackedSwitchDirective)
-			return ((ast.stm.Instruction.PackedSwitchDirective) inst).switchMap;
-		else
-			return ((ast.stm.Instruction.SparseSwitchDirective) inst).switchMap;
-	}
-
-	void restoreThreadState() {
-        Frame frame = callstack.pop();
-        reg = frame.regs;
-        code = frame.code;
-        pc   = frame.pc;
-	}
-
-//	void setReturnValue(String regstr) {
-//		setObjectToReg(regstr, returnValue);
-//	}
-
-//	Object getReturnValue() {
-//		return returnValue;
-//	}
-
-	Object[] getParameters(int argvs[]) {
-        assert argvs != null;
-		int size = argvs.length;
-		Object[] parameters = new Object[size];
-		for(int i =0 ;i<size ;i++)
-			parameters[i] = reg[argvs[i]];
-		return parameters;
-	}
-
-    Method getMethod(String clazzName, String methodSign){
-        return methodArea.getMethod(clazzName, methodSign);
-    }
-
-    // TODO FIX MY NAME
-    //      the meaning should represent saving VM status to a
-    //      frame, then push this saved frame on callstack.
     void saveThreadState(){
         Frame frame = new Frame(reg, code, pc);
         callstack.push(frame);
     }
 
+	void restoreThreadState() {
+        Frame frame = callstack.pop();
+        reg  = frame.reg;
+        code = frame.code;
+        pc   = frame.pc;
+	}
+
+    void setExecuteEnv(Method method, int[] argvs){
+        passParameters(method.registerCount, argvs);
+        code = method.code;
+        pc = 0;
+    }
+
+    Method getMethod(String clazzName, String methodSign){
+        return methodArea.getMethod(clazzName, methodSign);
+    }
+
+    Object[] getArrayPayload(int index) {
+        return ((ast.stm.Instruction.ArrayDataDirective) code[index]).toArray();
+    }
+
+    Map<Integer, Integer> getSwitchMap(int targetPc) {
+        Object inst = code[targetPc];
+        if (inst instanceof ast.stm.Instruction.PackedSwitchDirective)
+            return ((ast.stm.Instruction.PackedSwitchDirective) inst).switchMap;
+        else
+            return ((ast.stm.Instruction.SparseSwitchDirective) inst).switchMap;
+    }
+
+    Object[] getObjectsFromRegs(int argvs[]) {
+        assert argvs != null;
+        int size = argvs.length;
+        Object[] parameters = new Object[size];
+        for(int i =0 ;i<size ;i++)
+            parameters[i] = reg[argvs[i]];
+        return parameters;
+    }
+
+    void loadClazz(String clazzName) {
+        this.clazzLoader.loadClazz(clazzName);
+    }
+
     private void passParameters(int regCount, int[] argvs){
-        Object[] parameters = getParameters(argvs);
+        Object[] parameters = getObjectsFromRegs(argvs);
         int p0index = regCount - parameters.length;
         reg = new Object[regCount];
         System.arraycopy(parameters, 0, reg, p0index, parameters.length);
     }
-
-    // TODO FIX MY NAME
-    void setExecuteEnv(Method method, int[] argvs){
-    	passParameters(method.registerCount, argvs);
-        code = method.code;
-        pc = 0;
-    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -23,8 +23,8 @@ public class ClazzLoader {
         ast.classs.Class clazz = this.getASTClass(clazzName);
         clazz.accept(new Optimize());
         initClazzArea(clazz);
+        initFields(clazz);  // field init MUST before method init. Because <clinit>.
         initMethodArea(clazz);
-        initFields(clazz);
     }
 
     private ast.classs.Class getASTClass(String clazzName){

@@ -1,12 +1,12 @@
 package vm2;
 
 public class Frame {
-    Object[] regs;
+    Object[] reg;
     ast.stm.T[] code;
     int pc;
 
-    public Frame(Object[] regs, ast.stm.T[] code, int pc){
-        this.regs = regs;
+    public Frame(Object[] reg, ast.stm.T[] code, int pc){
+        this.reg = reg;
         this.code = code;
         this.pc = pc;
     }

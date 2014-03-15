@@ -2,7 +2,6 @@ package vm2;
 
 import ast.classs.Class.Field;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -23,19 +22,6 @@ public class Util {
 			return -(Long.parseLong(s.substring(3), 16));
 		else
 			return Long.parseLong(s.substring(2), 16);
-	}
-
-    /**
-     * FIXME conflict to VM.getObjectsByRegRange()
-     */
-	public static List<String> getRegList(String regStart, String regEnd) {
-		int indexStart = Integer.parseInt(regStart);
-		int indexEnd = Integer.parseInt(regEnd);
-		List<String> regList = new ArrayList<String>();
-		for (int i = indexStart; i <= indexEnd - indexStart; i++) {
-			regList.add(String.valueOf(i));
-		}
-		return regList;
 	}
 
 	public static void printErr(Object obj) {
