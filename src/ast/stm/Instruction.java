@@ -4855,8 +4855,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public ast.classs.MethodItem type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public InvokeVirtualRange(String op, String start, String end,
                                   MethodItem type) {
@@ -4879,8 +4878,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public ast.classs.MethodItem type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public InvokeSuperRange(String op, String start, String end, MethodItem type) {
             super();
@@ -4902,8 +4900,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public ast.classs.MethodItem type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public InvokeDirectRange(String op, String start, String end,
                                  MethodItem type) {
@@ -4926,8 +4923,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public ast.classs.MethodItem type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public InvokeStaticRange(String op, String start, String end,
                                  MethodItem type) {
@@ -4950,8 +4946,7 @@ public class Instruction { /* This is just a opspace. YKG */
         public String start;
         public String end;
         public ast.classs.MethodItem type;
-        public int vstart;
-        public int vend;
+        public int[] argvs;
 
         public InvokeInterfaceRange(String op, String start, String end,
                                     MethodItem type) {

@@ -1026,34 +1026,38 @@ public class Optimize implements ast.Visitor {
         }
 	}
 
+    public void handleInvokeRange(int[] argvs, String startReg, String endReg) {
+        int start = simplifiedReg(startReg);
+        int end = simplifiedReg(endReg);
+        int size = end - start +1;
+        argvs =  new int[size];
+        for(int i = 0; i < size; i++) {
+            argvs[i] = start + i;
+        }
+    }
 	@Override
 	public void visit(InvokeVirtualRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
 	}
 
 	@Override
 	public void visit(InvokeSuperRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
     }
 
 	@Override
 	public void visit(InvokeDirectRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
     }
 
 	@Override
 	public void visit(InvokeStaticRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
     }
 
 	@Override
 	public void visit(InvokeInterfaceRange inst) {
-        inst.vstart = simplifiedReg(inst.start);
-        inst.vend = simplifiedReg(inst.end);
+        handleInvokeRange(inst.argvs, inst.start, inst.end);
     }
 
 	@Override
