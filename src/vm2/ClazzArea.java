@@ -1,6 +1,7 @@
 package vm2;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ClazzArea {
@@ -10,11 +11,18 @@ public class ClazzArea {
      * value:  superClazzName
      */
     private Map<String, String> clazzz;
+    /**
+     * key:    clazzName
+     * value:  implement interface name
+     */
+    private Map<String, List<String>> interfaces;
+
 
     public ClazzArea(VM vm) {
         this.vm = vm;
         this.clazzz = new HashMap<String, String>();
         this.clazzz.put("Ljava/lang/Object;", null);
+        this.interfaces = new HashMap<String, List<String>>();
     }
 
     public boolean isLoaded(String clazzName){
@@ -25,9 +33,18 @@ public class ClazzArea {
         return this.clazzz.get(clazzName);
     }
 
+    public List<String> getImplementInterfaces(String clazzName){
+        return this.interfaces.get(clazzName);
+    }
+
     public void setSuperClazz(String clazzName, String superClazzName){
         assert !clazzz.containsKey(clazzName);
         this.clazzz.put(clazzName,superClazzName);
+    }
+
+    public void setImplementInterfaces(String clazzName, List<String> implementInterfaces){
+        assert !clazzz.containsKey(clazzName);
+        this.interfaces.put(clazzName, implementInterfaces);
     }
 
     /**

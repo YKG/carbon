@@ -1,0 +1,14 @@
+用 dx 将 jar 转换成 dex
+java -jar dx.jar --dex --output=XXXX.dex XXX.jar
+
+用 baksmali 将 dex 生成 smali 文件
+
+java -jar baksmali.jar -o smali/ XXXX.dex
+
+
+apktool 得到 smali
+java-jar apktool.jar d XXX.apk  XXXX
+
+逆向
+java -jar apktool.jar b XXXXX
+

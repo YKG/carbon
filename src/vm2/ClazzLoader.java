@@ -40,7 +40,14 @@ public class ClazzLoader {
 
     private void initClazzArea(ast.classs.Class clazz){
         vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName,clazz.superName);
+        vm.clazzArea.setImplementInterfaces(clazz.FullyQualifiedName,clazz.implementsList);
         loadClazz(clazz.superName); // recursive load all ancestor clazz.
+        // recursive load all interface clazz.
+        //TODO necessary? Discuss!
+        for(String interfaceName : clazz.implementsList){
+            loadClazz(interfaceName);
+        }
+
     }
 
     private void initMethodArea(ast.classs.Class clazz){
