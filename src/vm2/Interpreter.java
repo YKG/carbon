@@ -737,8 +737,13 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeDirect inst) {
-        vm.saveThreadState();
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
+        // TODO hack for Ljava/lang/Object;-><init>()V
+        if((inst.type.classType + "->" + inst.type.getMethodSign()).equals("Ljava/lang/Object;-><init>()V")){
+            vm.pc++;
+        }else{
+            vm.saveThreadState();
+            vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
+        }
 	}
 
 	@Override

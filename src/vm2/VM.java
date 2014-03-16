@@ -56,6 +56,18 @@ public class VM {
 		}
 	}
 
+    void clinitHandle(Method method){
+        saveThreadState();
+        saveThreadState();
+        setExecuteEnv(method, new int[0]);
+
+        int deep = callstack.size();
+        while(callstack.size() >= deep){
+            code[pc].accept(interpreter);
+        }
+        restoreThreadState();
+    }
+
     void saveThreadState(){
         Frame frame = new Frame(reg, code, pc);
         callstack.push(frame);
@@ -100,7 +112,7 @@ public class VM {
     }
 
     void loadClazz(String clazzName) {
-        this.clazzLoader.loadClazz(clazzName);
+        clazzLoader.loadClazz(clazzName);
     }
 
     private void passParameters(int regCount, int[] argvs){

@@ -6,7 +6,7 @@ public class Control {
 
 	public static String ppoutput = "/tmp/smalioutput";
 
-	public static String apkoutput = "/tmp/output";
+	public static String apkoutput = "C:\\Users\\YKG\\Desktop\\test\\baksmali";
 
 	public static int numWorkers = 4;
 

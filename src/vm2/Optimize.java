@@ -91,7 +91,7 @@ public class Optimize extends VisitorAdapter {
 	@Override
 	public void visit(Method method) {
 		initLabelMap(method);
-		this.pStart = Integer.parseInt(method.registers_directive_count);
+		this.pStart = Integer.parseInt(method.registers_directive_count) - 1;
 		this.pStart -= method.prototype.argsType.size();
 		for (int i = 0; i < method.accessList.size(); i++) {
 			if (method.accessList.get(i).equals("static")) {

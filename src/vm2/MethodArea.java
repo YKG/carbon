@@ -26,6 +26,7 @@ public class MethodArea {
         String clazz = clazzName;
         while(clazz != null){
             Map<String, Method> map = methods.get(clazz);
+            assert map != null;
             if(map.containsKey(methodSign)){
                 return map.get(methodSign);
             }else{
@@ -42,6 +43,10 @@ public class MethodArea {
             methods.put(clazzName, map);
         }
 
-        methods.get(clazzName).put(methodSign, method);
+        if(methodSign.equals("<clinit>()V")){
+            vm.clinitHandle(method);
+        }else{
+            methods.get(clazzName).put(methodSign, method);
+        }
     }
 }
