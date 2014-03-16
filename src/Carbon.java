@@ -1,15 +1,15 @@
-import control.CommandLine;
-import control.Control;
-import util.MultiThreadUtils.ParserWorker;
-import util.MultiThreadUtils.SimplifyWorker;
-import util.MultiThreadUtils.TranslateWorker;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+
+import control.CommandLine;
+import control.Control;
+import util.MultiThreadUtils.SimplifyWorker;
+import util.MultiThreadUtils.TranslateWorker;
+import util.MultiThreadUtils.ParserWorker;
 
 public class Carbon {
 	static Carbon carbon;
@@ -44,7 +44,7 @@ public class Carbon {
 
 		String apktoolCMD = "java -jar jar/apktool.jar d -f "
 				+ Control.fileName + " " + Control.apkoutput;
-//		executeInShell(apktoolCMD, System.out, System.err);
+		executeInShell(apktoolCMD, System.out, System.err);
 
 		List<ParserWorker> workers;
 		workers = CompilePass.parseSmaliFile(new File(Control.apkoutput));
@@ -62,7 +62,7 @@ public class Carbon {
 
 			CompilePass.prettyPrintSim(sims);
 		} else if (Control.dump.equals("astvm")) {
-			CompilePass.startUpVm(classes, "LMain;");
+			CompilePass.startUpVm(classes, "Lhong/example/Person;");
 			System.out.println("perfect!");
 		} else {
 			System.err.println("unknow dump args " + Control.dump);

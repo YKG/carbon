@@ -27,6 +27,8 @@ public class ClazzArea {
 
     public String getSuperClazz(String clazzName){
         List<String> superClazzList = clazzz.get(clazzName);
+        if(superClazzList == null) // Ljava/lang/Object;
+            return null;
         return superClazzList.get(0);
     }
 

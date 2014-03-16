@@ -40,9 +40,11 @@ public class ClazzLoader {
 
     private void initClazzArea(ast.classs.Class clazz){
         List<String> superClazzList = clazz.implementsList;
-        superClazzList.add(0,clazz.superName);
-        vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName,superClazzList);
-        loadClazz(clazz.superName);
+        superClazzList.add(0, clazz.superName);
+        vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName, superClazzList);
+        for(String superClazzName : superClazzList){
+            loadClazz(clazz.superName);
+        }
     }
 
     private void initMethodArea(ast.classs.Class clazz){

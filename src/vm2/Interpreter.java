@@ -717,7 +717,7 @@ public class Interpreter extends VisitorAdapter {
 		//TODO FIXME
 		if(inst.type.methodName.equals("println")) {
 			vm.pc++;
-			Object result = vm.reg[inst.argvs[0]];
+			Object result = vm.reg[inst.argvs[1]]; // TODO WARNING: [0] is null!!!
 			System.err.println(result);
 			return ;
 		}
@@ -942,7 +942,7 @@ public class Interpreter extends VisitorAdapter {
     private void biopLit(int dstReg, int srcReg, String literal, String op) {
         Object result = null;
         Integer src = (Integer) vm.reg[srcReg];
-        Integer lit = new Integer(literal);
+        Integer lit = new Integer(hex2int(literal));
 
         int indexEnd = op.indexOf("/");
         if (indexEnd == -1)
