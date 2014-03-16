@@ -59,26 +59,13 @@ public class ClazzLoader {
     	List<Field> sFields = new ArrayList<Field>();
     	List<Field> iFields = new ArrayList<Field>();
     	for(Field field : clazz.fieldList) {
-    		boolean isStatic = false;
-    		for(String str : field.accessList) {
-    			if(str.equals("static")) {
-    				isStatic = true;
-    				sFields.add(field);
-    				break;
-    			}
-    		}
-    		if(isStatic == false)
-    			iFields.add(field);
-    	}
-    	initStaticFields(clazz.FullyQualifiedName,sFields);
-    	initInstanceFields(clazz.FullyQualifiedName,iFields);
+            if((field.accessFlag & Const.STATIC) != 0 ) {
+                sFields.add(field);
+            } else {
+                iFields.add(field);
+            }
+        }
+        vm.staticFieldsArea.setStaticFields(clazz.FullyQualifiedName, sFields);
+        vm.instanceFieldsArea.setInstanceFields(clazz.FullyQualifiedName, iFields);
     }
-    
-	private void initStaticFields(String clazzName, List<Field> fieldList) {
-        vm.staticFieldsArea.setStaticFields(clazzName, fieldList);
-	}
-
-	private void initInstanceFields(String clazzName, List<Field> fieldList) {
-		vm.instanceFieldsArea.setInstanceFields(clazzName, fieldList);
-	}
 }

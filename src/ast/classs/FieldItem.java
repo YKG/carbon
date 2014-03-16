@@ -17,4 +17,7 @@ public class FieldItem extends T {
 		return this.classType + "->" + this.fieldName + ":" + this.fieldType;
 	}
 
+    public String toString(String clazzName) {
+        return clazzName + "->" + this.fieldName + ":" + this.fieldType;
+    }
 }

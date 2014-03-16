@@ -14,7 +14,7 @@ public class InstanceFieldsArea {
      *  value:  List<ast.classs.Class.Field>
      */
     private Map<String,List<Field>> extendFields;
-    private Map<String,List<Field>> privateFields;
+    private Map<String,List<Field>> privateFields; // private_Field didn't contain private_static_field
 
     public InstanceFieldsArea(VM vm) {
     	this.vm = vm;
@@ -26,7 +26,8 @@ public class InstanceFieldsArea {
 
     /*
      * return a new copy rather than the old copy
-     * shouldn't extends superclass's private fields
+     * note: the new instance field contain it's own non static field and parent's non private field
+     *       and it's own static field store in staticFieldArea
      */
     public Map<String,Object> getInstanceFields(String clazzName){
     	Map<String,Object> fieldMap = new HashMap<String,Object>();
@@ -48,18 +49,16 @@ public class InstanceFieldsArea {
     	List<Field> eFields = new  ArrayList<Field>();
     	List<Field> pFields = new  ArrayList<Field>();
     	for(Field field : fieldList ) {
-    		boolean isExtend = true;
-    		for(String str : field.accessList) {
-    			if(str.equals("private")) {
-    				pFields.add(field);
-    				isExtend = false;
-    				break;
-    			}
-    		}
-    		if(isExtend == true)
-    			eFields.add(field);
+            if((field.accessFlag & Const.STATIC) != 0) {
+               continue;
+            }
+            if((field.accessFlag & Const.PRIVATE) != 0) {
+                pFields.add(field);
+            } else {
+                eFields.add(field);
+            }
     	}
-    	extendFields.put(clazzName, eFields);
     	privateFields.put(clazzName, pFields);
+        extendFields.put(clazzName, eFields);
     }
 }

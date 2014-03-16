@@ -21,30 +21,45 @@ public class StaticFieldsArea {
         this.staticFields = new HashMap<String,Object>();
     }
 
+
     public Object getStaticField(FieldItem fieldItem){
-        // TODO didn't complete Authorization check
-    	String fullFieldName = fieldItem.toString();
-    	if(!staticFields.containsKey(fullFieldName)){
-    		vm.loadClazz(fieldItem.classType);
+        String originClazzName = getFieldLocation(fieldItem);
+        if(originClazzName == null) {
+            Util.printErr("cant not find static field : " + fieldItem.toString());
+            return null;
+        } else {
+           return  staticFields.get(fieldItem.toString(originClazzName));
         }
-        assert staticFields.containsKey(fullFieldName); // TODO. think about interface.
-    	return staticFields.get(fullFieldName);
     }
 
-    public void setStaticField(FieldItem fieldItem, Object value){
-        String fullFieldName = fieldItem.toString();
-        if(!staticFields.containsKey(fullFieldName)){
-            vm.loadClazz(fieldItem.classType);
+    public void setStaticField (FieldItem fieldItem, Object value) {
+        String originClazzName = getFieldLocation(fieldItem);
+        if(originClazzName == null) {
+            Util.printErr("cant not find static field : " + fieldItem.toString());
+        } else {
+            staticFields.put(fieldItem.toString(originClazzName), value);
         }
-        staticFields.put(fullFieldName, value);
+    }
+
+    //TODO didn't consider interface that class implements
+    private String getFieldLocation(FieldItem fieldItem) {
+        String currentClazzName = fieldItem.classType;
+        vm.loadClazz(currentClazzName);
+        while(currentClazzName != null) {
+            if(staticFields.containsKey(fieldItem.toString(currentClazzName))) {
+                return currentClazzName;
+            }
+            currentClazzName =  vm.clazzArea.getSuperClazz(currentClazzName);
+        }
+        return null;
     }
 
     public void setStaticFields(String clazzName, List<Class.Field> fieldList){
     	// TODO didn't complete Authorization check
         for (Class.Field field : fieldList) {
-            String fullFieldName = Util.getFullFieldName(clazzName, field);
-            Object newObject = Util.getNewObject(field.type);
-            staticFields.put(fullFieldName,newObject);
-        }
+        String fullFieldName = Util.getFullFieldName(clazzName, field);
+        Object newObject = Util.getNewObject(field.type);
+        staticFields.put(fullFieldName,newObject);
     }
+}
 }

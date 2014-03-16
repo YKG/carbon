@@ -5,6 +5,7 @@ import ast.annotation.Annotation;
 import ast.annotation.Annotation.ElementLiteral;
 import ast.annotation.Annotation.SubAnnotation;
 import ast.classs.Class;
+import ast.classs.Class.Field;
 import ast.classs.FieldItem;
 import ast.classs.MethodItem;
 import ast.method.Method;
@@ -26,6 +27,7 @@ public class Optimize extends VisitorAdapter {
 	 * 2. optimize PackedSwitchDirective and SparseSwitchDirective
 	 *    init it's switchMap according to it's case area
 	 * 3. add "v" int field for ever instruction's register field
+	 * 4. add accessFlag in ast.classs.Class, ast.classs.Class.Field, ast.method.Method
 	 */
 	public Map<String, Integer> labelMap;
 	public static Map<String, Integer> instLen = ast.PrettyPrintVisitor.instLen;
@@ -44,9 +46,31 @@ public class Optimize extends VisitorAdapter {
 
     }
 
+    public int getAccessFlag(List<String> accessList) {
+        int accessFlag = 0;
+        for(String str : accessList) {
+            switch(str) {
+                case "public" : accessFlag |= Const.PUBLIC; break;
+                case "private" : accessFlag |= Const.PRIVATE; break;
+                case "protected" : accessFlag |= Const.PROTECT; break;
+                case "static" : accessFlag |= Const.STATIC; break;
+                case "final" : accessFlag |= Const.FINAL; break;
+                case "interface": accessFlag |= Const.INTERFACE; break;
+                case "abstract" : accessFlag |= Const.ABSTRACT; break;
+                case "constructor": accessFlag |= Const.CONSTRUCTOR; break;
+                default : break;
+            }
+        }
+        return accessFlag;
+    }
     @Override
     public void visit(Class clazz) {
+        clazz.accessFlag =  getAccessFlag(clazz.accessList);
+        for(Field field : clazz.fieldList) {
+           field.accessFlag =  getAccessFlag(field.accessList);
+        }
         for(Method method : clazz.methods) {
+            method.accessFlag =  getAccessFlag(method.accessList);
             labelMap = new HashMap<String, Integer>();
             method.accept(this);
         }
@@ -263,7 +287,7 @@ public class Optimize extends VisitorAdapter {
 	}
 
 	@Override
-	public void visit(Const inst) {
+	public void visit(ast.stm.Instruction.Const inst) {
         inst.vdest = simplifiedReg(inst.dest);
 	}
 

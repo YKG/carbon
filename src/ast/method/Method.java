@@ -36,6 +36,7 @@ public class Method extends T
   // 11.annotations
   public List<ast.annotation.Annotation> annotationList;
 
+  public int accessFlag;
   public static class Debug
   {
     public Type type;

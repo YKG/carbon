@@ -20,10 +20,12 @@ public class Class extends T {
 	// annotations
 	public List<ast.annotation.Annotation> annotationList;
 
+    public int accessFlag;
 	public static class Field {
 		public String name;
 		public List<String> accessList;
 		public String type;
+        public int accessFlag;
 		//public String initValue;
 		public ast.annotation.Annotation.ElementLiteral elementLiteral;
 		public List<ast.annotation.Annotation> annotationList;
