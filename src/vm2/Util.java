@@ -17,7 +17,9 @@ public class Util {
 			return Integer.parseInt(s.substring(2), 16);
 	}
 
-	public static long hex2long(String s) {
+	public static long hex2long(String str) {
+        assert str.endsWith("L");
+        String s = str.substring(0, str.indexOf("L"));
 		if (s.startsWith("-"))
 			return -(Long.parseLong(s.substring(3), 16));
 		else
