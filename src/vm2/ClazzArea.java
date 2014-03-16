@@ -27,7 +27,7 @@ public class ClazzArea {
 
     public String getSuperClazz(String clazzName){
         List<String> superClazzList = clazzz.get(clazzName);
-        return superClazzList.get(superClazzList.size()-1);
+        return superClazzList.get(0);
     }
 
 
@@ -40,7 +40,6 @@ public class ClazzArea {
      * instace-of
      */
     public boolean isA(String subClazz, String testClazz){
-        // TODO: handle interface
         if (subClazz.equals(testClazz))
             return true;
 
