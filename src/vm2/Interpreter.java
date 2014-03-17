@@ -214,8 +214,12 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.CheckCast inst) {
-        // TODO
-        Util.printErr("Unimplemented instruction: " + inst.op);
+        // TODO Add  thrown ClassCastException
+        if (vm.reg[inst.vref] == null || ((Instance)vm.reg[inst.vref]).isA(inst.type) == 1){
+            vm.pc++;
+        }else{
+            throw new ClassCastException();
+        }
 	}
 
 	@Override
