@@ -1,5 +1,7 @@
 package vm2;
 
+import util.MultiThreadUtils;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,23 +14,35 @@ public class MethodArea {
      *          value:  vm2.Method
      */
     private Map<String, Map<String, Method>> methods;
-
-    public MethodArea(VM vm) {
+    // hack for system call
+    private Map<String, MultiThreadUtils.TranslateWorker> classMap;
+    public MethodArea(VM vm, Map<String, MultiThreadUtils.TranslateWorker> classMap) {
         this.vm = vm;
+<<<<<<< HEAD
         this.methods = new HashMap<>();
     }
 
     public boolean existsMethod(String clazzName, String methodSign){
         assert methods.get(clazzName) != null;
         return methods.get(clazzName).get(methodSign) != null;
+=======
+        this.methods = new HashMap<String, Map<String, Method>>();
+        this.classMap = classMap;
+>>>>>>> c69472b... add reflect
     }
 
     public Method getMethod(String clazzName, String methodSign){
+        //TODO ---------------------------------------------------------------------------------
+        if(!classMap.containsKey(clazzName)) {
+            return Util.getSystemMethod(clazzName, methodSign);
+        }
+        //TODO ---------------------------------------------------------------------------------
+
+        //origin code
         if(!methods.containsKey(clazzName)){
             vm.loadClazz(clazzName);
             vm.clazzArea.initClazz(clazzName); // Here the invoke-static should be the ONLY allowed.
         }
-
         String clazz = clazzName;
         while(clazz != null){
             Map<String, Method> map = methods.get(clazz);

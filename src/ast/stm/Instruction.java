@@ -5026,14 +5026,21 @@ public class Instruction { /* This is just a opspace. YKG */
             super();
             this.width = width;
             this.elementList = elementList;
-            this.size = elementList.size() / Integer.parseInt(width);
+            this.size = elementList.size() / vm2.Util.hex2int(width);
         }
 
         private Object getArrayElementByIndex(int index) {
             long value = 0L;
             long e;
+<<<<<<< HEAD
             for (int i = 0; i < Integer.parseInt(width); i++) {
                 e = vm3.Util.hex2long(elementList.get(index + i));
+=======
+            int start = vm2.Util.hex2int(width)*index;
+            for (int i = 0; i < vm2.Util.hex2int(width); i++) {
+                // TODO error
+                e = vm2.Util.hex2long(elementList.get(start + i));
+>>>>>>> d2b4432... add reflect
                 value |= e << (i * 8);
             }
             return value;

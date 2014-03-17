@@ -28,9 +28,18 @@ public class VM {
     private Interpreter interpreter;
     private String mainClazzName;
 
+    //TODO ---------------------
+    Map<String, MultiThreadUtils.TranslateWorker> classMap;
+    //TODO ---------------------
+
 	public VM(Map<String, MultiThreadUtils.TranslateWorker> classMap) {
+
+        //TODO ---------------------
+        this.classMap = classMap;
+        //TODO ---------------------
+
         this.clazzArea = new ClazzArea(this);
-        this.methodArea = new MethodArea(this);
+        this.methodArea = new MethodArea(this, classMap);
         this.staticFieldsArea = new StaticFieldsArea(this);
         this.instanceFieldsArea = new InstanceFieldsArea(this);
         this.clazzLoader = new ClazzLoader(this, classMap);
@@ -84,6 +93,22 @@ public class VM {
 	}
 
     void setExecuteEnv(Method method, int[] argvs){
+
+
+        //TODO ----------------------
+        if(method.isSystemMethod == true) {
+            if(method.isConstructor == true) {
+                Util.invokeConstructor(method.constructor, getObjectsFromRegs(argvs));
+            } else {
+                returnValue = Util.invokeSystemMethod(method.systemMethod, getObjectsFromRegs(argvs));
+            }
+            //simulate return
+            restoreThreadState();
+            pc ++ ;
+            return ;
+        }
+        //TODO ----------------------　
+
         passParameters(method.registerCount, argvs);
         code = method.code;
         pc = 0;

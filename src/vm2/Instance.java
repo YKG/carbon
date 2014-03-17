@@ -13,10 +13,29 @@ public class Instance {
      */
     Map<String, Object> fields;
 
+    //TODO ---------------------
+    boolean isSystemInstance ;
+    Object systemInstance;
+    //TODO ---------------------
+
     public Instance(VM vm, String clazzName) {
+<<<<<<< HEAD
         vm.loadClazz(clazzName);
         vm.clazzArea.initClazz(clazzName);
+=======
+        //TODO ---------------------
+        if(!vm.classMap.containsKey(clazzName)) {
+            this.vm = vm;
+            this.clazzName = clazzName;
+            this.isSystemInstance = true;
+            return ;
+        }
+        this.isSystemInstance = false;
+        //TODO ---------------------
+>>>>>>> c69472b... add reflect
 
+
+        vm.loadClazz(clazzName);
         this.vm = vm;
         this.clazzName = clazzName;
         this.fields = vm.instanceFieldsArea.getInstanceFields(clazzName);

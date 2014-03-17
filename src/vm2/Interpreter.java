@@ -548,11 +548,45 @@ public class Interpreter extends VisitorAdapter {
 	}
 
     private void iget(int dstReg, int objReg, String fieldName){
+
+        //TODO ---------------------
+        Instance instance = ((Instance)vm.reg[objReg]);
+        if(instance.isSystemInstance == true) {
+            try {
+                vm.reg[dstReg] = instance.getClass().getField(fieldName).get(instance.systemInstance);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            vm.pc ++;
+            return ;
+        }
+        //TODO ---------------------
+
+
         vm.reg[dstReg] = ((Instance)vm.reg[objReg]).iget(fieldName);
         vm.pc++;
     }
 
     private void iput(int srcReg, int objReg, String fieldName){
+
+        //TODO ---------------------
+        Instance instance = ((Instance)vm.reg[objReg]);
+        if(instance.isSystemInstance == true) {
+            try {
+                instance.getClass().getField(fieldName).set(instance.systemInstance, vm.reg[srcReg]);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
+            vm.pc ++;
+            return ;
+        }
+        //TODO ---------------------
+
+
         ((Instance)vm.reg[objReg]).iput(fieldName, vm.reg[srcReg]);
         vm.pc++;
     }
@@ -628,18 +662,60 @@ public class Interpreter extends VisitorAdapter {
 	}
 
     private void sget(int dstReg, FieldItem fieldItem){
+<<<<<<< HEAD
     	//TODO FIXME
 //    	if(fieldItem.fieldName.equals("out")) {
 //    		vm.pc++;
 //    		return ;
 //    	}
     	
+=======
+
+        //TODO ---------------------
+        if(!vm.classMap.containsKey(fieldItem.classType)) {
+            try {
+                vm.reg[dstReg] = Class.forName(Util.getFormatClassName(fieldItem.classType)).getField(fieldItem.fieldName).get(null);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            vm.pc ++;
+            return ;
+        }
+        //TODO ---------------------
+
+>>>>>>> c69472b... add reflect
     	//ORIG VERSION
+    	// TODO FIXME
+        if(fieldItem.fieldName.equals("out")) {
+            vm.pc++;
+            return ;
+        }
         vm.reg[dstReg] = vm.staticFieldsArea.getStaticField(fieldItem);
         vm.pc++;
     }
 
     private void sput(int srcReg, FieldItem fieldItem){
+
+        //TODO ---------------------
+        if(!vm.classMap.containsKey(fieldItem.classType)) {
+            try {
+                Class.forName(Util.getFormatClassName(fieldItem.classType)).getField(fieldItem.fieldName).set(null, vm.reg[srcReg]);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+            vm.pc ++;
+            return ;
+        }
+        //TODO --------------------- 
+        
         vm.staticFieldsArea.setStaticField(fieldItem, vm.reg[srcReg]);
         vm.pc++;
     }
@@ -719,15 +795,33 @@ public class Interpreter extends VisitorAdapter {
     //  2. set code/pc/reg
 	@Override
 	public void visit(Instruction.InvokeVirtual inst) {
+<<<<<<< HEAD
 		//TODO FIXME
+=======
+//		//TODO FIXME
+>>>>>>> c69472b... add reflect
 //		if(inst.type.methodName.equals("println")) {
 //			vm.pc++;
 //			Object result = vm.reg[inst.argvs[1]]; // TODO WARNING: [0] is null!!!
 //			System.err.println(result);
 //			return ;
 //		}
+<<<<<<< HEAD
 		
 		//TODO ORIG VERSION
+=======
+//
+        //TODO ------------------------------------------
+        Object ref = vm.reg[inst.argvs[0]];
+        if( !(ref instanceof Instance) ) {
+            String fullName = Util.getFullQualifiedName(ref.getClass().getName());
+            vm.saveThreadState();
+            vm.setExecuteEnv(vm.getMethod(fullName, inst.type.getMethodSign()), inst.argvs);
+            return ;
+        }
+        //TODO ------------------------------------------
+
+>>>>>>> c69472b... add reflect
         vm.saveThreadState();
         String objType = ((Instance)vm.reg[inst.argvs[0]]).clazzName;
         vm.setExecuteEnv(vm.getMethod(objType, inst.type.getMethodSign()), inst.argvs);
@@ -781,6 +875,17 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeInterface inst) {
+
+        //TODO ------------------------------------------
+        Object ref = vm.reg[inst.argvs[0]];
+        if( !(ref instanceof Instance) ) {
+            String fullName = Util.getFullQualifiedName(ref.getClass().getName());
+            vm.saveThreadState();
+            vm.setExecuteEnv(vm.getMethod(fullName, inst.type.getMethodSign()), inst.argvs);
+            return ;
+        }
+        //TODO ------------------------------------------
+
         vm.saveThreadState();
         String objType = ((Instance)vm.reg[inst.argvs[0]]).clazzName;
         vm.setExecuteEnv(vm.getMethod(objType, inst.type.getMethodSign()), inst.argvs);
