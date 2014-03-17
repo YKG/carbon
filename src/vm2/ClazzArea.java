@@ -21,8 +21,10 @@ public class ClazzArea {
 
     public ClazzArea(VM vm) {
         this.vm = vm;
-        this.superClazzMap = new HashMap<String, String>();
+        this.superClazzMap = new HashMap<>();
+        this.implementsMap = new HashMap<>();
         this.superClazzMap.put("Ljava/lang/Object;", null);
+        this.implementsMap.put("Ljava/lang/Object;", null);
     }
 
     public boolean isLoaded(String clazzName){
