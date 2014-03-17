@@ -43,7 +43,7 @@ public class ClazzLoader {
         superClazzList.add(0, clazz.superName);
         vm.clazzArea.setSuperClazz(clazz.FullyQualifiedName, superClazzList);
         for(String superClazzName : superClazzList){
-            loadClazz(clazz.superName);
+            loadClazz(superClazzName);
         }
     }
 
