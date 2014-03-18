@@ -1,0 +1,10 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.ArrayIndexOutOfBoundsException: -2
+	at vm2.Interpreter.iftest(Interpreter.java:398)
+	at vm2.Interpreter.visit(Interpreter.java:417)
+	at ast.stm.Instruction$IfNe.accept(Instruction.java:3059)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

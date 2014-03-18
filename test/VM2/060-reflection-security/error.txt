@@ -1,0 +1,17 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.NullPointerException
+	at vm2.Optimize.visit(Optimize.java:554)
+	at ast.stm.Instruction$AgetObject.accept(Instruction.java:3423)
+	at vm2.Optimize.visit(Optimize.java:104)
+	at ast.method.Method.accept(Method.java:278)
+	at vm2.Optimize.visit(Optimize.java:75)
+	at ast.classs.Class.accept(Class.java:52)
+	at vm2.ClazzLoader.loadClazz(ClazzLoader.java:24)
+	at vm2.VM.loadClazz(VM.java:140)
+	at vm2.MethodArea.getMethod(MethodArea.java:34)
+	at vm2.VM.getMethod(VM.java:115)
+	at vm2.VM.run(VM.java:61)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

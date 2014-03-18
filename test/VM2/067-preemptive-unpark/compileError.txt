@@ -1,0 +1,13 @@
+src/Main.java:1: warning: Unsafe is internal proprietary API and may be removed in a future release
+import sun.misc.Unsafe;
+               ^
+src/Main.java:6: warning: Unsafe is internal proprietary API and may be removed in a future release
+    private static Unsafe UNSAFE;
+                   ^
+src/Main.java:49: warning: Unsafe is internal proprietary API and may be removed in a future release
+            Field field = Unsafe.class.getDeclaredField("THE_ONE");
+                          ^
+src/Main.java:52: warning: Unsafe is internal proprietary API and may be removed in a future release
+            UNSAFE = (Unsafe) field.get(null);
+                      ^
+4 warnings

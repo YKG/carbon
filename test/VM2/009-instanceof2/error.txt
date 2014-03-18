@@ -1,0 +1,13 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.NumberFormatException: For input string: "v1"
+	at java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)
+	at java.lang.Integer.parseInt(Integer.java:492)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at vm2.Array.<init>(Array.java:7)
+	at vm2.Interpreter.visit(Interpreter.java:244)
+	at ast.stm.Instruction$NewArray.accept(Instruction.java:2477)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

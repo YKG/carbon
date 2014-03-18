@@ -1,0 +1,1 @@
+testStr is 'This is a very nice string'

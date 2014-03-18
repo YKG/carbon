@@ -1,0 +1,20 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.NumberFormatException: null
+	at java.lang.Integer.parseInt(Integer.java:454)
+	at java.lang.Integer.parseInt(Integer.java:527)
+	at vm2.Optimize.visit(Optimize.java:94)
+	at ast.method.Method.accept(Method.java:278)
+	at vm2.Optimize.visit(Optimize.java:75)
+	at ast.classs.Class.accept(Class.java:52)
+	at vm2.ClazzLoader.loadClazz(ClazzLoader.java:24)
+	at vm2.ClazzLoader.initClazzArea(ClazzLoader.java:47)
+	at vm2.ClazzLoader.loadClazz(ClazzLoader.java:25)
+	at vm2.VM.loadClazz(VM.java:140)
+	at vm2.Instance.<init>(Instance.java:33)
+	at vm2.Interpreter.visit(Interpreter.java:238)
+	at ast.stm.Instruction$NewInstance.accept(Instruction.java:1646)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

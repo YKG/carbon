@@ -1,0 +1,1 @@
+Input file (/home/rocky/carbon/test/VM2/023-many-interfaces/many-interfaces.apk) was not found or was not readable.

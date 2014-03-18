@@ -1,0 +1,15 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.IllegalArgumentException: wrong number of arguments
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:57)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:606)
+	at vm2.Util.invokeSystemMethod(Util.java:179)
+	at vm2.VM.setExecuteEnv(VM.java:100)
+	at vm2.Interpreter.visit(Interpreter.java:802)
+	at ast.stm.Instruction$InvokeVirtual.accept(Instruction.java:4754)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

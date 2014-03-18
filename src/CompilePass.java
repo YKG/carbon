@@ -109,7 +109,7 @@ public class CompilePass {
 		for (TranslateWorker worker : workers) {
 			String className = worker.parserWorker.path;
 			className = "L"
-					+ className.substring(Control.apkoutput.length() + 1,
+					+ className.substring(Control.apkoutput.length() + 7,
 							className.length() - 6) + ";";
             className = className.replace('\\', '/'); // For windows.
 			clazzMap.put(className, worker);

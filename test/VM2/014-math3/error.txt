@@ -1,0 +1,10 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.ArithmeticException: / by zero
+	at vm2.Interpreter.biopLit(Interpreter.java:1053)
+	at vm2.Interpreter.visit(Interpreter.java:1609)
+	at ast.stm.Instruction$DivIntLit8.accept(Instruction.java:2260)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

@@ -272,7 +272,7 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.Throw inst) {
-        // TODO
+        // TODO We may need change the condition when the method finish
         Util.printErr("Unimplemented instruction: " + inst.op);
 	}
 

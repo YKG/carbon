@@ -1,0 +1,11 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.StringIndexOutOfBoundsException: String index out of range: -1
+	at java.lang.String.substring(String.java:1911)
+	at vm2.Util.hex2long(Util.java:25)
+	at vm2.Interpreter.visit(Interpreter.java:176)
+	at ast.stm.Instruction$ConstWideHigh16.accept(Instruction.java:1989)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

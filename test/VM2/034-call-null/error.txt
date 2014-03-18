@@ -1,0 +1,10 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.ClassCastException: java.lang.String cannot be cast to vm2.Instance
+	at vm2.Interpreter.iget(Interpreter.java:553)
+	at vm2.Interpreter.visit(Interpreter.java:596)
+	at ast.stm.Instruction$Iget.accept(Instruction.java:2503)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

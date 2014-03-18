@@ -63,7 +63,11 @@ public class Carbon {
 			CompilePass.prettyPrintSim(sims);
 		} else if (Control.dump.equals("astvm")) {
 			CompilePass.startUpVm(classes, "LMain;");
+<<<<<<< HEAD
 			System.out.println("perfect!");
+=======
+		//	System.out.println("perfect!");
+>>>>>>> d78ae0c... Auto test shell and the first test result
 		} else {
 			System.err.println("unknow dump args " + Control.dump);
 			System.exit(2);

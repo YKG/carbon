@@ -1,0 +1,11 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.ClassCastException: java.lang.String cannot be cast to java.lang.Integer
+	at vm2.Interpreter.intTest(Interpreter.java:377)
+	at vm2.Interpreter.iftest(Interpreter.java:400)
+	at vm2.Interpreter.visit(Interpreter.java:417)
+	at ast.stm.Instruction$IfNe.accept(Instruction.java:3059)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

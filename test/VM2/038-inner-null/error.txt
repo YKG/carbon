@@ -1,0 +1,21 @@
+I: Baksmaling...
+I: Copying assets and libs...
+java.lang.NoSuchMethodException: java.lang.Integer.repaint()
+	at java.lang.Class.getMethod(Class.java:1665)
+	at vm2.Util.getSystemMethod(Util.java:138)
+	at vm2.MethodArea.getMethod(MethodArea.java:28)
+	at vm2.VM.getMethod(VM.java:115)
+	at vm2.Interpreter.visit(Interpreter.java:802)
+	at ast.stm.Instruction$InvokeVirtual.accept(Instruction.java:4754)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)
+java.lang.NullPointerException
+	at vm2.VM.setExecuteEnv(VM.java:96)
+	at vm2.Interpreter.visit(Interpreter.java:802)
+	at ast.stm.Instruction$InvokeVirtual.accept(Instruction.java:4754)
+	at vm2.VM.run(VM.java:64)
+	at CompilePass.startUpVm(CompilePass.java:124)
+	at Carbon.run(Carbon.java:65)
+	at Carbon.main(Carbon.java:76)

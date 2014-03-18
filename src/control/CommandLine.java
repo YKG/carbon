@@ -69,7 +69,7 @@ public class CommandLine {
 							break;
 						}
 					}
-				}), new Arg<Object>("dump", "<ast|sim>", "IR to pretty print",
+				}), new Arg<Object>("dump", "<ast|sim|astvm>", "IR to pretty print",
 				Kind.String, new F<Object>() {
 					@Override
 					public void f(Object i) {

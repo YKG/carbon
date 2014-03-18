@@ -1,0 +1,401 @@
+src/ManyInterfaces.java:52: error: cannot find symbol
+        Interface000,
+        ^
+  symbol: class Interface000
+src/ManyInterfaces.java:53: error: cannot find symbol
+        Interface001,
+        ^
+  symbol: class Interface001
+src/ManyInterfaces.java:54: error: cannot find symbol
+        Interface002,
+        ^
+  symbol: class Interface002
+src/ManyInterfaces.java:55: error: cannot find symbol
+        Interface003,
+        ^
+  symbol: class Interface003
+src/ManyInterfaces.java:56: error: cannot find symbol
+        Interface004,
+        ^
+  symbol: class Interface004
+src/ManyInterfaces.java:57: error: cannot find symbol
+        Interface005,
+        ^
+  symbol: class Interface005
+src/ManyInterfaces.java:58: error: cannot find symbol
+        Interface006,
+        ^
+  symbol: class Interface006
+src/ManyInterfaces.java:59: error: cannot find symbol
+        Interface007,
+        ^
+  symbol: class Interface007
+src/ManyInterfaces.java:60: error: cannot find symbol
+        Interface008,
+        ^
+  symbol: class Interface008
+src/ManyInterfaces.java:61: error: cannot find symbol
+        Interface009,
+        ^
+  symbol: class Interface009
+src/ManyInterfaces.java:62: error: cannot find symbol
+        Interface010,
+        ^
+  symbol: class Interface010
+src/ManyInterfaces.java:63: error: cannot find symbol
+        Interface011,
+        ^
+  symbol: class Interface011
+src/ManyInterfaces.java:64: error: cannot find symbol
+        Interface012,
+        ^
+  symbol: class Interface012
+src/ManyInterfaces.java:65: error: cannot find symbol
+        Interface013,
+        ^
+  symbol: class Interface013
+src/ManyInterfaces.java:66: error: cannot find symbol
+        Interface014,
+        ^
+  symbol: class Interface014
+src/ManyInterfaces.java:67: error: cannot find symbol
+        Interface015,
+        ^
+  symbol: class Interface015
+src/ManyInterfaces.java:68: error: cannot find symbol
+        Interface016,
+        ^
+  symbol: class Interface016
+src/ManyInterfaces.java:69: error: cannot find symbol
+        Interface017,
+        ^
+  symbol: class Interface017
+src/ManyInterfaces.java:70: error: cannot find symbol
+        Interface018,
+        ^
+  symbol: class Interface018
+src/ManyInterfaces.java:71: error: cannot find symbol
+        Interface019,
+        ^
+  symbol: class Interface019
+src/ManyInterfaces.java:72: error: cannot find symbol
+        Interface020,
+        ^
+  symbol: class Interface020
+src/ManyInterfaces.java:73: error: cannot find symbol
+        Interface021,
+        ^
+  symbol: class Interface021
+src/ManyInterfaces.java:74: error: cannot find symbol
+        Interface022,
+        ^
+  symbol: class Interface022
+src/ManyInterfaces.java:75: error: cannot find symbol
+        Interface023,
+        ^
+  symbol: class Interface023
+src/ManyInterfaces.java:76: error: cannot find symbol
+        Interface024,
+        ^
+  symbol: class Interface024
+src/ManyInterfaces.java:77: error: cannot find symbol
+        Interface025,
+        ^
+  symbol: class Interface025
+src/ManyInterfaces.java:78: error: cannot find symbol
+        Interface026,
+        ^
+  symbol: class Interface026
+src/ManyInterfaces.java:79: error: cannot find symbol
+        Interface027,
+        ^
+  symbol: class Interface027
+src/ManyInterfaces.java:80: error: cannot find symbol
+        Interface028,
+        ^
+  symbol: class Interface028
+src/ManyInterfaces.java:81: error: cannot find symbol
+        Interface029,
+        ^
+  symbol: class Interface029
+src/ManyInterfaces.java:82: error: cannot find symbol
+        Interface030,
+        ^
+  symbol: class Interface030
+src/ManyInterfaces.java:83: error: cannot find symbol
+        Interface031,
+        ^
+  symbol: class Interface031
+src/ManyInterfaces.java:84: error: cannot find symbol
+        Interface032,
+        ^
+  symbol: class Interface032
+src/ManyInterfaces.java:85: error: cannot find symbol
+        Interface033,
+        ^
+  symbol: class Interface033
+src/ManyInterfaces.java:86: error: cannot find symbol
+        Interface034,
+        ^
+  symbol: class Interface034
+src/ManyInterfaces.java:87: error: cannot find symbol
+        Interface035,
+        ^
+  symbol: class Interface035
+src/ManyInterfaces.java:88: error: cannot find symbol
+        Interface036,
+        ^
+  symbol: class Interface036
+src/ManyInterfaces.java:89: error: cannot find symbol
+        Interface037,
+        ^
+  symbol: class Interface037
+src/ManyInterfaces.java:90: error: cannot find symbol
+        Interface038,
+        ^
+  symbol: class Interface038
+src/ManyInterfaces.java:91: error: cannot find symbol
+        Interface039,
+        ^
+  symbol: class Interface039
+src/ManyInterfaces.java:92: error: cannot find symbol
+        Interface040,
+        ^
+  symbol: class Interface040
+src/ManyInterfaces.java:93: error: cannot find symbol
+        Interface041,
+        ^
+  symbol: class Interface041
+src/ManyInterfaces.java:94: error: cannot find symbol
+        Interface042,
+        ^
+  symbol: class Interface042
+src/ManyInterfaces.java:95: error: cannot find symbol
+        Interface043,
+        ^
+  symbol: class Interface043
+src/ManyInterfaces.java:96: error: cannot find symbol
+        Interface044,
+        ^
+  symbol: class Interface044
+src/ManyInterfaces.java:97: error: cannot find symbol
+        Interface045,
+        ^
+  symbol: class Interface045
+src/ManyInterfaces.java:98: error: cannot find symbol
+        Interface046,
+        ^
+  symbol: class Interface046
+src/ManyInterfaces.java:99: error: cannot find symbol
+        Interface047,
+        ^
+  symbol: class Interface047
+src/ManyInterfaces.java:100: error: cannot find symbol
+        Interface048,
+        ^
+  symbol: class Interface048
+src/ManyInterfaces.java:101: error: cannot find symbol
+        Interface049,
+        ^
+  symbol: class Interface049
+src/ManyInterfaces.java:102: error: cannot find symbol
+        Interface050,
+        ^
+  symbol: class Interface050
+src/ManyInterfaces.java:103: error: cannot find symbol
+        Interface051,
+        ^
+  symbol: class Interface051
+src/ManyInterfaces.java:104: error: cannot find symbol
+        Interface052,
+        ^
+  symbol: class Interface052
+src/ManyInterfaces.java:105: error: cannot find symbol
+        Interface053,
+        ^
+  symbol: class Interface053
+src/ManyInterfaces.java:106: error: cannot find symbol
+        Interface054,
+        ^
+  symbol: class Interface054
+src/ManyInterfaces.java:107: error: cannot find symbol
+        Interface055,
+        ^
+  symbol: class Interface055
+src/ManyInterfaces.java:108: error: cannot find symbol
+        Interface056,
+        ^
+  symbol: class Interface056
+src/ManyInterfaces.java:109: error: cannot find symbol
+        Interface057,
+        ^
+  symbol: class Interface057
+src/ManyInterfaces.java:110: error: cannot find symbol
+        Interface058,
+        ^
+  symbol: class Interface058
+src/ManyInterfaces.java:111: error: cannot find symbol
+        Interface059,
+        ^
+  symbol: class Interface059
+src/ManyInterfaces.java:112: error: cannot find symbol
+        Interface060,
+        ^
+  symbol: class Interface060
+src/ManyInterfaces.java:113: error: cannot find symbol
+        Interface061,
+        ^
+  symbol: class Interface061
+src/ManyInterfaces.java:114: error: cannot find symbol
+        Interface062,
+        ^
+  symbol: class Interface062
+src/ManyInterfaces.java:115: error: cannot find symbol
+        Interface063,
+        ^
+  symbol: class Interface063
+src/ManyInterfaces.java:116: error: cannot find symbol
+        Interface064,
+        ^
+  symbol: class Interface064
+src/ManyInterfaces.java:117: error: cannot find symbol
+        Interface065,
+        ^
+  symbol: class Interface065
+src/ManyInterfaces.java:118: error: cannot find symbol
+        Interface066,
+        ^
+  symbol: class Interface066
+src/ManyInterfaces.java:119: error: cannot find symbol
+        Interface067,
+        ^
+  symbol: class Interface067
+src/ManyInterfaces.java:120: error: cannot find symbol
+        Interface068,
+        ^
+  symbol: class Interface068
+src/ManyInterfaces.java:121: error: cannot find symbol
+        Interface069,
+        ^
+  symbol: class Interface069
+src/ManyInterfaces.java:122: error: cannot find symbol
+        Interface070,
+        ^
+  symbol: class Interface070
+src/ManyInterfaces.java:123: error: cannot find symbol
+        Interface071,
+        ^
+  symbol: class Interface071
+src/ManyInterfaces.java:124: error: cannot find symbol
+        Interface072,
+        ^
+  symbol: class Interface072
+src/ManyInterfaces.java:125: error: cannot find symbol
+        Interface073,
+        ^
+  symbol: class Interface073
+src/ManyInterfaces.java:126: error: cannot find symbol
+        Interface074,
+        ^
+  symbol: class Interface074
+src/ManyInterfaces.java:127: error: cannot find symbol
+        Interface075,
+        ^
+  symbol: class Interface075
+src/ManyInterfaces.java:128: error: cannot find symbol
+        Interface076,
+        ^
+  symbol: class Interface076
+src/ManyInterfaces.java:129: error: cannot find symbol
+        Interface077,
+        ^
+  symbol: class Interface077
+src/ManyInterfaces.java:130: error: cannot find symbol
+        Interface078,
+        ^
+  symbol: class Interface078
+src/ManyInterfaces.java:131: error: cannot find symbol
+        Interface079,
+        ^
+  symbol: class Interface079
+src/ManyInterfaces.java:132: error: cannot find symbol
+        Interface080,
+        ^
+  symbol: class Interface080
+src/ManyInterfaces.java:133: error: cannot find symbol
+        Interface081,
+        ^
+  symbol: class Interface081
+src/ManyInterfaces.java:134: error: cannot find symbol
+        Interface082,
+        ^
+  symbol: class Interface082
+src/ManyInterfaces.java:135: error: cannot find symbol
+        Interface083,
+        ^
+  symbol: class Interface083
+src/ManyInterfaces.java:136: error: cannot find symbol
+        Interface084,
+        ^
+  symbol: class Interface084
+src/ManyInterfaces.java:137: error: cannot find symbol
+        Interface085,
+        ^
+  symbol: class Interface085
+src/ManyInterfaces.java:138: error: cannot find symbol
+        Interface086,
+        ^
+  symbol: class Interface086
+src/ManyInterfaces.java:139: error: cannot find symbol
+        Interface087,
+        ^
+  symbol: class Interface087
+src/ManyInterfaces.java:140: error: cannot find symbol
+        Interface088,
+        ^
+  symbol: class Interface088
+src/ManyInterfaces.java:141: error: cannot find symbol
+        Interface089,
+        ^
+  symbol: class Interface089
+src/ManyInterfaces.java:142: error: cannot find symbol
+        Interface090,
+        ^
+  symbol: class Interface090
+src/ManyInterfaces.java:143: error: cannot find symbol
+        Interface091,
+        ^
+  symbol: class Interface091
+src/ManyInterfaces.java:144: error: cannot find symbol
+        Interface092,
+        ^
+  symbol: class Interface092
+src/ManyInterfaces.java:145: error: cannot find symbol
+        Interface093,
+        ^
+  symbol: class Interface093
+src/ManyInterfaces.java:146: error: cannot find symbol
+        Interface094,
+        ^
+  symbol: class Interface094
+src/ManyInterfaces.java:147: error: cannot find symbol
+        Interface095,
+        ^
+  symbol: class Interface095
+src/ManyInterfaces.java:148: error: cannot find symbol
+        Interface096,
+        ^
+  symbol: class Interface096
+src/ManyInterfaces.java:149: error: cannot find symbol
+        Interface097,
+        ^
+  symbol: class Interface097
+src/ManyInterfaces.java:150: error: cannot find symbol
+        Interface098,
+        ^
+  symbol: class Interface098
+src/ManyInterfaces.java:151: error: cannot find symbol
+        Interface099
+        ^
+  symbol: class Interface099
+100 errors
