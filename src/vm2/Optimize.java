@@ -58,6 +58,7 @@ public class Optimize extends VisitorAdapter {
                 case "interface": accessFlag |= Const.INTERFACE; break;
                 case "abstract" : accessFlag |= Const.ABSTRACT; break;
                 case "constructor": accessFlag |= Const.CONSTRUCTOR; break;
+                case "native": accessFlag |= Const.NATIVE; break;
                 default : break;
             }
         }
@@ -90,6 +91,8 @@ public class Optimize extends VisitorAdapter {
 
 	@Override
 	public void visit(Method method) {
+        if((method.accessFlag & Const.NATIVE) != 0)
+            return ;
 		initLabelMap(method);
 		this.pStart = Integer.parseInt(method.registers_directive_count) - 1;
 		this.pStart -= method.prototype.argsType.size();
