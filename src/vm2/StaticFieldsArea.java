@@ -24,6 +24,7 @@ public class StaticFieldsArea {
 
     public Object getStaticField(FieldItem fieldItem){
         String originClazzName = getFieldLocation(fieldItem);
+        vm.clazzArea.initClazz(originClazzName);
         if(originClazzName == null) {
             Util.printErr("cant not find static field : " + fieldItem.toString());
             return null;
@@ -34,6 +35,7 @@ public class StaticFieldsArea {
 
     public void setStaticField (FieldItem fieldItem, Object value) {
         String originClazzName = getFieldLocation(fieldItem);
+        vm.clazzArea.initClazz(originClazzName);
         if(originClazzName == null) {
             Util.printErr("cant not find static field : " + fieldItem.toString());
         } else {
@@ -51,6 +53,7 @@ public class StaticFieldsArea {
             }
             currentClazzName =  vm.clazzArea.getSuperClazz(currentClazzName);
         }
+        Util.printErr("getFieldLocation: NEVER REACH!");
         return null;
     }
 

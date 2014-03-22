@@ -20,11 +20,16 @@ public class ClazzLoader {
     public void loadClazz(String clazzName){
         if(vm.clazzArea.isLoaded(clazzName))
         	return ;
+        Debug.info("Loading " + clazzName);
         ast.classs.Class clazz = this.getASTClass(clazzName);
         clazz.accept(new Optimize());
-        initClazzArea(clazz);
-        initFields(clazz);  // field init MUST before method init. Because <clinit>.
-        initMethodArea(clazz);
+        linkingClazz(clazz);
+    }
+
+    private void linkingClazz(ast.classs.Class clazz){
+        updateClazzArea(clazz);
+        updateFields(clazz);  // field init MUST before method init. Because <clinit>.
+        updateMethodArea(clazz);
     }
 
     private ast.classs.Class getASTClass(String clazzName){
@@ -38,7 +43,7 @@ public class ClazzLoader {
         return clazz;
     }
 
-    private void initClazzArea(ast.classs.Class clazz){
+    private void updateClazzArea(ast.classs.Class clazz){
         List<String> implementsList = clazz.implementsList;
         vm.clazzArea.setSuperClazzAndInterface(clazz.FullyQualifiedName, clazz.superName, implementsList);
 
@@ -48,13 +53,17 @@ public class ClazzLoader {
         }
     }
 
-    private void initMethodArea(ast.classs.Class clazz){
+    private void updateMethodArea(ast.classs.Class clazz){
         for(ast.method.Method method : clazz.methods){
             vm.methodArea.setMethod(clazz.FullyQualifiedName, method.getMethodSign(), new Method(method));
         }
+
+        if(vm.methodArea.existsMethod(clazz.FullyQualifiedName, "<clinit>()V")){
+            vm.clazzArea.setClinit(clazz.FullyQualifiedName); // affects clazzArea !!!
+        }
     }
 
-    private void initFields(ast.classs.Class clazz) {
+    private void updateFields(ast.classs.Class clazz) {
     	//TODO didn't handle private static
     	List<Field> sFields = new ArrayList<Field>();
     	List<Field> iFields = new ArrayList<Field>();

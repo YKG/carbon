@@ -19,10 +19,13 @@ public class ClazzArea {
      */
     private Map<String, List<String>> implementsMap;
 
+    private Map<String, Boolean> clinitInvoked;
+
     public ClazzArea(VM vm) {
         this.vm = vm;
         this.superClazzMap = new HashMap<>();
         this.implementsMap = new HashMap<>();
+        this.clinitInvoked = new HashMap<>();
         this.superClazzMap.put("Ljava/lang/Object;", null);
         this.implementsMap.put("Ljava/lang/Object;", null);
     }
@@ -41,6 +44,28 @@ public class ClazzArea {
         superClazzMap.put(clazzName, superClazz);
         implementsMap.put(clazzName, implementsList);
     }
+
+
+    public void setClinit(String clazzName){
+        clinitInvoked.put(clazzName, false);
+    }
+
+    public void initClazz(String clazzName){
+        if (clinitInvoked.containsKey(clazzName) && clinitInvoked.get(clazzName)){
+            return;
+        }
+
+        String clazz = getSuperClazz(clazzName);
+        if (clazz != null){
+            initClazz(clazz);
+        }
+
+        if (clinitInvoked.containsKey(clazzName) && !clinitInvoked.get(clazzName)){
+            vm.clinitHandle(vm.getMethod(clazzName, "<clinit>()V"));
+            clinitInvoked.put(clazzName, true);
+        }
+    }
+
 
     /**
      * instace-of

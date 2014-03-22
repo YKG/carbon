@@ -15,12 +15,18 @@ public class MethodArea {
 
     public MethodArea(VM vm) {
         this.vm = vm;
-        this.methods = new HashMap<String, Map<String, Method>>();
+        this.methods = new HashMap<>();
+    }
+
+    public boolean existsMethod(String clazzName, String methodSign){
+        assert methods.get(clazzName) != null;
+        return methods.get(clazzName).get(methodSign) != null;
     }
 
     public Method getMethod(String clazzName, String methodSign){
         if(!methods.containsKey(clazzName)){
             vm.loadClazz(clazzName);
+            vm.clazzArea.initClazz(clazzName); // Here the invoke-static should be the ONLY allowed.
         }
 
         String clazz = clazzName;
@@ -39,14 +45,10 @@ public class MethodArea {
 
     public void setMethod(String clazzName, String methodSign, Method method){
         if (!methods.containsKey(clazzName)){
-            Map<String, Method> map = new HashMap<String, Method>();
+            Map<String, Method> map = new HashMap<>();
             methods.put(clazzName, map);
         }
 
-        if(methodSign.equals("<clinit>()V")){
-            vm.clinitHandle(method);
-        }else{
-            methods.get(clazzName).put(methodSign, method);
-        }
+        methods.get(clazzName).put(methodSign, method);
     }
 }

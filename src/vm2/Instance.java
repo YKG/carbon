@@ -15,6 +15,7 @@ public class Instance {
 
     public Instance(VM vm, String clazzName) {
         vm.loadClazz(clazzName);
+        vm.clazzArea.initClazz(clazzName);
 
         this.vm = vm;
         this.clazzName = clazzName;

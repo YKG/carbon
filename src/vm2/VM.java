@@ -35,7 +35,7 @@ public class VM {
         this.instanceFieldsArea = new InstanceFieldsArea(this);
         this.clazzLoader = new ClazzLoader(this, classMap);
         this.returnValue = new Object();
-        this.callstack = new Stack<Frame>();
+        this.callstack = new Stack<>();
         this.interpreter = new Interpreter(this);
 	}
 
