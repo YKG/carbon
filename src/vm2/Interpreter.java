@@ -5,6 +5,7 @@ import ast.annotation.Annotation;
 import ast.classs.FieldItem;
 import ast.stm.Instruction;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import static vm2.Util.hex2int;
@@ -748,8 +749,30 @@ public class Interpreter extends VisitorAdapter {
 
 	@Override
 	public void visit(Instruction.InvokeStatic inst) {
-        vm.saveThreadState();
-        vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
+        Method m = vm.getMethod(inst.type.classType, inst.type.getMethodSign());
+        Debug.info(inst.type.classType + "->" + inst.type.getMethodSign() + " native: " + m.isNative);
+        if (m.isNative){
+            try {
+                String clazzName = inst.type.classType;
+                clazzName = clazzName.substring(1, clazzName.length() - 1).replace('/', '.');
+                Class c = Class.forName(clazzName);
+                java.lang.reflect.Method method = c.getDeclaredMethod(inst.type.methodName, new Class[0]);
+                method.setAccessible(true);
+                method.invoke(c, new Object[0]);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InvocationTargetException e) {
+                e.printStackTrace();
+            } catch (NoSuchMethodException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+            vm.pc++;
+        }else{
+            vm.saveThreadState();
+            vm.setExecuteEnv(vm.getMethod(inst.type.classType, inst.type.getMethodSign()), inst.argvs);
+        }
 	}
 
 	@Override

@@ -15,6 +15,7 @@ public class ClazzLoader {
     public ClazzLoader(VM vm, Map<String, MultiThreadUtils.TranslateWorker> classMap){
         this.vm = vm;
         this.classMap = classMap;
+        Debug.info(classMap.toString());
     }
 
     public void loadClazz(String clazzName){

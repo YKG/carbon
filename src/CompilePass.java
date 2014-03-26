@@ -1,3 +1,8 @@
+import control.Control;
+import org.antlr.runtime.RecognitionException;
+import util.MultiThreadUtils.*;
+import vm2.VM;
+
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -8,17 +13,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import org.antlr.runtime.RecognitionException;
-
-import util.MultiThreadUtils.ParserWorker;
-import util.MultiThreadUtils.PrettyPrintSimWorker;
-import util.MultiThreadUtils.PrettyPrintWorker;
-import util.MultiThreadUtils.SimplifyWorker;
-import util.MultiThreadUtils.TranslateWorker;
-import vm.Source;
-import vm2.VM;
-import control.Control;
 
 
 public class CompilePass {
@@ -117,6 +111,7 @@ public class CompilePass {
 			className = "L"
 					+ className.substring(Control.apkoutput.length() + 1,
 							className.length() - 6) + ";";
+            className = className.replace('\\', '/'); // For windows.
 			clazzMap.put(className, worker);
 		}
 		VM vm = new VM(clazzMap);

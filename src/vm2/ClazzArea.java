@@ -19,7 +19,16 @@ public class ClazzArea {
      */
     private Map<String, List<String>> implementsMap;
 
-    private Map<String, Boolean> clinitInvoked;
+    /**
+     * key:    clazzName
+     * value:  0    uninvoked
+     *         1    invoking
+     *         2    invoked
+     */
+    private Map<String, Integer> clinitInvoked;
+    private static final int UNINVOKED = 0;
+    private static final int INVOKING = 1;
+    private static final int INVOKED = 2;
 
     public ClazzArea(VM vm) {
         this.vm = vm;
@@ -47,11 +56,11 @@ public class ClazzArea {
 
 
     public void setClinit(String clazzName){
-        clinitInvoked.put(clazzName, false);
+        clinitInvoked.put(clazzName, UNINVOKED);
     }
 
     public void initClazz(String clazzName){
-        if (clinitInvoked.containsKey(clazzName) && clinitInvoked.get(clazzName)){
+        if (clinitInvoked.containsKey(clazzName) && clinitInvoked.get(clazzName) != UNINVOKED){
             return;
         }
 
@@ -60,9 +69,11 @@ public class ClazzArea {
             initClazz(clazz);
         }
 
-        if (clinitInvoked.containsKey(clazzName) && !clinitInvoked.get(clazzName)){
+        // TODO synchronize
+        if (clinitInvoked.containsKey(clazzName) && clinitInvoked.get(clazzName) == UNINVOKED){
+            clinitInvoked.put(clazzName, INVOKING);
             vm.clinitHandle(vm.getMethod(clazzName, "<clinit>()V"));
-            clinitInvoked.put(clazzName, true);
+            clinitInvoked.put(clazzName, UNINVOKED);
         }
     }
 

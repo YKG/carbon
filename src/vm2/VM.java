@@ -52,17 +52,20 @@ public class VM {
         setExecuteEnv(getMethod(mainClazzName, "main([Ljava/lang/String;)V"), new int[0]);
 
 		while (pc != -1) {
+            Debug.info(code[pc]);
 			code[pc].accept(interpreter);
 		}
 	}
 
     void clinitHandle(Method method){
+        Debug.info("exec <clinit>");
         saveThreadState();
         saveThreadState();
         setExecuteEnv(method, new int[0]);
 
         int deep = callstack.size();
         while(callstack.size() >= deep){
+            Debug.info(code[pc]);
             code[pc].accept(interpreter);
         }
         restoreThreadState();
