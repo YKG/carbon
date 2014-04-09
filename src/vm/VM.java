@@ -23,25 +23,22 @@ public final class VM {
     }
 
     public void start(){
-        // 1. loading initialClass
+        // 1. loading initialClass (create)
         // 2. linking initialClass
         // 3. initial initialClass
         // 4. invoke main([java.lang.String)V
 
-        VMClass Klass = loadClass(initialClassName);
+        VMClass Klass = bootstrapClassLoader.loadClass(initialClassName);
         linkClass(Klass);
         initClass(Klass);
 
         VMMethod main = Klass.getMethod("main([java.lang.String)V");
-        new VMThread(this, Klass, main).start();
-    }
-
-    public VMClass loadClass(String className){
-        // TODO
-        return  null;
+        new VMThread(this, main).start();
     }
 
     public void linkClass(VMClass klass){
+        // 1. verify
+        // 2. prepare
         // TODO
     }
 

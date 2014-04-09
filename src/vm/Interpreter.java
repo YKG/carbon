@@ -1123,12 +1123,10 @@ public class Interpreter implements Visitor {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.RsubInt inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.MulIntLit16 inst) {
@@ -1141,7 +1139,6 @@ public class Interpreter implements Visitor {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.RemIntLit16 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
@@ -1153,42 +1150,35 @@ public class Interpreter implements Visitor {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.OrIntLit16 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.XorIntLit16 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.AddIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.RsubIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.MulIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.DivIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.RemIntLit8 inst) {
@@ -1201,24 +1191,20 @@ public class Interpreter implements Visitor {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.OrIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.XorIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
 
-
     @Override
     public void visit(Instruction.ShlIntLit8 inst) {
         biopLit(inst.dest, inst.src, inst.lit, inst.op);
     }
-
 
     @Override
     public void visit(Instruction.ShrIntLit8 inst) {
@@ -1465,16 +1451,12 @@ public class Interpreter implements Visitor {
         vm.pc++;
     }
 
-    private void sget(int dstReg, String fieldItem){
+    /**
+     * I checked that the "Class" part of "Class->fieldName" must be the field's defining class,
+     * that is say "Class" will not be the parent class of the field's defining class.
+     */
+    private void sget(int dstReg, String longFieldName){
         //TODO FIXME
-//    	if(fieldItem.fieldName.equals("out")) {
-//    		vm.pc++;
-//    		return ;
-//    	}
-
-        //ORIG VERSION
-        vm.reg[dstReg] = vm.staticFieldsArea.getStaticField(fieldItem);
-        vm.pc++;
     }
 
     private void sput(int srcReg, String fieldItem){
