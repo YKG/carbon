@@ -58,7 +58,7 @@ public interface Visitor {
     public void visit(Instruction.CmplFloat inst);
     public void visit(Instruction.CmpgFloat inst);
     public void visit(Instruction.CmplDouble inst);
-    public void visit(Instruction.Cmpgdouble inst);
+    public void visit(Instruction.CmpgDouble inst);
     public void visit(Instruction.CmpLong inst);
 
     //0x32
