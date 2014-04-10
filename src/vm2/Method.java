@@ -14,16 +14,14 @@ public class Method {
     Constructor constructor;
 
     public Method(ast.method.Method method) {
-<<<<<<< HEAD
+
         if((method.accessFlag & Const.NATIVE) != 0){
             Debug.verbose("NATIVE METHOD: " + method.getMethodSign() + " regs: " + method.registers_directive_count);
             this.isNative = true;
             return;
         }
 
-=======
-        this.isSystemMethod = false;
->>>>>>> c69472b... add reflect
+
         this.registerCount = Integer.parseInt(method.registers_directive_count);
         this.code = new ast.stm.T[method.statements.size()];
         for(int i = 0; i < method.statements.size(); i++){

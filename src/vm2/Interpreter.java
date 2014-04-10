@@ -662,32 +662,8 @@ public class Interpreter extends VisitorAdapter {
 	}
 
     private void sget(int dstReg, FieldItem fieldItem){
-<<<<<<< HEAD
-    	//TODO FIXME
-//    	if(fieldItem.fieldName.equals("out")) {
-//    		vm.pc++;
-//    		return ;
-//    	}
-    	
-=======
 
-        //TODO ---------------------
-        if(!vm.classMap.containsKey(fieldItem.classType)) {
-            try {
-                vm.reg[dstReg] = Class.forName(Util.getFormatClassName(fieldItem.classType)).getField(fieldItem.fieldName).get(null);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (NoSuchFieldException e) {
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
-            }
-            vm.pc ++;
-            return ;
-        }
-        //TODO ---------------------
 
->>>>>>> c69472b... add reflect
     	//ORIG VERSION
     	// TODO FIXME
         if(fieldItem.fieldName.equals("out")) {
@@ -795,33 +771,7 @@ public class Interpreter extends VisitorAdapter {
     //  2. set code/pc/reg
 	@Override
 	public void visit(Instruction.InvokeVirtual inst) {
-<<<<<<< HEAD
-		//TODO FIXME
-=======
-//		//TODO FIXME
->>>>>>> c69472b... add reflect
-//		if(inst.type.methodName.equals("println")) {
-//			vm.pc++;
-//			Object result = vm.reg[inst.argvs[1]]; // TODO WARNING: [0] is null!!!
-//			System.err.println(result);
-//			return ;
-//		}
-<<<<<<< HEAD
-		
-		//TODO ORIG VERSION
-=======
-//
-        //TODO ------------------------------------------
-        Object ref = vm.reg[inst.argvs[0]];
-        if( !(ref instanceof Instance) ) {
-            String fullName = Util.getFullQualifiedName(ref.getClass().getName());
-            vm.saveThreadState();
-            vm.setExecuteEnv(vm.getMethod(fullName, inst.type.getMethodSign()), inst.argvs);
-            return ;
-        }
-        //TODO ------------------------------------------
 
->>>>>>> c69472b... add reflect
         vm.saveThreadState();
         String objType = ((Instance)vm.reg[inst.argvs[0]]).clazzName;
         vm.setExecuteEnv(vm.getMethod(objType, inst.type.getMethodSign()), inst.argvs);
