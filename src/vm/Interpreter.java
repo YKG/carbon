@@ -434,12 +434,12 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.IfEqz I) {
-        vmt.pc = reg[I.test] == 0 ? I.addr : vmt.pc + 1;
+        vmt.pc = reg[I.test] == null ? I.addr : vmt.pc + 1;
     }
 
     @Override
     public void visit(Instruction.IfNez I) {
-        vmt.pc = reg[I.test] != 0 ? I.addr : vmt.pc + 1;
+        vmt.pc = reg[I.test] != null ? I.addr : vmt.pc + 1;
     }
 
     @Override

@@ -1,7 +1,7 @@
 import control.Control;
 import org.antlr.runtime.RecognitionException;
 import util.MultiThreadUtils.*;
-import vm3.VM;
+import vm.VM;
 
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
