@@ -18,17 +18,13 @@ public class MethodArea {
     private Map<String, MultiThreadUtils.TranslateWorker> classMap;
     public MethodArea(VM vm, Map<String, MultiThreadUtils.TranslateWorker> classMap) {
         this.vm = vm;
-<<<<<<< HEAD
         this.methods = new HashMap<>();
     }
 
     public boolean existsMethod(String clazzName, String methodSign){
         assert methods.get(clazzName) != null;
         return methods.get(clazzName).get(methodSign) != null;
-=======
-        this.methods = new HashMap<String, Map<String, Method>>();
-        this.classMap = classMap;
->>>>>>> c69472b... add reflect
+
     }
 
     public Method getMethod(String clazzName, String methodSign){

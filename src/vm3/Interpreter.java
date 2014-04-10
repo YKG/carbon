@@ -372,7 +372,7 @@ public class Interpreter extends VisitorAdapter {
         assert !(obj1 instanceof Double || obj2 instanceof Double);
 
         if (obj1 instanceof Instance){
-            assert obj2 == 0;
+            assert obj2 == null;
             assert cmp.equals("eq") || cmp.equals("ne");
 
             switch (cmp){
