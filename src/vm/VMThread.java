@@ -44,10 +44,11 @@ public final class VMThread extends Thread{
         while (!stack.empty()){
             try{
                 code[pc].accept(interpreter);
-                if (exception != null){
-                    interpreter.handleException();
-                }
             }catch (Exception e){
+                exception = e;
+            }
+
+            if (exception != null){
                 interpreter.handleException();
             }
         }
