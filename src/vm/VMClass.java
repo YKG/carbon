@@ -1,10 +1,13 @@
 package vm;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class VMClass extends LockbleObject{
     VMClassLoader definingLoader;
     VMClassLoader initialLoader;
+    VMClass superClass;
+    ArrayList<VMClass> superinterfaces;
     String className;
     Hashtable<String, VMField> fields;
     Hashtable<String, VMMethod> methods;
@@ -20,6 +23,10 @@ public class VMClass extends LockbleObject{
 
     public VMField getField(String filedName){
         // TODO
+        return null;
+    }
+
+    public VMField getDeclaredField(String fieldName){
         return null;
     }
 
@@ -62,16 +69,16 @@ public class VMClass extends LockbleObject{
         return null;
     }
 
-    public VMField getStaticField(String fieldName){
-        VMField field = fields.get(fieldName);
-        if (field == null){
-            throw new IncompatibleClassChangeError(className + "->" + fieldName);
-        }
-        return field;
+    public VMField getStaticField(VMField fieldKey){
+        return fieldKey; // just return itself.
     }
 
     public boolean isInherit(VMClass klass){
         // TODO
+        return false;
+    }
+
+    public boolean isAccessibleTo(VMClass caller){
         return false;
     }
 }

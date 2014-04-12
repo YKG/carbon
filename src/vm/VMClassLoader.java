@@ -5,7 +5,7 @@ import java.util.Map;
 public abstract class VMClassLoader {
     Map<String, VMClass> classes;
 
-    public VMClass getKlass(String className){
+    public VMClass loadClass(String className){
         // TODO: resove if needed
         
         return null;

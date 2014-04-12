@@ -203,7 +203,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.ConstClass I) {
-        reg[I.dest] = currentClass.definingLoader.getKlass(I.className);
+        reg[I.dest] = currentClass.definingLoader.loadClass(I.className);
         vmt.pc++;
     }
 
@@ -239,7 +239,7 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.CheckCast I) {
         Object obj = reg[I.obj];
         assert obj instanceof VMInstance; // VMClass ?
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         if(((VMInstance)obj).type.isInherit(klass)){
             vmt.pc++;
         }else{
@@ -251,7 +251,7 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.InstanceOf I) {
         Object obj = reg[I.obj];
         assert obj instanceof VMInstance; // VMClass ?
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         reg[I.dest] = ((VMInstance)obj).type.isInherit(klass) ? 1 : 0;
         vmt.pc++;
     }
@@ -265,7 +265,7 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.NewInstance I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         reg[I.dest] = new VMInstance(klass);
         vmt.pc++;
     }
@@ -277,7 +277,7 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.NewArray I) {
         System.out.println("Instruction.NewArray: type: " + I.type);
         String type = I.type.substring(1); // delete '['
-        VMClass klass = currentClass.definingLoader.getKlass(type);
+        VMClass klass = currentClass.definingLoader.loadClass(type);
         reg[I.dest] = new VMArray(klass, I.size);
         vmt.pc++;
     }
@@ -534,142 +534,142 @@ public class Interpreter implements Visitor {
     
     @Override
     public void visit(Instruction.Iget I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetWide I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetOjbect I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetBoolean I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetByte I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetChar I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.IgetShort I) {
-        iget(I.dest, I.obj, I.className, I.fieldName);
+        iget(I.dest, I.obj, I.className, I.fieldName, I.descriptor);
     }
     
     @Override
     public void visit(Instruction.Iput I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputWide I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputObject I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputBoolean I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputByte I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputChar I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.IputShort I) {
-        iput(I.obj, I.className, I.fieldName, I.src);
+        iput(I.obj, I.className, I.fieldName, I.descriptor, I.src);
     }
     
     @Override
     public void visit(Instruction.Sget I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetWide I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetObject I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetBoolean I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetByte I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetChar I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.SgetShort I) {
-        sget(I.dest, I.className, I.fieldName);
+        sget(I.dest, I.className, I.fieldName, I.descriptor);
     }
 
     @Override
     public void visit(Instruction.Sput I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputWide I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputObject I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputBoolean I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputByte I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputChar I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     @Override
     public void visit(Instruction.SputShort I) {
-        sput(I.className, I.fieldName, I.src);
+        sput(I.className, I.fieldName, I.descriptor, I.src);
     }
 
     /**
@@ -678,70 +678,70 @@ public class Interpreter implements Visitor {
      */
     @Override
     public void visit(Instruction.InvokeVirtual I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getVirtualMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeSuper I) {
-        VMClass superKlass = currentClass.definingLoader.getKlass(I.className);
+        VMClass superKlass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = superKlass.getVirtualMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeDirect I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getDirectMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeStatic I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getStaticMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterface I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getInterfaceMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeVirtualRange I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getVirtualMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeSuperRange I) {
-        VMClass superKlass = currentClass.definingLoader.getKlass(I.className);
+        VMClass superKlass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = superKlass.getVirtualMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeDirectRange I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getDirectMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeStaticRange I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getStaticMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterfaceRange I) {
-        VMClass klass = currentClass.definingLoader.getKlass(I.className);
+        VMClass klass = currentClass.definingLoader.loadClass(I.className);
         VMMethod method = klass.getInterfaceMethod(I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
@@ -1328,27 +1328,33 @@ public class Interpreter implements Visitor {
         vmt.pc++;
     }
 
-    private void iput(int object, String className, String fieldName, int src){
+    private void iput(int object, String className, String fieldName, String descriptor, int src){
         Object obj = reg[object];
         assert obj instanceof VMInstance;
-        ((VMInstance)obj).setField(className, fieldName, reg[src]);
+        VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
+        VMField field = ((VMInstance)obj).getInstanceField(fieldKey);
+        field.value = reg[src];
         vmt.pc++;
     }
-    private void iget(int dest, int object, String className, String fieldName){
+    private void iget(int dest, int object, String className, String fieldName, String descriptor){
         Object obj = reg[object];
         assert obj instanceof VMInstance;
-        reg[dest] = ((VMInstance)obj).getField(className, fieldName);
-        vmt.pc++;
-    }
-    private void sget(int dest, String className, String fieldName){
-        VMClass klass = currentClass.definingLoader.getKlass(className);
-        VMField field = klass.getStaticField(fieldName);
+        VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
+        VMField field = ((VMInstance)obj).getInstanceField(fieldKey);
         reg[dest] = field.value;
         vmt.pc++;
     }
-    private void sput(String className, String fieldName, int src){
-        VMClass klass = currentClass.definingLoader.getKlass(className);
-        VMField field = klass.getStaticField(fieldName);
+    private void sget(int dest, String className, String fieldName, String descriptor){
+        VMClass klass = VM.resolveClassOrInterface(currentClass, className);
+        VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
+        VMField field = klass.getStaticField(fieldKey);
+        reg[dest] = field.value;
+        vmt.pc++;
+    }
+    private void sput(String className, String fieldName, String descriptor, int src){
+        VMClass klass = VM.resolveClassOrInterface(currentClass, className);
+        VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
+        VMField field = klass.getStaticField(fieldKey);
         field.value = reg[src];
         vmt.pc++;
     }

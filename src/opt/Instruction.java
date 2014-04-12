@@ -699,7 +699,7 @@ public class Instruction {
     //0x52
     public static class Iget extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -709,7 +709,7 @@ public class Instruction {
 
     public static class IgetWide extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -719,7 +719,7 @@ public class Instruction {
 
     public static class IgetOjbect extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -729,7 +729,7 @@ public class Instruction {
 
     public static class IgetBoolean extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -739,7 +739,7 @@ public class Instruction {
 
     public static class IgetByte extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -749,7 +749,7 @@ public class Instruction {
 
     public static class IgetChar extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -759,7 +759,7 @@ public class Instruction {
 
     public static class IgetShort extends T {
         public int dest, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -769,7 +769,7 @@ public class Instruction {
 
     public static class Iput extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -779,7 +779,7 @@ public class Instruction {
 
     public static class IputWide extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -789,7 +789,7 @@ public class Instruction {
 
     public static class IputObject extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -799,7 +799,7 @@ public class Instruction {
 
     public static class IputBoolean extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -809,7 +809,7 @@ public class Instruction {
 
     public static class IputByte extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -819,7 +819,7 @@ public class Instruction {
 
     public static class IputChar extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -829,7 +829,7 @@ public class Instruction {
 
     public static class IputShort extends T {
         public int src, obj;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -840,7 +840,7 @@ public class Instruction {
     //0x60
     public static class Sget extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -850,7 +850,7 @@ public class Instruction {
 
     public static class SgetWide extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -860,7 +860,7 @@ public class Instruction {
 
     public static class SgetObject extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -870,7 +870,7 @@ public class Instruction {
 
     public static class SgetBoolean extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -880,7 +880,7 @@ public class Instruction {
 
     public static class SgetByte extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -890,7 +890,7 @@ public class Instruction {
 
     public static class SgetChar extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -900,7 +900,7 @@ public class Instruction {
 
     public static class SgetShort extends T {
         public int dest;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -910,7 +910,7 @@ public class Instruction {
 
     public static class Sput extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -920,7 +920,7 @@ public class Instruction {
 
     public static class SputWide extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -930,7 +930,7 @@ public class Instruction {
 
     public static class SputObject extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -940,7 +940,7 @@ public class Instruction {
 
     public static class SputBoolean extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -950,7 +950,7 @@ public class Instruction {
 
     public static class SputByte extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -960,7 +960,7 @@ public class Instruction {
 
     public static class SputChar extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
@@ -970,7 +970,7 @@ public class Instruction {
 
     public static class SputShort extends T {
         public int src;
-        public String className, fieldName;
+        public String className, fieldName, descriptor;
 
         @Override
         public void accept(Visitor v) {
