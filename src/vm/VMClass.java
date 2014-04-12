@@ -1,16 +1,16 @@
 package vm;
 
-import java.util.Map;
+import java.util.Hashtable;
 
 public class VMClass extends LockbleObject{
     VMClassLoader definingLoader;
     VMClassLoader initialLoader;
     String className;
-    Map<String, VMField> fields;
-    Map<String, VMMethod> methods;
+    Hashtable<String, VMField> fields;
+    Hashtable<String, VMMethod> methods;
 
     public VMClass(VMClassLoader definingLoader, VMClassLoader initialLoader,
-                   String className, Map<String, VMField> fields, Map<String, VMMethod> methods){
+                   String className, Hashtable<String, VMField> fields, Hashtable<String, VMMethod> methods){
         this.definingLoader = definingLoader;
         this.initialLoader = initialLoader;
         this.className = className;
@@ -63,8 +63,11 @@ public class VMClass extends LockbleObject{
     }
 
     public VMField getStaticField(String fieldName){
-        // TODO
-        return null;
+        VMField field = fields.get(fieldName);
+        if (field == null){
+            throw new IncompatibleClassChangeError(className + "->" + fieldName);
+        }
+        return field;
     }
 
     public boolean isInherit(VMClass klass){

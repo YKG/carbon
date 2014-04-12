@@ -1,0 +1,55 @@
+
+public class IGET{
+    public static void main(String[] args) {
+        A3 a3 = new A3();
+        System.out.println(a3.x);
+        System.out.println(((A2)a3).x);
+        System.out.println(((A1)a3).x);
+        System.out.println("============");
+        a3.superprint();
+        System.out.println("============");
+        foo(a3);
+
+    }
+
+    public static void foo(I i) {
+        System.out.println("foo I: ");
+        i.print();
+    }
+
+    public static void foo(A1 a1) {
+        System.out.println("foo A1: ");
+        a1.print();
+    }
+}
+
+interface I{
+    public void print();
+}
+
+class A1 implements I{
+    int x = 1;
+    public void print() {
+        System.out.println("A1.print");
+        System.out.println(x);
+    }
+}
+
+class A2 extends A1{
+//    int x = 2;
+    public void print() {
+        System.out.println("A2.print111222s");
+        System.out.println(x);
+    }
+}
+
+class A3 extends A2{
+    int x = 3;
+
+    public void superprint() {
+        System.out.println("A3.print");
+        System.out.print(super.x);
+        super.print();
+    }
+
+}
