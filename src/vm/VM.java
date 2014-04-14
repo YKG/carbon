@@ -138,6 +138,8 @@ public final class VM {
          * The Java Virtual Machine must impose the loading constraint that  T L 1 =  T L 2
          */
         // This have been ensured by the first step of lookupField().
+        // I think here may be reconsidered.
+        // TODO: check()
 
         return field;
     }
