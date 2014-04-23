@@ -85,4 +85,14 @@ public class VMClass extends LockbleObject{
     public boolean isAccessibleTo(VMClass caller){
         return false;
     }
+
+    public boolean isInterface() {
+        //TODO the function must exchange to access flag;
+        return false;
+    }
+
+    public boolean isAbstract() {
+        //TODO the function must exchange to access flag;
+        return false;
+    }
 }

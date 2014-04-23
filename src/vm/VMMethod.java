@@ -43,4 +43,13 @@ public class VMMethod {
     public boolean isAccessibleTo(VMClass caller){
         return false;
     }
+
+    public boolean isAbstract() {
+        //TODO the function must exchange to access flag;
+        return false;
+    }
+
+    public boolean isSigPoly() {
+        return false;
+    }
 }

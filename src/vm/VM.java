@@ -144,19 +144,139 @@ public final class VM {
         return field;
     }
 
-    public static VMMethod resolveMethod(VMClass D, VMClass C,String methodSign) {
-        VMClass current = C;
+    public static VMMethod resolveMethod(VMClass D, String N,String methodSign) {
+        /**
+         * To resolve an unresolved symbolic reference from D to a method in a class C,
+         * the symbolic reference to C given by the method reference is first resolved
+         */
+        VMClass klass = VM.resolveClassOrInterface(D, N);
+
+        /**
+         * 1. Method resolution checks whether C is a class or an interface.
+         *  If C is an interface, method resolution throws an IncompatibleClassChangeError.
+         */
+
+        if(klass.isInterface() == true) {
+            throw new IncompatibleClassChangeError();
+        }
+
+        /**
+         * 2. Method resolution attempts to look up the referenced method in C and its superclasses:
+         */
+        /**
+         * If method lookup fails, method resolution throws a NoSuchMethodError.
+         */
+        VMMethod method = VM.lookupMethod(klass, methodSign);
+        if(method == null) {
+            throw new NoSuchMethodError();
+        }
+
+        /**
+         * Otherwise, if method lookup succeeds and the method is abstract,
+         * but C is not abstract, method resolution throws an AbstractMethodError.
+         */
+        if((method.isAbstract()) && (!klass.isAbstract())) {
+            throw new AbstractMethodError();
+        }
+
+        /**
+         * Otherwise, if method lookup succeeds but the referenced method is not accessible (§5.4.4) to D,
+         * method resolution throws an IllegalAccessError.
+         */
+        if(!method.isAccessibleTo(D)) {
+            throw new IllegalAccessError();
+        }
+
+        /**
+         * TODO: check TiL1 = TiL2 for i = 0 to n (§5.3.4).
+         */
+        return method;
+    }
+
+    public static VMMethod lookupMethod(VMClass C, String methodSign) {
+        if(C == null)
+            return null;
+
+        /**
+         * If C declares exactly one method with the name specified by the method reference,
+         * and the declaration is a signature polymorphic method (§2.9), then method lookup succeeds.
+         * All the class names mentioned in the descriptor are resolved (§5.4.3.1).
+         *
+         * The resolved method is the signature polymorphic method declaration.
+         * It is not necessary for C to declare a method with the descriptor specified by the method reference.
+         */
+        //TODO
+
+        /**
+         * Otherwise, if C declares a method with the name and descriptor specified by the method reference,
+         * method lookup succeeds.
+         */
+        VMMethod method = C.methods.get(methodSign);
+        if(method != null) {
+            return method;
+        }
+
+        /**
+         * Otherwise, if C has a superclass,
+         * step 2 of method lookup is recursively invoked on the direct superclass of C.
+         */
+
+        method = VM.lookupMethod(C.superClass, methodSign);
+        if(method != null) {
+            return method;
+        }
+
+        /**
+         * Otherwise, method lookup attempts to locate the referenced method
+         * in any of the superinterfaces of the specified class C.
+         * If any superinterface of C declares a method with the name
+         * and descriptor specified by the method reference, method lookup succeeds.
+         * Otherwise, method lookup fails.
+         */
+        for(VMClass supC : C.superinterfaces) {
+            method = VM.lookupMethod(supC, methodSign);
+            if(method != null)
+                return method;
+        }
+
+        return null;
+    }
+
+    public static VMMethod resolveInterfaceMethod(VMClass D, String N, String methodSign) {
+        /**
+         * To resolve an unresolved symbolic reference from D to an interface method in an interface C,
+         * the symbolic reference to C given by the interface method reference is first resolved (§5.4.3.1).
+         */
+        VMClass klass = VM.resolveClassOrInterface(D, N);
+
+        /**
+         * If C is not an interface, interface method resolution throws an IncompatibleClassChangeError.
+         */
+        if(klass.isInterface() == false) {
+            throw new IncompatibleClassChangeError();
+        }
+
+        /**
+         * Otherwise, if the referenced method does not have the same name and descriptor as a method in C
+         * or in one of the superinterfaces of C, or in class Object,
+         * interface method resolution throws a NoSuchMethodError.
+         */
+        VMClass current = klass;
         VMMethod method = null;
-        while(method == null && (C != null)) {
+        while((current != null) && (method == null)) {
             method = current.methods.get(methodSign);
+            if(method != null)
+                break;
             current = current.superClass;
         }
         if(method == null) {
             throw new NoSuchMethodError();
         }
-        if(!method.isAccessibleTo(D)) {
-            throw new IllegalAccessError();
-        }
+
+        /**
+         * TODO: check TiL1 = TiL2 for i = 0 to n (§5.3.4).
+         */
+
         return method;
     }
 }
