@@ -39,4 +39,8 @@ public class VMMethod {
             }
         }
     }
+
+    public boolean isAccessibleTo(VMClass caller){
+        return false;
+    }
 }

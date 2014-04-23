@@ -56,6 +56,10 @@ public class VMClass extends LockbleObject{
      */
     public VMMethod getStaticMethod(String methodSign){
         // TODO
+        VMMethod method = this.methods.get(methodSign);
+        if( method == null) {
+
+        }
         return null;
     }
 

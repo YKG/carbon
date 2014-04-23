@@ -678,71 +678,85 @@ public class Interpreter implements Visitor {
      */
     @Override
     public void visit(Instruction.InvokeVirtual I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getVirtualMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMInstance thiss = (VMInstance)reg[I.args[0]];
+        VMClass klass = thiss.type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeSuper I) {
-        VMClass superKlass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = superKlass.getVirtualMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMInstance thiss = (VMInstance)reg[I.args[0]];
+        assert thiss.type.superClass != null;
+        VMClass superKlass = thiss.type.superClass;
+        VMMethod method = VM.resolveMethod(currentClass, superKlass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeDirect I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getDirectMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMClass klass = ((VMInstance)reg[I.args[0]]).type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeStatic I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getStaticMethod(I.methodSign);
+        VMClass klass = VM.resolveClassOrInterface(currentClass, I.className);
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterface I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getInterfaceMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMClass klass = ((VMInstance)reg[I.args[0]]).type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeVirtualRange I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getVirtualMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMInstance thiss = (VMInstance)reg[I.args[0]];
+        VMClass klass = thiss.type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeSuperRange I) {
-        VMClass superKlass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = superKlass.getVirtualMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMInstance thiss = (VMInstance)reg[I.args[0]];
+        assert thiss.type.superClass != null;
+        VMClass superKlass = thiss.type.superClass;
+        VMMethod method = VM.resolveMethod(currentClass, superKlass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeDirectRange I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getDirectMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMClass klass = ((VMInstance)reg[I.args[0]]).type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeStaticRange I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getStaticMethod(I.methodSign);
+        VMClass klass = VM.resolveClassOrInterface(currentClass, I.className);
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterfaceRange I) {
-        VMClass klass = currentClass.definingLoader.loadClass(I.className);
-        VMMethod method = klass.getInterfaceMethod(I.methodSign);
+        assert I.args.length > 0;
+        VMClass klass = ((VMInstance)reg[I.args[0]]).type;
+        VMMethod method = VM.resolveMethod(currentClass, klass, I.methodSign);
         vmt.setExecuteEnv(method, I.args);
     }
 

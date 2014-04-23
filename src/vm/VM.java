@@ -143,4 +143,20 @@ public final class VM {
 
         return field;
     }
+
+    public static VMMethod resolveMethod(VMClass D, VMClass C,String methodSign) {
+        VMClass current = C;
+        VMMethod method = null;
+        while(method == null && (C != null)) {
+            method = current.methods.get(methodSign);
+            current = current.superClass;
+        }
+        if(method == null) {
+            throw new NoSuchMethodError();
+        }
+        if(!method.isAccessibleTo(D)) {
+            throw new IllegalAccessError();
+        }
+        return method;
+    }
 }
