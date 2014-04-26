@@ -29,7 +29,7 @@ public final class VM {
         linkClass(Klass);
         initClass(Klass);
 
-        VMMethod main = Klass.getStaticMethod("main([java.lang.String)V");
+        VMMethod main = Klass.getDeclaredMethod("main([java.lang.String)V");
         new VMThread(this, main).start();
     }
 
