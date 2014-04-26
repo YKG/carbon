@@ -734,14 +734,38 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.InvokeVirtualRange I) {
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass SC = obj.type.superClass;
+
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
+        method = SC.lookupVirtualMethod(method);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeSuperRange I) {
- }
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass SC = obj.type.superClass;
+
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
+        method = SC.lookupVirtualMethod(method);
+        vmt.setExecuteEnv(method, I.args);
+    }
 
     @Override
     public void visit(Instruction.InvokeDirectRange I) {
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass C = obj.type.superClass;
+
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
+        assert C.getDeclaredMethod(I.methodSign).equals(method);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
