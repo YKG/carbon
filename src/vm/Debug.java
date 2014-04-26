@@ -6,6 +6,6 @@ public class Debug {
         System.exit(-1);
     }
     public static void info(String msg){
-        System.err.println(">>>> INFO  <<<< : " + msg);
+        System.err.println("[  INFO]: " + msg);
     }
 }
