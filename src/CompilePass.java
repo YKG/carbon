@@ -1,6 +1,7 @@
 import control.Control;
 import org.antlr.runtime.RecognitionException;
 import util.MultiThreadUtils.*;
+import vm.BootstrapClassLoader;
 import vm.VM;
 
 import java.io.File;
@@ -114,8 +115,9 @@ public class CompilePass {
             className = className.replace('\\', '/'); // For windows.
 			clazzMap.put(className, worker);
 		}
-		VM vm = new VM(clazzMap);
-		vm.setMainClazzName(mainClazzName);
-		vm.run();
+
+        BootstrapClassLoader bootstrapClassLoader = new BootstrapClassLoader(clazzMap);
+		VM vm = new VM(bootstrapClassLoader, mainClazzName);
+		vm.start();
 	}
 }
