@@ -1,26 +1,18 @@
 package ast;
 
-import ast.classs.FieldItem;
-import ast.classs.MethodItem;
+import ast.classs.*;
 import ast.method.Method;
 import ast.program.Program;
 import ast.stm.Instruction;
+import vm.VMClass;
+import vm.VMField;
 import vm.VMMethod;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 
 public class Translator extends VisitorAdapter {
     public Object result;
-
-    @Override
-    public void visit(MethodItem item) {
-
-    }
-
-    @Override
-    public void visit(FieldItem item) {
-
-    }
 
     @Override
     public void visit(Method method) {
@@ -35,23 +27,20 @@ public class Translator extends VisitorAdapter {
     }
 
     @Override
-    public void visit(Method.MethodPrototype prototype) {
-
-    }
-
-    @Override
-    public void visit(Program program) {
-
-    }
-
-    @Override
     public void visit(ast.classs.Class clazz) {
+        Hashtable<VMField, VMField> fields = new Hashtable<>();
+        for(ast.classs.Class.Field field : clazz.fieldList) {
+            String descriptor  = field.type;
+            VMField vmField = new VMField(field.name, descriptor, null, field.accessFlag);
+            fields.put(vmField, vmField);
+        }
 
-    }
-
-    @Override
-    public void visit(Instruction instruction) {
-
+        Hashtable<VMMethod, VMMethod> methods = new Hashtable<>();
+        for(ast.method.Method method : clazz.methods) {
+            method.accept(this);
+            methods.put((VMMethod)result,(VMMethod)result);
+        }
+        result = new VMClass(clazz.FullyQualifiedName, clazz.getPackageName(), fields, methods, clazz.accessFlag);
     }
 
     @Override

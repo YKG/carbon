@@ -6,7 +6,14 @@ public class VMField {
     String name;
     String descriptor;
     Object value;
-    HashSet<MODIFIER> modifiers;
+    int modifiers;
+
+    public VMField(String name, String descriptor, Object value, int modifiers) {
+        this.name = name;
+        this.descriptor = descriptor;
+        this.value = value;
+        this.modifiers = modifiers;
+    }
 
     enum MODIFIER{
         STATIC;

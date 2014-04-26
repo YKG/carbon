@@ -47,6 +47,12 @@ public class Class extends T {
 		implementsList = new ArrayList<String>();
 	}
 
+    public String getPackageName() {
+        int index = FullyQualifiedName.lastIndexOf('/');
+        if(index == -1)
+            return "";
+        return FullyQualifiedName.substring(1,index);
+    }
 	@Override
 	public void accept(Visitor v) {
 		v.visit(this);

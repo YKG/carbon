@@ -3,34 +3,35 @@ package vm;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
-public class VMClass extends LockbleObject{
+public class VMClass extends LockbleObject {
     VMClassLoader definingLoader;
     VMClassLoader initialLoader;
     VMClass superClass;
     ArrayList<VMClass> superinterfaces;
     String className;
-    Hashtable<String, VMField> fields;
-    Hashtable<String, VMMethod> methods;
+    String packageName;
+    Hashtable<VMField, VMField> fields;
+    Hashtable<VMMethod, VMMethod> methods;
+    int modifiers;
 
-    public VMClass(VMClassLoader definingLoader, VMClassLoader initialLoader,
-                   String className, Hashtable<String, VMField> fields, Hashtable<String, VMMethod> methods){
-        this.definingLoader = definingLoader;
-        this.initialLoader = initialLoader;
+    public VMClass(String className, String packageName, Hashtable<VMField, VMField> fields, Hashtable<VMMethod, VMMethod> methods, int modifiers) {
         this.className = className;
+        this.packageName = packageName;
         this.fields = fields;
         this.methods = methods;
+        this.modifiers = modifiers;
     }
 
-    public VMField getField(String filedName){
+    public VMField getField(String filedName) {
         // TODO
         return null;
     }
 
-    public VMField getDeclaredField(String fieldName){
+    public VMField getDeclaredField(String fieldName) {
         return null;
     }
 
-    public VMMethod getDeclaredMethod(String methodSign){
+    public VMMethod getDeclaredMethod(String methodSign) {
         return null;
     }
 
@@ -39,7 +40,7 @@ public class VMClass extends LockbleObject{
      * that is not private, static, or final, and is also not a constructor).
      */
     // TODO: native / synchronized / etc..
-    public VMMethod lookupVirtualMethod(VMMethod method){
+    public VMMethod lookupVirtualMethod(VMMethod method) {
         String methodSign = method.methodSign;
         /**
          * • If C contains a declaration for an instance method m that
@@ -47,7 +48,7 @@ public class VMClass extends LockbleObject{
          *   be invoked, and the lookup procedure terminates.
          */
         VMMethod m = getDeclaredMethod(methodSign);
-        if (m != null){ // overide
+        if (m != null) { // overide
             return m;
         }
 
@@ -57,7 +58,7 @@ public class VMClass extends LockbleObject{
          *  method to be invoked is the result of the recursive invocation of
          *  this lookup procedure.
          */
-        if (superClass != null){
+        if (superClass != null) {
             return superClass.lookupVirtualMethod(method);
         }
 
@@ -73,7 +74,7 @@ public class VMClass extends LockbleObject{
      * either a private instance method or a constructor).
      */
     // no recursive
-    public VMMethod getDirectMethod(String methodSign){
+    public VMMethod getDirectMethod(String methodSign) {
         // TODO
         return null;
     }
@@ -82,12 +83,12 @@ public class VMClass extends LockbleObject{
      * invoke-static is used to invoke a static method (which is always
      * considered a direct method).
      */
-    public VMMethod lookupStaticMethod(VMMethod method){
+    public VMMethod lookupStaticMethod(VMMethod method) {
         //TODO there isn't any description about lookupStaticMethod
         VMMethod m = getDeclaredMethod(method.methodSign);
-        if(m != null)
+        if (m != null)
             return m;
-        if(superClass != null)
+        if (superClass != null)
             return superClass.lookupStaticMethod(method);
         throw new NoSuchMethodError();
     }
@@ -97,14 +98,14 @@ public class VMClass extends LockbleObject{
      * on an object whose concrete class isn't known, using a method_id
      * that refers to an interface.
      */
-    public VMMethod lookupInterfaceMethod(VMMethod  method){
+    public VMMethod lookupInterfaceMethod(VMMethod method) {
         /**
          * • If C contains a declaration for an instance method with the same
          *   name  and  descriptor  as  the  resolved  method,  then  this  is  the
          *   method to be invoked, and the lookup procedure terminates.
          */
         VMMethod m = getDeclaredMethod(method.methodSign);
-        if(m != null) {
+        if (m != null) {
             return m;
         }
 
@@ -114,7 +115,7 @@ public class VMClass extends LockbleObject{
          *   method to be invoked is the result of the recursive invocation of
          *   this lookup procedure.
          */
-        if(superClass != null) {
+        if (superClass != null) {
             return superClass.lookupInterfaceMethod(method);
         }
 
@@ -125,17 +126,17 @@ public class VMClass extends LockbleObject{
     }
 
 
-    public VMField getStaticField(VMField fieldKey){
+    public VMField getStaticField(VMField fieldKey) {
         return fieldKey; // just return itself.
     }
 
-    public boolean isInherit(VMClass klass){
+    public boolean isInherit(VMClass klass) {
         // TODO
         return false;
     }
 
-    public boolean isAccessibleTo(VMClass caller){
-        return false;
+    public boolean isAccessibleTo(VMClass caller) {
+        return ((modifiers & ast.Const.PUBLIC) != 0 || packageName.equals(caller.packageName));
     }
 
     public boolean isInterface() {

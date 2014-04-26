@@ -1,5 +1,7 @@
 package vm;
 
+import ast.Const;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -69,7 +71,7 @@ public final class VM {
          *      • If  C is not accessible (§5.4.4) to  D , class or interface resolution throws an
          *        IllegalAccessError
          */
-        if (!C.isAccessibleTo(D)){
+        if (C.isAccessibleTo(D)){
             throw new IllegalAccessError();
         }
 
