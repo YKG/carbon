@@ -170,7 +170,7 @@ public final class VM {
          *    the superinterfaces of the specified class C.
          */
         for(VMClass interfacee : C.superinterfaces) {
-            method = VM.lookupMethod(interfacee, methodSign); // TODO: resolve interface method
+            method = lookupMethod(interfacee, methodSign); // TODO: resolve interface method
             if(method != null)
                 return method;
         }

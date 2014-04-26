@@ -700,25 +700,22 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.InvokeStatic I) {
-        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
-        VMClass refKlass = ((VMInstance)reg[I.args[0]]).type;
-        VMClass current = refKlass;
-        VMMethod realMethod = null;
-        while(current != null) {
-            realMethod = current.methods.get(I.methodSign);
-            if(realMethod != null)
-                break;
-        }
-        if(realMethod == null) {
-            throw new  AbstractMethodError();
-        }
-        vmt.setExecuteEnv(realMethod, I.args);
+        VM.resolveMethod(currentClass, I.className, I.methodSign);
+        VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
+        VMMethod method = C.lookupStaticMethod(I.methodSign);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterface I) {
-        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
-        VMClass refKlass = ((VMInstance)reg[I.args[0]]).type;
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass C = obj.type;
+
+        VM.resolveInterfaceMethod(currentClass, I.className, I.methodSign);
+        VMMethod method = C.lookupInterfaceMethod(I.methodSign);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override

@@ -81,13 +81,15 @@ public class VMClass extends LockbleObject{
      * invoke-static is used to invoke a static method (which is always
      * considered a direct method).
      */
-    public VMMethod getStaticMethod(String methodSign){
-        // TODO
+    public VMMethod lookupStaticMethod(String methodSign){
+        //TODO there isn't any description about lookupStaticMethod
         VMMethod method = this.methods.get(methodSign);
-        if( method == null) {
-
+        if( method != null) {
+            return method;
         }
-        return null;
+        if(this.superClass == null)
+            return null;
+        return (this.superClass.lookupStaticMethod(methodSign));
     }
 
     /**
@@ -95,10 +97,33 @@ public class VMClass extends LockbleObject{
      * on an object whose concrete class isn't known, using a method_id
      * that refers to an interface.
      */
-    public VMMethod getInterfaceMethod(String methodSign){
-        // TODO
-        return null;
+    public VMMethod lookupInterfaceMethod(String methodSign){
+        /**
+         * • If C contains a declaration for an instance method with the same
+         *   name  and  descriptor  as  the  resolved  method,  then  this  is  the
+         *   method to be invoked, and the lookup procedure terminates.
+         */
+        VMMethod method = getDeclaredMethod(methodSign);
+        if(method != null) {
+            return method;
+        }
+
+        /**
+         * • Otherwise,  if  C has  a  superclass,  this  same  lookup  procedure
+         *   is  performed  recursively  using  the  direct  superclass  of  C;  the
+         *   method to be invoked is the result of the recursive invocation of
+         *   this lookup procedure.
+         */
+        if(superClass != null) {
+            return superClass.lookupInterfaceMethod(methodSign);
+        }
+
+        /**
+         * • Otherwise, an AbstractMethodErroris raised.
+         */
+        throw new AbstractMethodError();
     }
+
 
     public VMField getStaticField(VMField fieldKey){
         return fieldKey; // just return itself.
