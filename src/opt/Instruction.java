@@ -1084,6 +1084,11 @@ public class Instruction {
     public static class NegInt extends T {
         public int dest, src;
 
+        public NegInt(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -1092,6 +1097,11 @@ public class Instruction {
 
     public static class NotInt extends T {
         public int dest, src;
+
+        public NotInt(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1102,6 +1112,11 @@ public class Instruction {
     public static class NegLong extends T {
         public int dest, src;
 
+        public NegLong(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -1111,6 +1126,11 @@ public class Instruction {
     public static class NotLong extends T {
         public int dest, src;
 
+        public NotLong(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -1119,6 +1139,11 @@ public class Instruction {
 
     public static class NegFloat extends T {
         public int dest, src;
+
+        public NegFloat(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {

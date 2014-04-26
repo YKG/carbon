@@ -616,7 +616,10 @@ public class Translator extends VisitorAdapter{
 
     @Override
     public void visit(Instruction.NegInt inst) {
+        int dest = Integer.parseInt(inst.dest);
+        int src =  Integer.parseInt(inst.src);
 
+        result = new opt.Instruction.NegInt(dest, src);
     }
 
     @Override
