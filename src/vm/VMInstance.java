@@ -13,4 +13,6 @@ public class VMInstance extends LockbleObject{
     public VMField getInstanceField(VMField fieldKey){
         return fields.get(fieldKey);
     }
+
+
 }

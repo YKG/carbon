@@ -678,27 +678,14 @@ public class Interpreter implements Visitor {
      */
     @Override
     public void visit(Instruction.InvokeVirtual I) {
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass C = obj.type;
+
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
-        assert I.args.length >0;
-        VMClass refKlass = ((VMInstance)reg[I.args[0]]).type;
-        /**
-         * If the resolved method is signature polymorphic (§2.9)
-         */
-        VMClass current = refKlass;
-        VMMethod realMethod = null;
-        if(!method.isSigPoly()) {
-            while(current != null) {
-                realMethod = current.methods.get(I.methodSign);
-                if(realMethod != null)
-                    break;
-            }
-            if(realMethod == null) {
-                throw new  AbstractMethodError();
-            }
-            vmt.setExecuteEnv(realMethod, I.args);
-        } else {
-            //TODO handle signature polymorphic
-        }
+        method = C.lookupVirtualMethod(method, I.methodSign);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override

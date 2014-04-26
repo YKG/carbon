@@ -149,25 +149,35 @@ public final class VM {
          * To resolve an unresolved symbolic reference from D to a method in a class C,
          * the symbolic reference to C given by the method reference is first resolved
          */
-        VMClass klass = VM.resolveClassOrInterface(D, N);
+        VMClass C = VM.resolveClassOrInterface(D, N);
 
         /**
          * 1. Method resolution checks whether C is a class or an interface.
          *  If C is an interface, method resolution throws an IncompatibleClassChangeError.
          */
 
-        if(klass.isInterface() == true) {
+        if(C.isInterface() == true) {
             throw new IncompatibleClassChangeError();
         }
 
         /**
          * 2. Method resolution attempts to look up the referenced method in C and its superclasses:
          */
+        VMMethod method = lookupMethod(C, methodSign);
+
         /**
-         * If method lookup fails, method resolution throws a NoSuchMethodError.
+         * 3. Otherwise, method lookup attempts to locate the referenced method in any of
+         *    the superinterfaces of the specified class C.
          */
-        VMMethod method = VM.lookupMethod(klass, methodSign);
-        if(method == null) {
+        for(VMClass interfacee : C.superinterfaces) {
+            method = VM.lookupMethod(interfacee, methodSign); // TODO: resolve interface method
+            if(method != null)
+                return method;
+        }
+
+
+        // lookup failed
+        if (method == null){
             throw new NoSuchMethodError();
         }
 
@@ -175,7 +185,7 @@ public final class VM {
          * Otherwise, if method lookup succeeds and the method is abstract,
          * but C is not abstract, method resolution throws an AbstractMethodError.
          */
-        if((method.isAbstract()) && (!klass.isAbstract())) {
+        if((method.isAbstract()) && (!C.isAbstract())) {
             throw new AbstractMethodError();
         }
 
@@ -194,9 +204,6 @@ public final class VM {
     }
 
     public static VMMethod lookupMethod(VMClass C, String methodSign) {
-        if(C == null)
-            return null;
-
         /**
          * If C declares exactly one method with the name specified by the method reference,
          * and the declaration is a signature polymorphic method (§2.9), then method lookup succeeds.
@@ -211,7 +218,7 @@ public final class VM {
          * Otherwise, if C declares a method with the name and descriptor specified by the method reference,
          * method lookup succeeds.
          */
-        VMMethod method = C.methods.get(methodSign);
+        VMMethod method = C.getDeclaredMethod(methodSign);
         if(method != null) {
             return method;
         }
@@ -220,23 +227,9 @@ public final class VM {
          * Otherwise, if C has a superclass,
          * step 2 of method lookup is recursively invoked on the direct superclass of C.
          */
-
-        method = VM.lookupMethod(C.superClass, methodSign);
+        method = lookupMethod(C.superClass, methodSign);
         if(method != null) {
             return method;
-        }
-
-        /**
-         * Otherwise, method lookup attempts to locate the referenced method
-         * in any of the superinterfaces of the specified class C.
-         * If any superinterface of C declares a method with the name
-         * and descriptor specified by the method reference, method lookup succeeds.
-         * Otherwise, method lookup fails.
-         */
-        for(VMClass supC : C.superinterfaces) {
-            method = VM.lookupMethod(supC, methodSign);
-            if(method != null)
-                return method;
         }
 
         return null;

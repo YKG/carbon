@@ -30,13 +30,40 @@ public class VMClass extends LockbleObject{
         return null;
     }
 
+    public VMMethod getDeclaredMethod(String methodSign){
+        return null;
+    }
+
     /**
      * invoke-virtual is used to invoke a normal virtual method (a method
      * that is not private, static, or final, and is also not a constructor).
      */
-    public VMMethod getVirtualMethod(String methodSign){
-        // TODO
-        return null;
+    // TODO: native / synchronized / etc..
+    public VMMethod lookupVirtualMethod(VMMethod method, String methodSign){
+        /**
+         * • If C contains a declaration for an instance method m that
+         *   overrides (§5.4.5) the resolved method, then m is the method to
+         *   be invoked, and the lookup procedure terminates.
+         */
+        VMMethod m = getDeclaredMethod(methodSign);
+        if (m != null){ // overide
+            return m;
+        }
+
+        /**
+         *  Otherwise, if C has a superclass, this same lookup procedure
+         *  is performed recursively using the direct superclass of C; the
+         *  method to be invoked is the result of the recursive invocation of
+         *  this lookup procedure.
+         */
+        if (superClass != null){
+            return superClass.lookupVirtualMethod(method, methodSign);
+        }
+
+        /**
+         * • Otherwise, an AbstractMethodError is raised
+         */
+        throw new AbstractMethodError();
     }
 
     /**
