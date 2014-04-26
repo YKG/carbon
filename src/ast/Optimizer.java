@@ -1436,114 +1436,133 @@ public class Optimizer extends VisitorAdapter {
 	public void visit(AddIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(RsubInt inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(MulIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(DivIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(RemIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(AndIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(OrIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(XorIntLit16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(AddIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(RsubIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(MulIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(DivIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(RemIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(AndIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(OrIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(XorIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ShlIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ShrIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(UshrIntLit8 inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.vsrc = simplifiedReg(inst.src);
+        inst.lit = Util.hex2int(inst.value);
 	}
 
 	@Override

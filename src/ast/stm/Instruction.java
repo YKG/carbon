@@ -2470,290 +2470,268 @@ public class Instruction
   // d8..e2 22b
   // binop/lit8 vAA, vBB, #+CC
   // d8: add-int/lit8
-  public static class AddIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+  public static class AddIntLit8 extends T {
+      public String op;
+      public String dest;
+      public String src;
+      public String value;
+      public int vdest;
+      public int vsrc;
+      public int lit;
 
-    public AddIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
-    }
+      public AddIntLit8(String op, String dest, String src, String value) {
+          super();
+          this.op = op;
+          this.dest = dest;
+          this.src = src;
+          this.value = value;
+      }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
+      @Override
+      public void accept(Visitor v) {
+          v.visit(this);
+      }
   }
 
-  // d9: rsub-int/lit8
-  public static class RsubIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+    // d9: rsub-int/lit8
+    public static class RsubIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-    public RsubIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        public RsubIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
+
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // da: mul-int/lit8
+    public static class MulIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // da: mul-int/lit8
-  public static class MulIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public MulIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public MulIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // db: div-int/lit8
+    public static class DivIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // db: div-int/lit8
-  public static class DivIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public DivIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public DivIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // dc: rem-int/lit8
+    public static class RemIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // dc: rem-int/lit8
-  public static class RemIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public RemIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public RemIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // dd: and-int/lit8
+    public static class AndIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // dd: and-int/lit8
-  public static class AndIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public AndIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public AndIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // de: or-int/lit8
+    public static class OrIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // de: or-int/lit8
-  public static class OrIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public OrIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public OrIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // df: xor-int/lit8
+    public static class XorIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // df: xor-int/lit8
-  public static class XorIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public XorIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public XorIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // e0: shl-int/lit8
+    public static class ShlIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // e0: shl-int/lit8
-  public static class ShlIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public ShlIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public ShlIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // e1: shr-int/lit8
+    public static class ShrIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // e1: shr-int/lit8
-  public static class ShrIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public ShrIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public ShrIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // e2: ushr-int/lit8
+    public static class UshrIntLit8 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // e2: ushr-int/lit8
-  public static class UshrIntLit8 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public UshrIntLit8(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public UshrIntLit8(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
-
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
 
   // insn_format22c_field:
   // (INSTRUCTION_FORMAT22c_FIELD | INSTRUCTION_FORMAT22c_FIELD_ODEX)
@@ -3203,212 +3181,196 @@ public class Instruction
   // d0..d7 22s
   // binop/lit16 vA, vB, #+CCCC
   // d0: add-int/lit16
-  public static class AddIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+  public static class AddIntLit16 extends T {
+      public String op;
+      public String dest;
+      public String src;
+      public String value;
+      public int vdest;
+      public int vsrc;
+      public int lit;
 
-    public AddIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
-    }
+      public AddIntLit16(String op, String dest, String src, String value) {
+          super();
+          this.op = op;
+          this.dest = dest;
+          this.src = src;
+          this.value = value;
+      }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
+      @Override
+      public void accept(Visitor v) {
+          v.visit(this);
+      }
   }
 
-  // d1: rsub-int (reverse subtract)
-  public static class RsubInt extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+    // d1: rsub-int (reverse subtract)
+    public static class RsubInt extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-    public RsubInt(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        public RsubInt(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
+
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d2: mul-int/lit16
+    public static class MulIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d2: mul-int/lit16
-  public static class MulIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public MulIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public MulIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d3: div-int/lit16
+    public static class DivIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d3: div-int/lit16
-  public static class DivIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public DivIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public DivIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d4: rem-int/lit16
+    public static class RemIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d4: rem-int/lit16
-  public static class RemIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public RemIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public RemIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d5: and-int/lit16
+    public static class AndIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d5: and-int/lit16
-  public static class AndIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public AndIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public AndIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d6: or-int/lit16
+    public static class OrIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d6: or-int/lit16
-  public static class OrIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public OrIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public OrIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
 
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
+    // d7: xor-int/lit16
+    public static class XorIntLit16 extends T {
+        public String op;
+        public String dest;
+        public String src;
+        public String value;
+        public int vdest;
+        public int vsrc;
+        public int lit;
 
-  // d7: xor-int/lit16
-  public static class XorIntLit16 extends T
-  {
-    public String op;
-    public String dest;
-    public String src;
-    public String value;
-    public int vdest;
-    public int vsrc;
+        public XorIntLit16(String op, String dest, String src, String value) {
+            super();
+            this.op = op;
+            this.dest = dest;
+            this.src = src;
+            this.value = value;
+        }
 
-    public XorIntLit16(String op, String dest, String src, String value)
-    {
-      super();
-      this.op = op;
-      this.dest = dest;
-      this.src = src;
-      this.value = value;
+        @Override
+        public void accept(Visitor v) {
+            v.visit(this);
+        }
     }
-
-    @Override
-    public void accept(Visitor v)
-    {
-      v.visit(this);
-    }
-  }
 
   // insn_format22t:INSTRUCTION_FORMAT22t registerA=REGISTER registerB=REGISTER
   // offset_or_label
