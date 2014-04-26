@@ -14,6 +14,11 @@ public class Instruction {
     public static class Move extends T {
         public int dest, src;
 
+        public Move(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -22,6 +27,11 @@ public class Instruction {
 
     public static class MoveFrom16 extends T {
         public int dest, src;
+
+        public MoveFrom16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -32,6 +42,11 @@ public class Instruction {
     public static class Move16 extends T {
         public int dest, src;
 
+        public Move16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -40,6 +55,11 @@ public class Instruction {
 
     public static class MoveWide extends T {
         public int dest, src;
+
+        public MoveWide(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -50,6 +70,11 @@ public class Instruction {
     public static class MoveWideFrom16 extends T {
         public int dest, src;
 
+        public MoveWideFrom16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -58,6 +83,11 @@ public class Instruction {
 
     public static class MoveWide16 extends T {
         public int dest, src;
+
+        public MoveWide16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -68,6 +98,11 @@ public class Instruction {
     public static class MoveObject extends T {
         public int dest, src;
 
+        public MoveObject(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -76,6 +111,11 @@ public class Instruction {
 
     public static class MoveObjectFrom16 extends T {
         public int dest, src;
+
+        public MoveObjectFrom16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -86,6 +126,11 @@ public class Instruction {
     public static class MoveObject16 extends T {
         public int dest, src;
 
+        public MoveObject16(int dest, int src) {
+            this.dest = dest;
+            this.src = src;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -94,6 +139,10 @@ public class Instruction {
 
     public static class MoveResult extends T {
         public int dest;
+
+        public MoveResult(int dest) {
+            this.dest = dest;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -104,6 +153,10 @@ public class Instruction {
     public static class MoveResultWide extends T {
         public int dest;
 
+        public MoveResultWide(int dest) {
+            this.dest = dest;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -113,6 +166,10 @@ public class Instruction {
     public static class MoveResultObject extends T {
         public int dest;
 
+        public MoveResultObject(int dest) {
+            this.dest = dest;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -121,6 +178,10 @@ public class Instruction {
 
     public static class MoveException extends T {
         public int dest;
+
+        public MoveException(int dest) {
+            this.dest = dest;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -138,6 +199,10 @@ public class Instruction {
     public static class Return extends T {
         public int ret;
 
+        public Return(int ret) {
+            this.ret = ret;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -148,6 +213,10 @@ public class Instruction {
     public static class ReturnWide extends T {
         public int ret;
 
+        public ReturnWide(int ret) {
+            this.ret = ret;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -156,6 +225,10 @@ public class Instruction {
 
     public static class ReturnObject extends T {
         public int ret;
+
+        public ReturnObject(int ret) {
+            this.ret = ret;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -166,6 +239,11 @@ public class Instruction {
     public static class Const4 extends T {
         public int dest, value;
 
+        public Const4(int dest, int value) {
+            this.dest = dest;
+            this.value = value;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -174,6 +252,11 @@ public class Instruction {
 
     public static class Const16 extends T {
         public int dest, value;
+
+        public Const16(int dest, int value) {
+            this.dest = dest;
+            this.value = value;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -184,6 +267,11 @@ public class Instruction {
     public static class Const extends T {
         public int dest, value;
 
+        public Const(int dest, int value) {
+            this.dest = dest;
+            this.value = value;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -192,6 +280,11 @@ public class Instruction {
 
     public static class ConstHigh16 extends T {
         public int dest, value;
+
+        public ConstHigh16(int dest, int value) {
+            this.dest = dest;
+            this.value = value;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -203,6 +296,11 @@ public class Instruction {
         public int dest;
         public long value;
 
+        public ConstWide16(int dest, long value) {
+            this.dest = dest;
+            this.value = value;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -212,6 +310,11 @@ public class Instruction {
     public static class ConstWide32 extends T {
         public int dest;
         public long value;
+
+        public ConstWide32(int dest, long value) {
+            this.dest = dest;
+            this.value = value;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -223,6 +326,11 @@ public class Instruction {
         public int dest;
         public long value;
 
+        public ConstWide(int dest, long value) {
+            this.dest = dest;
+            this.value = value;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -233,6 +341,11 @@ public class Instruction {
         public int dest;
         public long value;
 
+        public ConstWideHigh16(int dest, long value) {
+            this.dest = dest;
+            this.value = value;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -240,7 +353,13 @@ public class Instruction {
     }
 
     public static class ConstString extends T {
-        public int dest, str;
+        public int dest;
+        public String str;
+
+        public ConstString(int dest, String str) {
+            this.dest = dest;
+            this.str = str;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -249,7 +368,13 @@ public class Instruction {
     }
 
     public static class ConstStringJumbo extends T {
-        public int dest, str;
+        public int dest;
+        public String str;
+
+        public ConstStringJumbo(int dest, String str) {
+            this.dest = dest;
+            this.str = str;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -261,6 +386,11 @@ public class Instruction {
         public int dest;
         public String className;
 
+        public ConstClass(int dest, String className) {
+            this.dest = dest;
+            this.className = className;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -269,6 +399,10 @@ public class Instruction {
 
     public static class MonitorEnter extends T {
         public int obj;
+
+        public MonitorEnter(int obj) {
+            this.obj = obj;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -279,6 +413,10 @@ public class Instruction {
     public static class MonitorExit extends T {
         public int obj;
 
+        public MonitorExit(int obj) {
+            this.obj = obj;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -288,6 +426,11 @@ public class Instruction {
     public static class CheckCast extends T {
         public int obj;
         public String className;
+
+        public CheckCast(int obj, String className) {
+            this.obj = obj;
+            this.className = className;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -300,6 +443,12 @@ public class Instruction {
         public int dest, obj;
         public String className;
 
+        public InstanceOf(int dest, int obj, String className) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -308,6 +457,11 @@ public class Instruction {
 
     public static class arrayLength extends T {
         public int dest, arr;
+
+        public arrayLength(int dest, int arr) {
+            this.dest = dest;
+            this.arr = arr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -319,6 +473,11 @@ public class Instruction {
         public int dest;
         public String className;
 
+        public NewInstance(int dest, String className) {
+            this.dest = dest;
+            this.className = className;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -329,6 +488,12 @@ public class Instruction {
         public int dest, size;
         public String type;
 
+        public NewArray(int dest, int size, String type) {
+            this.dest = dest;
+            this.size = size;
+            this.type = type;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -336,6 +501,14 @@ public class Instruction {
     }
 
     public static class FilledNewArray extends T {
+        public int[] argvs;
+        public String type;
+
+        public FilledNewArray(int[] argvs, String type) {
+            this.argvs = argvs;
+            this.type = type;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -343,6 +516,13 @@ public class Instruction {
     }
 
     public static class FilledNewArrayRange extends T {
+        public int[] argvs;
+        public String type;
+
+        public FilledNewArrayRange(int[] argvs, String type) {
+            this.argvs = argvs;
+            this.type = type;
+        }
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -350,6 +530,13 @@ public class Instruction {
     }
 
     public static class FillArrayData extends T {
+        public int dest, addr;
+
+        public FillArrayData(int dest, int addr) {
+            this.dest = dest;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -358,6 +545,10 @@ public class Instruction {
 
     public static class Throw extends T {
         public int exception;
+
+        public Throw(int exception) {
+            this.exception = exception;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -368,6 +559,10 @@ public class Instruction {
     public static class Goto extends T {
         public int addr;
 
+        public Goto(int addr) {
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -377,6 +572,10 @@ public class Instruction {
     public static class Goto16 extends T {
         public int addr;
 
+        public Goto16(int addr) {
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -385,6 +584,10 @@ public class Instruction {
 
     public static class Goto32 extends T {
         public int addr;
+
+        public Goto32(int addr) {
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -397,6 +600,11 @@ public class Instruction {
         public Hashtable<Integer, Integer> table;
         public int test;
 
+        public PackedSwitch(Hashtable<Integer, Integer> table, int test) {
+            this.table = table;
+            this.test = test;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -406,6 +614,11 @@ public class Instruction {
     public static class SparseSwitch extends T {
         public Hashtable<Integer, Integer> table;
         public int test;
+
+        public SparseSwitch(Hashtable<Integer, Integer> table, int test) {
+            this.table = table;
+            this.test = test;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -417,6 +630,12 @@ public class Instruction {
     public static class CmplFloat extends T {
         public int dest, first, second;
 
+        public CmplFloat(int dest, int first, int second) {
+            this.dest = dest;
+            this.first = first;
+            this.second = second;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -425,6 +644,12 @@ public class Instruction {
 
     public static class CmpgFloat extends T {
         public int dest, first, second;
+
+        public CmpgFloat(int dest, int first, int second) {
+            this.dest = dest;
+            this.first = first;
+            this.second = second;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -435,6 +660,12 @@ public class Instruction {
     public static class CmplDouble extends T {
         public int dest, first, second;
 
+        public CmplDouble(int dest, int first, int second) {
+            this.dest = dest;
+            this.first = first;
+            this.second = second;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -444,6 +675,12 @@ public class Instruction {
     public static class CmpgDouble extends T {
         public int dest, first, second;
 
+        public CmpgDouble(int dest, int first, int second) {
+            this.dest = dest;
+            this.first = first;
+            this.second = second;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -452,6 +689,12 @@ public class Instruction {
 
     public static class CmpLong extends T {
         public int dest, first, second;
+
+        public CmpLong(int dest, int first, int second) {
+            this.dest = dest;
+            this.first = first;
+            this.second = second;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -463,6 +706,12 @@ public class Instruction {
     public static class IfEq extends T {
         public int first, second, addr;
 
+        public IfEq(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -471,6 +720,12 @@ public class Instruction {
 
     public static class IfNe extends T {
         public int first, second, addr;
+
+        public IfNe(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -481,6 +736,12 @@ public class Instruction {
     public static class IfLt extends T {
         public int first, second, addr;
 
+        public IfLt(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -489,6 +750,12 @@ public class Instruction {
 
     public static class IfGe extends T {
         public int first, second, addr;
+
+        public IfGe(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -499,6 +766,12 @@ public class Instruction {
     public static class IfGt extends T {
         public int first, second, addr;
 
+        public IfGt(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -507,6 +780,12 @@ public class Instruction {
 
     public static class IfLe extends T {
         public int first, second, addr;
+
+        public IfLe(int first, int second, int addr) {
+            this.first = first;
+            this.second = second;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -518,6 +797,11 @@ public class Instruction {
     public static class IfEqz extends T {
         public int test, addr;
 
+        public IfEqz(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -526,6 +810,11 @@ public class Instruction {
 
     public static class IfNez extends T {
         public int test, addr;
+
+        public IfNez(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -536,6 +825,11 @@ public class Instruction {
     public static class IfLtz extends T {
         public int test, addr;
 
+        public IfLtz(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -544,6 +838,11 @@ public class Instruction {
 
     public static class IfGez extends T {
         public int test, addr;
+
+        public IfGez(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -554,6 +853,11 @@ public class Instruction {
     public static class IfGtz extends T {
         public int test, addr;
 
+        public IfGtz(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -562,6 +866,11 @@ public class Instruction {
 
     public static class IfLez extends T {
         public int test, addr;
+
+        public IfLez(int test, int addr) {
+            this.test = test;
+            this.addr = addr;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -573,6 +882,12 @@ public class Instruction {
     public static class Aget extends T {
         public int dest, arr, index;
 
+        public Aget(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -581,6 +896,12 @@ public class Instruction {
 
     public static class AgetWide extends T {
         public int dest, arr, index;
+
+        public AgetWide(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -591,6 +912,12 @@ public class Instruction {
     public static class AgetObject extends T {
         public int dest, arr, index;
 
+        public AgetObject(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -599,6 +926,12 @@ public class Instruction {
 
     public static class AgetBoolean extends T {
         public int dest, arr, index;
+
+        public AgetBoolean(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -609,6 +942,12 @@ public class Instruction {
     public static class AgetByte extends T {
         public int dest, arr, index;
 
+        public AgetByte(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -617,6 +956,12 @@ public class Instruction {
 
     public static class AgetChar extends T {
         public int dest, arr, index;
+
+        public AgetChar(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -627,6 +972,12 @@ public class Instruction {
     public static class AgetShort extends T {
         public int dest, arr, index;
 
+        public AgetShort(int dest, int arr, int index) {
+            this.dest = dest;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -635,6 +986,12 @@ public class Instruction {
 
     public static class Aput extends T {
         public int src, arr, index;
+
+        public Aput(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -645,6 +1002,12 @@ public class Instruction {
     public static class AputWide extends T {
         public int src, arr, index;
 
+        public AputWide(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -653,6 +1016,12 @@ public class Instruction {
 
     public static class AputObject extends T {
         public int src, arr, index;
+
+        public AputObject(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -663,6 +1032,12 @@ public class Instruction {
     public static class AputBoolean extends T {
         public int src, arr, index;
 
+        public AputBoolean(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -671,6 +1046,12 @@ public class Instruction {
 
     public static class AputByte extends T {
         public int src, arr, index;
+
+        public AputByte(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -681,6 +1062,12 @@ public class Instruction {
     public static class AputChar extends T {
         public int src, arr, index;
 
+        public AputChar(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -689,6 +1076,12 @@ public class Instruction {
 
     public static class AputShort extends T {
         public int src, arr, index;
+
+        public AputShort(int src, int arr, int index) {
+            this.src = src;
+            this.arr = arr;
+            this.index = index;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -701,6 +1094,14 @@ public class Instruction {
         public int dest, obj;
         public String className, fieldName, descriptor;
 
+        public Iget(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -710,6 +1111,14 @@ public class Instruction {
     public static class IgetWide extends T {
         public int dest, obj;
         public String className, fieldName, descriptor;
+
+        public IgetWide(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -721,6 +1130,14 @@ public class Instruction {
         public int dest, obj;
         public String className, fieldName, descriptor;
 
+        public IgetOjbect(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -730,6 +1147,14 @@ public class Instruction {
     public static class IgetBoolean extends T {
         public int dest, obj;
         public String className, fieldName, descriptor;
+
+        public IgetBoolean(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -741,6 +1166,14 @@ public class Instruction {
         public int dest, obj;
         public String className, fieldName, descriptor;
 
+        public IgetByte(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -750,6 +1183,14 @@ public class Instruction {
     public static class IgetChar extends T {
         public int dest, obj;
         public String className, fieldName, descriptor;
+
+        public IgetChar(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -761,6 +1202,14 @@ public class Instruction {
         public int dest, obj;
         public String className, fieldName, descriptor;
 
+        public IgetShort(int dest, int obj, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -770,6 +1219,14 @@ public class Instruction {
     public static class Iput extends T {
         public int src, obj;
         public String className, fieldName, descriptor;
+
+        public Iput(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -781,6 +1238,14 @@ public class Instruction {
         public int src, obj;
         public String className, fieldName, descriptor;
 
+        public IputWide(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -790,6 +1255,14 @@ public class Instruction {
     public static class IputObject extends T {
         public int src, obj;
         public String className, fieldName, descriptor;
+
+        public IputObject(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -801,6 +1274,14 @@ public class Instruction {
         public int src, obj;
         public String className, fieldName, descriptor;
 
+        public IputBoolean(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -810,6 +1291,14 @@ public class Instruction {
     public static class IputByte extends T {
         public int src, obj;
         public String className, fieldName, descriptor;
+
+        public IputByte(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -821,6 +1310,14 @@ public class Instruction {
         public int src, obj;
         public String className, fieldName, descriptor;
 
+        public IputChar(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -830,6 +1327,14 @@ public class Instruction {
     public static class IputShort extends T {
         public int src, obj;
         public String className, fieldName, descriptor;
+
+        public IputShort(int src, int obj, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.obj = obj;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -842,6 +1347,13 @@ public class Instruction {
         public int dest;
         public String className, fieldName, descriptor;
 
+        public Sget(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -851,6 +1363,13 @@ public class Instruction {
     public static class SgetWide extends T {
         public int dest;
         public String className, fieldName, descriptor;
+
+        public SgetWide(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -862,6 +1381,13 @@ public class Instruction {
         public int dest;
         public String className, fieldName, descriptor;
 
+        public SgetObject(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -871,6 +1397,13 @@ public class Instruction {
     public static class SgetBoolean extends T {
         public int dest;
         public String className, fieldName, descriptor;
+
+        public SgetBoolean(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -882,6 +1415,13 @@ public class Instruction {
         public int dest;
         public String className, fieldName, descriptor;
 
+        public SgetByte(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -891,6 +1431,13 @@ public class Instruction {
     public static class SgetChar extends T {
         public int dest;
         public String className, fieldName, descriptor;
+
+        public SgetChar(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -902,6 +1449,13 @@ public class Instruction {
         public int dest;
         public String className, fieldName, descriptor;
 
+        public SgetShort(int dest, String className, String fieldName, String descriptor) {
+            this.dest = dest;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -911,6 +1465,13 @@ public class Instruction {
     public static class Sput extends T {
         public int src;
         public String className, fieldName, descriptor;
+
+        public Sput(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -922,6 +1483,13 @@ public class Instruction {
         public int src;
         public String className, fieldName, descriptor;
 
+        public SputWide(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -931,6 +1499,13 @@ public class Instruction {
     public static class SputObject extends T {
         public int src;
         public String className, fieldName, descriptor;
+
+        public SputObject(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -942,6 +1517,13 @@ public class Instruction {
         public int src;
         public String className, fieldName, descriptor;
 
+        public SputBoolean(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -951,6 +1533,13 @@ public class Instruction {
     public static class SputByte extends T {
         public int src;
         public String className, fieldName, descriptor;
+
+        public SputByte(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -962,6 +1551,13 @@ public class Instruction {
         public int src;
         public String className, fieldName, descriptor;
 
+        public SputChar(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -972,6 +1568,13 @@ public class Instruction {
         public int src;
         public String className, fieldName, descriptor;
 
+        public SputShort(int src, String className, String fieldName, String descriptor) {
+            this.src = src;
+            this.className = className;
+            this.fieldName = fieldName;
+            this.descriptor = descriptor;
+        }
+
         @Override
         public void accept(Visitor v) {
             v.visit(this);
@@ -980,8 +1583,14 @@ public class Instruction {
 
     //0x6e
     public static class InvokeVirtual extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeVirtual(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -990,8 +1599,14 @@ public class Instruction {
     }
 
     public static class InvokeSuper extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeSuper(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1000,8 +1615,14 @@ public class Instruction {
     }
 
     public static class InvokeDirect extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeDirect(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1010,8 +1631,14 @@ public class Instruction {
     }
 
     public static class InvokeStatic extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeStatic(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1020,8 +1647,14 @@ public class Instruction {
     }
 
     public static class InvokeInterface extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeInterface(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1031,8 +1664,14 @@ public class Instruction {
 
     //0x74
     public static class InvokeVirtualRange extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeVirtualRange(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1041,8 +1680,14 @@ public class Instruction {
     }
 
     public static class InvokeSuperRange extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeSuperRange(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1051,8 +1696,14 @@ public class Instruction {
     }
 
     public static class InvokeDirectRange extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeDirectRange(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1061,8 +1712,14 @@ public class Instruction {
     }
 
     public static class InvokeStaticRange extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeStaticRange(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {
@@ -1071,8 +1728,14 @@ public class Instruction {
     }
 
     public static class InvokeInterfaceRange extends T {
-        public String className, methodSign;
         public int[] args;
+        public String className, methodSign;
+
+        public InvokeInterfaceRange(int[] args, String className, String methodSign) {
+            this.args = args;
+            this.className = className;
+            this.methodSign = methodSign;
+        }
 
         @Override
         public void accept(Visitor v) {

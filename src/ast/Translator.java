@@ -6,7 +6,7 @@ import ast.method.Method;
 import ast.program.Program;
 import ast.stm.Instruction;
 
-public class Translator extends VisitorAdapter{
+public class Translator extends VisitorAdapter {
     public Object result;
 
     @Override
@@ -46,217 +46,217 @@ public class Translator extends VisitorAdapter{
 
     @Override
     public void visit(Instruction.Nop inst) {
-
+        result = new opt.Instruction.Nop();
     }
 
     @Override
     public void visit(Instruction.Move inst) {
-
+        result = new opt.Instruction.Move(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveFrom16 inst) {
-
+        result = new opt.Instruction.MoveFrom16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.Move16 inst) {
-
+        result = new opt.Instruction.Move16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveWide inst) {
-
+        result = new opt.Instruction.MoveWide(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveWideFrom16 inst) {
-
+        result = new opt.Instruction.MoveWideFrom16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveWide16 inst) {
-
+        result = new opt.Instruction.MoveWide16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveObject inst) {
-
+        result = new opt.Instruction.MoveObject(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveObjectFrom16 inst) {
-
+        result = new opt.Instruction.MoveObjectFrom16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveObject16 inst) {
-
+        result = new opt.Instruction.MoveObject16(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.MoveResult inst) {
-
+        result = new opt.Instruction.MoveResult(inst.vdest);
     }
 
     @Override
     public void visit(Instruction.MoveResultWide inst) {
-
+        result = new opt.Instruction.MoveResultWide(inst.vdest);
     }
 
     @Override
     public void visit(Instruction.MoveResultObject inst) {
-
+        result = new opt.Instruction.MoveResultObject(inst.vdest);
     }
 
     @Override
     public void visit(Instruction.MoveException inst) {
-
+        result = new opt.Instruction.MoveException(inst.vdest);
     }
 
     @Override
     public void visit(Instruction.ReturnVoid inst) {
-
+        result = new opt.Instruction.ReturnVoid();
     }
 
     @Override
     public void visit(Instruction.Return inst) {
-
+        result = new opt.Instruction.Return(inst.vret);
     }
 
     @Override
     public void visit(Instruction.ReturnWide inst) {
-
+        result = new opt.Instruction.ReturnWide(inst.vret);
     }
 
     @Override
     public void visit(Instruction.ReturnObject inst) {
-
+        result = new opt.Instruction.ReturnObject(inst.vret);
     }
 
     @Override
     public void visit(Instruction.Const4 inst) {
-
+        result = new opt.Instruction.Const4(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.Const16 inst) {
-
+        result = new opt.Instruction.Const16(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.Const inst) {
-
+        result = new opt.Instruction.Const(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstHigh16 inst) {
-
+        result = new opt.Instruction.ConstHigh16(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstWide16 inst) {
-
+        result = new opt.Instruction.ConstWide16(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstWide32 inst) {
-
+        result = new opt.Instruction.ConstWide32(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstWide inst) {
-
+        result = new opt.Instruction.ConstWide(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstWideHigh16 inst) {
-
+        result = new opt.Instruction.ConstWideHigh16(inst.vdest, inst.val);
     }
 
     @Override
     public void visit(Instruction.ConstString inst) {
-
+        result = new opt.Instruction.ConstString(inst.vdest, inst.str);
     }
 
     @Override
     public void visit(Instruction.ConstStringJumbo inst) {
-
+        result = new opt.Instruction.ConstStringJumbo(inst.vdest, inst.str);
     }
 
     @Override
     public void visit(Instruction.ConstClass inst) {
-
+        result = new opt.Instruction.ConstClass(inst.vdest, inst.type);
     }
 
     @Override
     public void visit(Instruction.MonitorEnter inst) {
-
+        result = new opt.Instruction.MonitorEnter(inst.vref);
     }
 
     @Override
     public void visit(Instruction.MonitorExit inst) {
-
+        result = new opt.Instruction.MonitorExit(inst.vref);
     }
 
     @Override
     public void visit(Instruction.CheckCast inst) {
-
+        result = new opt.Instruction.CheckCast(inst.vref, inst.type);
     }
 
     @Override
     public void visit(Instruction.InstanceOf inst) {
-
+        result = new opt.Instruction.InstanceOf(inst.vdest, inst.vref, inst.type);
     }
 
     @Override
     public void visit(Instruction.arrayLength inst) {
-
+        result = new opt.Instruction.arrayLength(inst.vdest, inst.vsrc);
     }
 
     @Override
     public void visit(Instruction.NewInstance inst) {
-
+        result = new opt.Instruction.NewInstance(inst.vdest, inst.type);
     }
 
     @Override
     public void visit(Instruction.NewArray inst) {
-
+        result = new opt.Instruction.NewArray(inst.vdest, inst.vsize, inst.type);
     }
 
     @Override
     public void visit(Instruction.FilledNewArray inst) {
-
+        result = new opt.Instruction.FilledNewArray(inst.argvs, inst.type);
     }
 
     @Override
     public void visit(Instruction.FilledNewArrayRange inst) {
-
+        result = new opt.Instruction.FilledNewArrayRange(inst.argvs, inst.type);
     }
 
     @Override
     public void visit(Instruction.FillArrayData inst) {
-
+        result = new opt.Instruction.FillArrayData(inst.vdest, inst.addr);
     }
 
     @Override
     public void visit(Instruction.Throw inst) {
-
+        result = new opt.Instruction.Throw(inst.vkind);
     }
 
     @Override
     public void visit(Instruction.Goto inst) {
-
+        result = new opt.Instruction.Goto(inst.addr);
     }
 
     @Override
     public void visit(Instruction.Goto16 inst) {
-
+        result = new opt.Instruction.Goto16(inst.addr);
     }
 
     @Override
     public void visit(Instruction.Goto32 inst) {
-
+        result = new opt.Instruction.Goto32(inst.addr);
     }
 
     @Override
@@ -270,347 +270,387 @@ public class Translator extends VisitorAdapter{
     }
 
     @Override
-    public void visit(Instruction.CmplFloat inst) {
-
-    }
-
-    @Override
-    public void visit(Instruction.CmpgFloat inst) {
-
-    }
-
-    @Override
-    public void visit(Instruction.CmplDouble inst) {
-
-    }
-
-    @Override
-    public void visit(Instruction.Cmpgdouble inst) {
-
-    }
-
-    @Override
-    public void visit(Instruction.CmpLong inst) {
-
-    }
-
-    @Override
     public void visit(Instruction.IfEq inst) {
+        result = new opt.Instruction.IfEq(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfNe inst) {
+        result = new opt.Instruction.IfNe(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfLt inst) {
+        result = new opt.Instruction.IfLt(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfGe inst) {
+        result = new opt.Instruction.IfGe(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfGt inst) {
+        result = new opt.Instruction.IfGt(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfLe inst) {
+        result = new opt.Instruction.IfLe(inst.vfirst, inst.vsecond, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfEqz inst) {
+        result = new opt.Instruction.IfEqz(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfNez inst) {
+        result = new opt.Instruction.IfNez(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfLtz inst) {
+        result = new opt.Instruction.IfLtz(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfGez inst) {
+        result = new opt.Instruction.IfGez(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfGtz inst) {
+        result = new opt.Instruction.IfGtz(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.IfLez inst) {
+        result = new opt.Instruction.IfLez(inst.vtest, inst.addr);
 
     }
 
     @Override
     public void visit(Instruction.Aget inst) {
+        result = new opt.Instruction.Aget(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetWide inst) {
+        result = new opt.Instruction.AgetWide(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetObject inst) {
+        result = new opt.Instruction.AgetObject(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetBoolean inst) {
+        result = new opt.Instruction.AgetBoolean(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetByte inst) {
+        result = new opt.Instruction.AgetByte(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetChar inst) {
+        result = new opt.Instruction.AgetChar(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AgetShort inst) {
+        result = new opt.Instruction.AgetShort(inst.vdest, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.Aput inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputWide inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputObject inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputBoolean inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputByte inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputChar inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputShort inst) {
+        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
+
     @Override
     public void visit(Instruction.Iget inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetWide inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetOjbect inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetBoolean inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetByte inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetChar inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetShort inst) {
+        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
+
     @Override
     public void visit(Instruction.Iput inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputWide inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputObject inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputBoolean inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputByte inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputChar inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputShort inst) {
+        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.Sget inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetWide inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetObject inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetBoolean inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetByte inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetChar inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetShort inst) {
+        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.Sput inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputWide inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputObject inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputBoolean inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputByte inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputChar inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputShort inst) {
+        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.InvokeVirtual inst) {
-
+        result = new opt.Instruction.InvokeVirtual(inst.argvs, inst.type.classType, inst.type.getMethodSign());
     }
 
     @Override
     public void visit(Instruction.InvokeSuper inst) {
+        result = new opt.Instruction.InvokeSuper(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeDirect inst) {
+        result = new opt.Instruction.InvokeDirect(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeStatic inst) {
+        result = new opt.Instruction.InvokeStatic(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeInterface inst) {
+        result = new opt.Instruction.InvokeInterface(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeVirtualRange inst) {
+        result = new opt.Instruction.InvokeVirtualRange(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeSuperRange inst) {
+        result = new opt.Instruction.InvokeSuperRange(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeDirectRange inst) {
+        result = new opt.Instruction.InvokeDirectRange(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeStaticRange inst) {
+        result = new opt.Instruction.InvokeStaticRange(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 
     @Override
     public void visit(Instruction.InvokeInterfaceRange inst) {
+        result = new opt.Instruction.InvokeInterfaceRange(inst.argvs, inst.type.classType, inst.type.getMethodSign());
 
     }
 

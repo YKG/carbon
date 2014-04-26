@@ -132,6 +132,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public int val;
 
     public Const4(String op, String dest, String value)
     {
@@ -1788,7 +1789,6 @@ public class Instruction
     public String dest;
     public String str;
     public int vdest;
-    public int vsrc;
 
     public ConstString(String op, String dest, String str)
     {
@@ -2227,6 +2227,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public int val;
 
     public ConstHigh16(String op, String dest, String value)
     {
@@ -2250,6 +2251,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public long val;
 
     public ConstWideHigh16(String op, String dest, String value)
     {
@@ -2276,6 +2278,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public int val;
 
     public Const16(String op, String dest, String value)
     {
@@ -2299,6 +2302,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public long val;
 
     public ConstWide16(String op, String dest, String value)
     {
@@ -5068,6 +5072,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public int val;
 
     public Const(String op, String dest, String value)
     {
@@ -5091,6 +5096,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public long val;
 
     public ConstWide32(String op, String dest, String value)
     {
@@ -5613,6 +5619,7 @@ public class Instruction
     public String dest;
     public String value;
     public int vdest;
+    public long val;
 
     public ConstWide(String op, String dest, String value)
     {
