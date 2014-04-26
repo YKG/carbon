@@ -7,8 +7,6 @@ public class VMMethod {
     VMClass definingClass;
     String methodSign;
 
-
-
     public VMClass getDefiningClass(){
         return definingClass;
     }
