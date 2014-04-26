@@ -1,14 +1,24 @@
 package vm;
 
+import opt.Instruction;
+
 import java.util.Hashtable;
 
 public class VMMethod {
     opt.Instruction.T code[];
     VMClass definingClass;
     String methodSign;
-
+    ExceptionTable exceptionTable;
+    int modifiers;
     public VMClass getDefiningClass(){
         return definingClass;
+    }
+
+    public VMMethod(Instruction.T[] code, String methodSign, ExceptionTable exceptionTable, int modifiers) {
+        this.code = code;
+        this.methodSign = methodSign;
+        this.exceptionTable = exceptionTable;
+        this.modifiers = modifiers;
     }
 
     public static class ExceptionTable{

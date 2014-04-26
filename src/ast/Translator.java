@@ -5,6 +5,9 @@ import ast.classs.MethodItem;
 import ast.method.Method;
 import ast.program.Program;
 import ast.stm.Instruction;
+import vm.VMMethod;
+
+import java.util.ArrayList;
 
 public class Translator extends VisitorAdapter {
     public Object result;
@@ -21,7 +24,14 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Method method) {
-
+        ArrayList<opt.Instruction.T> instList = new ArrayList<>();
+        for(ast.stm.T inst : method.statements) {
+            inst.accept(this);
+            instList.add((opt.Instruction.T)result);
+        }
+        opt.Instruction.T[] code = (opt.Instruction.T[])instList.toArray();
+        //TODO : exception table = null
+        result = new VMMethod(code, method.getMethodSign(), null, method.accessFlag);
     }
 
     @Override
