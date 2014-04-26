@@ -770,10 +770,22 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.InvokeStaticRange I) {
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
+        VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
+        method = C.lookupStaticMethod(method);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
     public void visit(Instruction.InvokeInterfaceRange I) {
+        Object object = reg[I.args[0]];
+        assert object instanceof VMInstance;
+        VMInstance obj = (VMInstance)object;
+        VMClass C = obj.type;
+
+        VMMethod method = VM.resolveInterfaceMethod(currentClass, I.className, I.methodSign);
+        method = C.lookupInterfaceMethod(method);
+        vmt.setExecuteEnv(method, I.args);
     }
 
     @Override
