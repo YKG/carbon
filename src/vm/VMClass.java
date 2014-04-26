@@ -82,15 +82,14 @@ public class VMClass extends LockbleObject{
      * invoke-static is used to invoke a static method (which is always
      * considered a direct method).
      */
-    public VMMethod lookupStaticMethod(String methodSign){
+    public VMMethod lookupStaticMethod(VMMethod method){
         //TODO there isn't any description about lookupStaticMethod
-        VMMethod method = this.methods.get(methodSign);
-        if( method != null) {
-            return method;
-        }
-        if(this.superClass == null)
-            return null;
-        return (this.superClass.lookupStaticMethod(methodSign));
+        VMMethod m = getDeclaredMethod(method.methodSign);
+        if(m != null)
+            return m;
+        if(superClass != null)
+            return superClass.lookupStaticMethod(method);
+        throw new NoSuchMethodError();
     }
 
     /**
@@ -98,15 +97,15 @@ public class VMClass extends LockbleObject{
      * on an object whose concrete class isn't known, using a method_id
      * that refers to an interface.
      */
-    public VMMethod lookupInterfaceMethod(String methodSign){
+    public VMMethod lookupInterfaceMethod(VMMethod  method){
         /**
          * • If C contains a declaration for an instance method with the same
          *   name  and  descriptor  as  the  resolved  method,  then  this  is  the
          *   method to be invoked, and the lookup procedure terminates.
          */
-        VMMethod method = getDeclaredMethod(methodSign);
-        if(method != null) {
-            return method;
+        VMMethod m = getDeclaredMethod(method.methodSign);
+        if(m != null) {
+            return m;
         }
 
         /**
@@ -116,7 +115,7 @@ public class VMClass extends LockbleObject{
          *   this lookup procedure.
          */
         if(superClass != null) {
-            return superClass.lookupInterfaceMethod(methodSign);
+            return superClass.lookupInterfaceMethod(method);
         }
 
         /**
