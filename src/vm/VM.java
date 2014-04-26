@@ -14,8 +14,10 @@ public final class VM {
 
     public VM(BootstrapClassLoader bootstrapClassLoader, String initialClassName){
         this.bootstrapClassLoader = bootstrapClassLoader;
+        bootstrapClassLoader.vm = this;
         this.initialClassName = initialClassName;
         this.methodArea = new HashSet<>();
+        methodArea.add(bootstrapClassLoader);
         this.threads = new LinkedList<>();
     }
 

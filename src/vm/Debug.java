@@ -5,4 +5,7 @@ public class Debug {
         System.err.println(">>>> PANIC <<<< : " + msg);
         System.exit(-1);
     }
+    public static void info(String msg){
+        System.err.println(">>>> INFO  <<<< : " + msg);
+    }
 }
