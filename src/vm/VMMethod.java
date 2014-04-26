@@ -5,6 +5,7 @@ import java.util.Hashtable;
 public class VMMethod {
     opt.Instruction.T code[];
     VMClass definingClass;
+    String methodSign;
 
 
 

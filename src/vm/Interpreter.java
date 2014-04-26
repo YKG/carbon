@@ -684,7 +684,7 @@ public class Interpreter implements Visitor {
         VMClass C = obj.type;
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
-        method = C.lookupVirtualMethod(method, I.methodSign);
+        method = C.lookupVirtualMethod(method);
         vmt.setExecuteEnv(method, I.args);
     }
 

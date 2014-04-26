@@ -39,7 +39,8 @@ public class VMClass extends LockbleObject{
      * that is not private, static, or final, and is also not a constructor).
      */
     // TODO: native / synchronized / etc..
-    public VMMethod lookupVirtualMethod(VMMethod method, String methodSign){
+    public VMMethod lookupVirtualMethod(VMMethod method){
+        String methodSign = method.methodSign;
         /**
          * • If C contains a declaration for an instance method m that
          *   overrides (§5.4.5) the resolved method, then m is the method to
@@ -57,7 +58,7 @@ public class VMClass extends LockbleObject{
          *  this lookup procedure.
          */
         if (superClass != null){
-            return superClass.lookupVirtualMethod(method, methodSign);
+            return superClass.lookupVirtualMethod(method);
         }
 
         /**
