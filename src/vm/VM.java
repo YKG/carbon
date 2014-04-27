@@ -50,6 +50,81 @@ public final class VM {
 
     public synchronized void initClass(VMClass klass){
         // BE CAREFUL!!! sync
+        /**
+         * 1. Synchronize on the initialization lock,  LC , for  C . This involves waiting until the
+         *    current thread can acquire  LC .
+         */
+
+        /**
+         * 2. If the  Class object for  C indicates that initialization is in progress for  C by some
+         *    other thread, then release  LC and block the current thread until informed that the
+         *    in-progress initialization has completed, at which time repeat this procedure.
+         */
+
+        /**
+         * 3. If the  Class object for  C indicates that initialization is in progress for  C by the
+         *    current thread, then this must be a recursive request for initialization. Release
+         *    LC and complete normally.
+         */
+
+        /**
+         * 4. If the  Class object for  C indicates that  C has already been initialized, then no
+         *    further action is required. Release  LC and complete normally.
+         */
+
+        /**
+         * 5. If the  Class object for  C is in an erroneous state, then initialization is not
+         *    possible. Release  LC and throw a  NoClassDefFoundError .
+         */
+
+        /**
+         * 6. Otherwise, record the fact that initialization of the  Class object for  C is in
+         *    progress by the current thread, and release  LC . Then, initialize each  final
+         *    static field of  C with the constant value in its  ConstantValue attribute
+         *    (§4.7.2), in the order the fields appear in the  ClassFile structure.
+         */
+
+        /**
+         * 7. Next, if  C is a class rather than an interface, and its superclass  SC has not
+         *    yet been initialized, then recursively perform this entire procedure for  SC . If
+         *    necessary, verify and prepare  SC first.
+         *    If the initialization of  SC completes abruptly because of a thrown exception,
+         *    then acquire  LC , label the  Class object for  C as erroneous, notify all waiting
+         *    threads, release  LC , and complete abruptly, throwing the same exception that
+         *    resulted from initializing  SC .
+         */
+
+        /**
+         * 8. Next, determine whether assertions are enabled for  C by querying its defining
+         *    class loader.
+         */
+
+        /**
+         * 9. Next, execute the class or interface initialization method of  C .
+         */
+
+        /**
+         * 10. If the execution of the class or interface initialization method completes
+         *     normally, then acquire  LC , label the  Class object for  C as fully initialized, notify
+         *     all waiting threads, release  LC , and complete this procedure normally.
+         */
+
+        /**
+         * 11. Otherwise, the class or interface initialization method must have completed
+         *     abruptly by throwing some exception  E . If the class of  E is not  Error
+         *     or one of its subclasses, then create a new instance of the class
+         *     ExceptionInInitializerError with  E as the argument, and use this object
+         *     in place of  E in the following step.
+         *     If a new instance of  ExceptionInInitializerError cannot be created
+         *     because an  OutOfMemoryError occurs, then use an  OutOfMemoryError object
+         *     in place of  E in the following step.
+         */
+
+        /**
+         * 12. Acquire  LC , label the  Class object for  C as erroneous, notify all waiting
+         *     threads, release  LC , and complete this procedure abruptly with reason  E or its
+         *     replacement as determined in the previous step.
+         */
         // TODO
     }
 
