@@ -2,10 +2,7 @@ package vm;
 
 import ast.Const;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public final class VM {
     BootstrapClassLoader bootstrapClassLoader;
@@ -40,6 +37,14 @@ public final class VM {
     public void linkClass(VMClass klass){
         // 1. verify
         // 2. prepare (set static field default value)
+        Enumeration e = klass.fields.keys();
+        while(e.hasMoreElements()) {
+            VMField field = (VMField)e.nextElement();
+            if((field.modifiers & Const.STATIC) != 0) {
+                field = klass.fields.get(field);
+                field.value = ast.Util.getNewObject(field.descriptor);
+            }
+        }
         // TODO
     }
 
