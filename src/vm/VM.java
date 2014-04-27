@@ -20,7 +20,7 @@ public final class VM {
         this.threads = new LinkedList<>();
     }
 
-    public void start(){
+    public void start() throws Throwable {
         // 1. loading initialClass (create)
         // 2. linking initialClass
         // 3. initial initialClass
