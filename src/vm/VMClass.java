@@ -13,6 +13,7 @@ public class VMClass extends LockbleObject {
     Hashtable<VMField, VMField> fields;
     Hashtable<VMMethod, VMMethod> methods;
     int modifiers;
+    String initialStatus;
 
     public VMClass(String className, String packageName, Hashtable<VMField, VMField> fields, Hashtable<VMMethod, VMMethod> methods, int modifiers) {
         this.className = className;
@@ -20,6 +21,7 @@ public class VMClass extends LockbleObject {
         this.fields = fields;
         this.methods = methods;
         this.modifiers = modifiers;
+        this.initialStatus = "uninitialized";
     }
 
     public VMField getField(String filedName) {

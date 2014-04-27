@@ -48,41 +48,69 @@ public final class VM {
         // TODO
     }
 
-    public synchronized void initClass(VMClass klass){
+    public synchronized void initClass(VMClass klass) throws Throwable {
         // BE CAREFUL!!! sync
         /**
          * 1. Synchronize on the initialization lock,  LC , for  C . This involves waiting until the
          *    current thread can acquire  LC .
          */
+        klass.lock.lock();
 
         /**
          * 2. If the  Class object for  C indicates that initialization is in progress for  C by some
          *    other thread, then release  LC and block the current thread until informed that the
          *    in-progress initialization has completed, at which time repeat this procedure.
          */
-
         /**
          * 3. If the  Class object for  C indicates that initialization is in progress for  C by the
          *    current thread, then this must be a recursive request for initialization. Release
          *    LC and complete normally.
          */
+        String status =  klass.initialStatus;
+        if(status.startsWith("initializing")) {
+            String hashCode = status.substring(status.lastIndexOf('@')+1);
+            if(!hashCode.equals(Thread.currentThread().hashCode())) {
+                klass.lock.unlock();
+                initClass(klass);
+            } else {
+                klass.lock.unlock();
+                return ;
+            }
+        }
 
         /**
          * 4. If the  Class object for  C indicates that  C has already been initialized, then no
          *    further action is required. Release  LC and complete normally.
          */
+        if(klass.initialStatus.equals("initialized")) {
+            klass.lock.unlock();
+            return ;
+        }
 
         /**
          * 5. If the  Class object for  C is in an erroneous state, then initialization is not
          *    possible. Release  LC and throw a  NoClassDefFoundError .
          */
-
+        if(klass.initialStatus.equals("erroneous")) {
+            klass.lock.unlock();
+            throw new NoClassDefFoundError();
+        }
         /**
          * 6. Otherwise, record the fact that initialization of the  Class object for  C is in
          *    progress by the current thread, and release  LC . Then, initialize each  final
          *    static field of  C with the constant value in its  ConstantValue attribute
          *    (§4.7.2), in the order the fields appear in the  ClassFile structure.
          */
+        klass.initialStatus = "initializing@" + Thread.currentThread().hashCode();
+        klass.lock.unlock();
+        Enumeration e = klass.fields.keys();
+        while(e.hasMoreElements()) {
+            VMField field = (VMField)e.nextElement();
+            if((field.modifiers & Const.STATIC) != 0 && (field.modifiers & Const.FINAL) != 0) {
+                field = klass.fields.get(field);
+                // TODO initialize each  final static field
+            }
+        }
 
         /**
          * 7. Next, if  C is a class rather than an interface, and its superclass  SC has not
@@ -93,22 +121,42 @@ public final class VM {
          *    threads, release  LC , and complete abruptly, throwing the same exception that
          *    resulted from initializing  SC .
          */
-
+        if((klass.modifiers & Const.INTERFACE) == 0 && (klass.superClass != null)) {
+            VMClass SC = klass.superClass;
+            if(!SC.initialStatus.equals("initialized")) {
+                try {
+                    initClass(SC);
+                } catch (Throwable ex) {
+                    klass.lock.lock();
+                    klass.initialStatus = "erroneous";
+                    klass.lock.unlock();
+                    throw ex;
+                }
+            }
+        }
         /**
          * 8. Next, determine whether assertions are enabled for  C by querying its defining
          *    class loader.
          */
-
+        //TODO
+        try {
         /**
          * 9. Next, execute the class or interface initialization method of  C .
          */
+
+        VMMethod clinit = klass.getDeclaredMethod("<clinit>()V");
+        new VMThread(this, clinit).start();
 
         /**
          * 10. If the execution of the class or interface initialization method completes
          *     normally, then acquire  LC , label the  Class object for  C as fully initialized, notify
          *     all waiting threads, release  LC , and complete this procedure normally.
          */
-
+        klass.lock.lock();
+        klass.initialStatus = "initialized";
+        klass.lock.unlock();
+        } catch (Throwable ex) {
+            Throwable E = ex;
         /**
          * 11. Otherwise, the class or interface initialization method must have completed
          *     abruptly by throwing some exception  E . If the class of  E is not  Error
@@ -119,13 +167,24 @@ public final class VM {
          *     because an  OutOfMemoryError occurs, then use an  OutOfMemoryError object
          *     in place of  E in the following step.
          */
+        if(!(ex instanceof java.lang.Error)) {
+            try {
+                E =new ExceptionInInitializerError(ex);
+            } catch (OutOfMemoryError err) {
+                E = err;
+            }
+        }
 
         /**
          * 12. Acquire  LC , label the  Class object for  C as erroneous, notify all waiting
          *     threads, release  LC , and complete this procedure abruptly with reason  E or its
          *     replacement as determined in the previous step.
          */
-        // TODO
+        klass.lock.lock();
+        klass.initialStatus = "erroneous";
+        klass.lock.unlock();
+        throw E;
+        }
     }
 
 
