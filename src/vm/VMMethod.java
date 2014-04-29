@@ -1,5 +1,6 @@
 package vm;
 
+import ast.Const;
 import opt.Instruction;
 
 import java.util.Hashtable;
@@ -49,13 +50,35 @@ public class VMMethod {
         }
     }
 
-    public boolean isAccessibleTo(VMClass caller){
+    public boolean isAccessibleTo(VMClass caller){ // caller is D
+        VMClass D = caller;
+
+        if ((modifiers & Const.PUBLIC) != 0) return true;
+        if ((modifiers & Const.PROTECT) != 0){
+            /**
+             * Furthermore, if R is not static, then the symbolic reference to R must
+             * contain a symbolic reference to a class T, such that T is either a subclass of D, a
+             * superclass of D, or D itself.
+             * // TODO here we cannot get 'T'!
+             */
+            return true;
+        }
+
+        if ((modifiers & Const.PROTECT) != 0 || isDefaultAccess()){
+            if (definingClass.packageName.equals(D.packageName)) return true;
+        }
+
+        if ((modifiers & Const.PRIVATE) != 0 && D.getDeclaredMethod(methodSign).equals(this))
+            return true;
         return false;
     }
 
     public boolean isAbstract() {
-        //TODO the function must exchange to access flag;
-        return false;
+        return (modifiers & Const.ABSTRACT) != 0;
+    }
+
+    public boolean isDefaultAccess() {
+        return (modifiers & (Const.PUBLIC | Const.PROTECT |Const.PRIVATE)) == 0;
     }
 
     public boolean isSigPoly() {

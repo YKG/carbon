@@ -25,10 +25,21 @@ public class VMClass extends LockbleObject {
         this.methods = methods;
         this.modifiers = modifiers;
         this.initialStatus = "uninitialized";
+
+        Enumeration e = fields.keys();
+        while(e.hasMoreElements()) {
+            VMField field = (VMField)e.nextElement();
+            field.definingClass = this;
+        }
+        e = methods.keys();
+        while(e.hasMoreElements()) {
+            VMMethod method = (VMMethod)e.nextElement();
+            method.definingClass = this;
+        }
     }
 
     public VMField getDeclaredField(String fieldName) {
-        Enumeration e = methods.keys();
+        Enumeration e = fields.keys();
         while(e.hasMoreElements()) {
             VMField field = (VMField)e.nextElement();
             if (field.name.equals(fieldName)){
