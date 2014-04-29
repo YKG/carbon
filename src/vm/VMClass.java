@@ -1,6 +1,7 @@
 package vm;
 
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class VMClass extends LockbleObject {
@@ -34,6 +35,13 @@ public class VMClass extends LockbleObject {
     }
 
     public VMMethod getDeclaredMethod(String methodSign) {
+        Enumeration e = methods.keys();
+        while(e.hasMoreElements()) {
+            VMMethod method = (VMMethod)e.nextElement();
+            if (method.methodSign.equals(methodSign)){
+                return methods.get(method);
+            }
+        }
         return null;
     }
 
