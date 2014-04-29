@@ -16,10 +16,6 @@ public class VMField {
         this.modifiers = modifiers;
     }
 
-    enum MODIFIER{
-        STATIC;
-    };
-
     public boolean isAccessibleTo(VMClass caller){
         VMClass D = caller;
 
