@@ -1,14 +1,11 @@
 package ast;
 
-import ast.classs.*;
 import ast.method.Method;
-import ast.program.Program;
 import ast.stm.Instruction;
 import vm.VMClass;
 import vm.VMField;
 import vm.VMMethod;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 
 public class Translator extends VisitorAdapter {
@@ -16,12 +13,11 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Method method) {
-        ArrayList<opt.Instruction.T> instList = new ArrayList<>();
-        for(ast.stm.T inst : method.statements) {
-            inst.accept(this);
-            instList.add((opt.Instruction.T)result);
+        opt.Instruction.T[] code = new opt.Instruction.T[method.statements.size()];
+        for(int i = 0; i < method.statements.size(); i++) {
+            method.statements.get(i).accept(this);
+            code[i] = (opt.Instruction.T)result;
         }
-        opt.Instruction.T[] code = (opt.Instruction.T[])instList.toArray();
         //TODO : exception table = null
         result = new VMMethod(method.regCount, code, method.getMethodSign(), null, method.accessFlag);
     }

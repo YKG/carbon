@@ -4,7 +4,7 @@ import ast.Optimizer;
 import ast.Translator;
 import util.MultiThreadUtils;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class BootstrapClassLoader extends VMClassLoader{
@@ -14,6 +14,8 @@ public class BootstrapClassLoader extends VMClassLoader{
     Optimizer optimizer;
 
     public BootstrapClassLoader(Map<String, MultiThreadUtils.TranslateWorker> clazzMap) {
+        classes = new HashMap<>();
+
         this.clazzMap = clazzMap;
         translator = new Translator();
         optimizer = new Optimizer();

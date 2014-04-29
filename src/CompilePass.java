@@ -109,15 +109,26 @@ public class CompilePass {
 		Map<String, TranslateWorker> clazzMap = new HashMap<String, TranslateWorker>();
 		for (TranslateWorker worker : workers) {
 			String className = worker.parserWorker.path;
-			className = "L"
-					+ className.substring(Control.apkoutput.length() + 7,
-							className.length() - 6) + ";";
+            System.out.println(className);
+//            className = "L"
+//					+ className.substring(Control.apkoutput.length() + 7,
+//							className.length() - 6) + ";";
+
+            className = className.substring(Control.apkoutput.length() + 1);
+            className = className.replaceAll(".smali", "");
             className = className.replace('\\', '/'); // For windows.
-			clazzMap.put(className, worker);
+            className = "L" + className + ";";
+            System.out.println("className: " + className);
+            clazzMap.put(className, worker);
 		}
 
         BootstrapClassLoader bootstrapClassLoader = new BootstrapClassLoader(clazzMap);
 		VM vm = new VM(bootstrapClassLoader, mainClazzName);
-		vm.start();
+        try{
+            vm.start();
+        }catch (Throwable e){
+            e.printStackTrace();
+        }
+
 	}
 }

@@ -1401,7 +1401,6 @@ public class Interpreter implements Visitor {
         vmt.pc++;
     }
 
-
     private void biopLit(int dstReg, int srcReg, int literal, String op) {
         Object result = null;
         Integer src = (Integer) reg[srcReg];

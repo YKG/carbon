@@ -5,6 +5,7 @@ import ast.Const;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class VMClass extends LockbleObject {
     VMClassLoader definingLoader;
@@ -19,6 +20,8 @@ public class VMClass extends LockbleObject {
     String initialStatus;
 
     public VMClass(String className, String packageName, Hashtable<VMField, VMField> fields, Hashtable<VMMethod, VMMethod> methods, int modifiers) {
+        this.lock = new ReentrantLock();
+
         this.className = className;
         this.packageName = packageName;
         this.fields = fields;
