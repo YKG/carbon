@@ -1,5 +1,7 @@
 package vm;
 
+import ast.Const;
+
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
@@ -80,7 +82,6 @@ public class VMClass extends LockbleObject {
         throw new AbstractMethodError();
     }
 
-
     /**
      * invoke-static is used to invoke a static method (which is always
      * considered a direct method).
@@ -133,7 +134,15 @@ public class VMClass extends LockbleObject {
     }
 
     public boolean isInherit(VMClass klass) {
-        // TODO
+        // TODO. I am not sure, Please review me!
+        assert klass != null;
+        if (klass.equals(this)) return true;
+
+        if (superClass.isInherit(klass)) return true;
+        for(VMClass interfacee : superinterfaces){
+            if (interfacee.isInherit(klass)) return true;
+        }
+
         return false;
     }
 
@@ -142,12 +151,12 @@ public class VMClass extends LockbleObject {
     }
 
     public boolean isInterface() {
-        //TODO the function must exchange to access flag;
-        return false;
+        //TODO the function must exchange to access flag; ???
+        return ((modifiers & Const.INTERFACE) != 0);
     }
 
     public boolean isAbstract() {
-        //TODO the function must exchange to access flag;
-        return false;
+        //TODO the function must exchange to access flag; ???
+        return ((modifiers & Const.ABSTRACT) != 0);
     }
 }
