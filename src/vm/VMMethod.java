@@ -6,6 +6,7 @@ import opt.Instruction;
 import java.util.Hashtable;
 
 public class VMMethod {
+    int regCount;
     opt.Instruction.T code[];
     VMClass definingClass;
     String methodSign;
@@ -15,7 +16,8 @@ public class VMMethod {
         return definingClass;
     }
 
-    public VMMethod(Instruction.T[] code, String methodSign, ExceptionTable exceptionTable, int modifiers) {
+    public VMMethod(int regCount, Instruction.T[] code, String methodSign, ExceptionTable exceptionTable, int modifiers) {
+        this.regCount = regCount;
         this.code = code;
         this.methodSign = methodSign;
         this.exceptionTable = exceptionTable;

@@ -93,7 +93,8 @@ public class Optimizer extends VisitorAdapter {
         if((method.accessFlag & Const.NATIVE) != 0)
             return ;
 		initLabelMap(method);
-		this.pStart = Integer.parseInt(method.registers_directive_count) - 1;
+        method.regCount = Integer.parseInt(method.registers_directive_count);
+		this.pStart = method.regCount - 1;
 		this.pStart -= method.prototype.argsType.size();
 		for (int i = 0; i < method.accessList.size(); i++) {
 			if (method.accessList.get(i).equals("static")) {

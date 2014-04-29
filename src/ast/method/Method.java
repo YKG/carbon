@@ -16,6 +16,7 @@ public class Method extends T
   // 3.registers_directive
   public String registers_directive;
   public String registers_directive_count;
+  public int regCount; // locals + parameters
   // 4.labels--
   public List<ast.method.Method.Label> labelList;
   // 7.statements

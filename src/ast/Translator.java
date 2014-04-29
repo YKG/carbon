@@ -23,7 +23,7 @@ public class Translator extends VisitorAdapter {
         }
         opt.Instruction.T[] code = (opt.Instruction.T[])instList.toArray();
         //TODO : exception table = null
-        result = new VMMethod(code, method.getMethodSign(), null, method.accessFlag);
+        result = new VMMethod(method.regCount, code, method.getMethodSign(), null, method.accessFlag);
     }
 
     @Override

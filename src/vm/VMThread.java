@@ -1,5 +1,6 @@
 package vm;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 public final class VMThread extends Thread{
@@ -57,18 +58,27 @@ public final class VMThread extends Thread{
     final class Frame{
         public VMMethod method;
         VMMethod.ExceptionTable exceptionTable;
-        boolean[] regType; // is a ref or a primitive
         Object[] reg;
-
+//        boolean[] regType; // is a ref or a primitive
 
         public Frame(VMMethod method){
-            // TODO
+            this.method = method;
+            exceptionTable = method.exceptionTable;
+            reg = new Object[method.regCount];
         }
 
         void fixParameters(int[] args){
-            // TODO
+            if (args.length == 0) return;
+
+            Frame prev = stack.peek();
+            ArrayList<Object> params = new ArrayList<>();
+            for(int e : args){
+                params.add(prev.reg[e]);
+            }
+            Object[] parameters = params.toArray();
+            int p0index = reg.length - parameters.length;
+//            reg = new Object[reg.length];
+            System.arraycopy(parameters, 0, reg, p0index, parameters.length);
         }
     }
 }
-
-
