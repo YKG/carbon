@@ -25,12 +25,14 @@ public class VMClass extends LockbleObject {
         this.initialStatus = "uninitialized";
     }
 
-    public VMField getField(String filedName) {
-        // TODO
-        return null;
-    }
-
     public VMField getDeclaredField(String fieldName) {
+        Enumeration e = methods.keys();
+        while(e.hasMoreElements()) {
+            VMField field = (VMField)e.nextElement();
+            if (field.name.equals(fieldName)){
+                return fields.get(field);
+            }
+        }
         return null;
     }
 
@@ -78,16 +80,6 @@ public class VMClass extends LockbleObject {
         throw new AbstractMethodError();
     }
 
-    /**
-     * invoke-direct is used to invoke a non-static direct method (that is,
-     * an instance method that is by its nature non-overridable, namely
-     * either a private instance method or a constructor).
-     */
-    // no recursive
-    public VMMethod getDirectMethod(String methodSign) {
-        // TODO
-        return null;
-    }
 
     /**
      * invoke-static is used to invoke a static method (which is always
