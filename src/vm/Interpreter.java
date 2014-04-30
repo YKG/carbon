@@ -14,12 +14,14 @@ public class Interpreter implements Visitor {
 
     public Interpreter(VMThread vmthread) {
         this.vmt = vmthread;
+        this.stack = vmt.stack;
+        updateExecEnv(stack.peek());
     }
 
     private void updateExecEnv(VMThread.Frame frame){
         reg = frame.reg;
         stack = vmt.stack;
-        currentClass = frame.method.getDefiningClass();
+        currentClass = frame.method.definingClass;
         exceptionTable = frame.exceptionTable;
     }
     void handleException(){
@@ -266,6 +268,11 @@ public class Interpreter implements Visitor {
     @Override
     public void visit(Instruction.NewInstance I) {
         VMClass klass = currentClass.definingLoader.loadClass(I.className);
+        try {
+            vmt.vm.initClass(klass);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         reg[I.dest] = new VMInstance(klass);
         vmt.pc++;
     }
@@ -714,8 +721,13 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.InvokeStatic I) {
-        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
+        try {
+            vmt.vm.initClass(C);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = C.lookupStaticMethod(method);
         vmt.setExecuteEnv(method, I.args);
     }
@@ -770,8 +782,13 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.InvokeStaticRange I) {
-        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
+        try {
+            vmt.vm.initClass(C);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = C.lookupStaticMethod(method);
         vmt.setExecuteEnv(method, I.args);
     }
@@ -1388,6 +1405,11 @@ public class Interpreter implements Visitor {
     }
     private void sget(int dest, String className, String fieldName, String descriptor){
         VMClass klass = VM.resolveClassOrInterface(currentClass, className);
+        try {
+            vmt.vm.initClass(klass);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
         VMField field = klass.getStaticField(fieldKey);
         reg[dest] = field.value;
@@ -1395,6 +1417,11 @@ public class Interpreter implements Visitor {
     }
     private void sput(String className, String fieldName, String descriptor, int src){
         VMClass klass = VM.resolveClassOrInterface(currentClass, className);
+        try {
+            vmt.vm.initClass(klass);
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
         VMField fieldKey = VM.resolveField(currentClass, className, fieldName, descriptor);
         VMField field = klass.getStaticField(fieldKey);
         field.value = reg[src];

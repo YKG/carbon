@@ -15,8 +15,11 @@ public class Translator extends VisitorAdapter {
     public void visit(Method method) {
         opt.Instruction.T[] code = new opt.Instruction.T[method.statements.size()];
         for(int i = 0; i < method.statements.size(); i++) {
-            method.statements.get(i).accept(this);
-            code[i] = (opt.Instruction.T)result;
+            ast.stm.T inst = method.statements.get(i);
+            inst.accept(this);
+            opt.Instruction.T newInst = (opt.Instruction.T)result;
+            newInst.source = inst.source;
+            code[i] = newInst;
         }
         //TODO : exception table = null
         result = new VMMethod(method.regCount, code, method.getMethodSign(), null, method.accessFlag);

@@ -12,9 +12,6 @@ public class VMMethod {
     String methodSign;
     ExceptionTable exceptionTable;
     int modifiers;
-    public VMClass getDefiningClass(){
-        return definingClass;
-    }
 
     public VMMethod(int regCount, Instruction.T[] code, String methodSign, ExceptionTable exceptionTable, int modifiers) {
         this.regCount = regCount;

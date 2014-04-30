@@ -14,6 +14,7 @@ public final class VMThread extends Thread{
     Object returnValue;
     Object exception;
     // Stack<> nativeStack;
+    int count;
 
     private opt.Instruction.T code[];
 
@@ -28,13 +29,14 @@ public final class VMThread extends Thread{
     }
 
     void setExecuteEnv(VMMethod method, int[] args){
+        Debug.info(Thread.currentThread() + " " + method.definingClass.className + "->" +  method.methodSign + "<<<<<<<<");
         Frame frame = new Frame(method);
         frame.fixParameters(args);
         stack.push(frame);
 
         currentFrame = frame;
         currentMethod = method;
-        currentClass = method.getDefiningClass();
+        currentClass = method.definingClass;
 
         code = currentMethod.code;
         pc = 0;
@@ -44,8 +46,10 @@ public final class VMThread extends Thread{
         Interpreter interpreter = new Interpreter(this);
         while (!stack.empty()){
             try{
+                Debug.info(Thread.currentThread() + " " + count++ + " " + code[pc].source);
                 code[pc].accept(interpreter);
             }catch (Exception e){
+                e.printStackTrace();
                 exception = e;
             }
 

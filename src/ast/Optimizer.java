@@ -568,7 +568,8 @@ public class Optimizer extends VisitorAdapter {
 	public void visit(AgetByte inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        
+        inst.vindex = this.labelMap.get(inst.index); // TODO: FIXME
     }
 
 	@Override

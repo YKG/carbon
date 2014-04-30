@@ -1,5 +1,6 @@
 package vm;
 
+import ast.InstructionSourceRecover;
 import ast.Optimizer;
 import ast.Translator;
 import util.MultiThreadUtils;
@@ -10,6 +11,7 @@ import java.util.Map;
 public class BootstrapClassLoader extends VMClassLoader{
     Map<String, MultiThreadUtils.TranslateWorker> clazzMap;
     VM vm;
+    InstructionSourceRecover sourceRecover;
     Translator translator;
     Optimizer optimizer;
 
@@ -17,8 +19,9 @@ public class BootstrapClassLoader extends VMClassLoader{
         classes = new HashMap<>();
 
         this.clazzMap = clazzMap;
-        translator = new Translator();
+        sourceRecover = new InstructionSourceRecover();
         optimizer = new Optimizer();
+        translator = new Translator();
     }
 
     public VMClass loadClass(String className){
@@ -26,6 +29,7 @@ public class BootstrapClassLoader extends VMClassLoader{
             return classes.get(className);
         Debug.info("Loading " + className);
         ast.classs.Class clazz = getASTClass(className);
+        clazz.accept(sourceRecover);
         clazz.accept(optimizer);
         clazz.accept(translator);
         VMClass klass = (VMClass)translator.result;
@@ -41,6 +45,7 @@ public class BootstrapClassLoader extends VMClassLoader{
         for(String str : clazz.implementsList) {
             klass.superinterfaces.add(VM.resolveClassOrInterface(klass, str));
         }
+        classes.put(className, klass);
         return klass;
     }
 

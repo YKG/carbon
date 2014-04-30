@@ -30,7 +30,7 @@ public final class VM {
         linkClass(Klass);
         initClass(Klass);
 
-        VMMethod main = Klass.getDeclaredMethod("main([java.lang.String)V");
+        VMMethod main = Klass.getDeclaredMethod("main([Ljava/lang/String;)V");
         new VMThread(this, main).start();
     }
 
@@ -145,7 +145,13 @@ public final class VM {
          */
 
         VMMethod clinit = klass.getDeclaredMethod("<clinit>()V");
-        new VMThread(this, clinit).start();
+
+        if (clinit != null){
+            VMThread clinitThread = new VMThread(this, clinit);
+            clinitThread.start();
+            clinitThread.join();
+        }
+
 
         /**
          * 10. If the execution of the class or interface initialization method completes
