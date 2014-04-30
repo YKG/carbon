@@ -21,6 +21,16 @@ public class VMMethod {
         this.modifiers = modifiers;
     }
 
+    public VMMethod(String special, String methodSign){
+        if (special.equals("NATIVE")){
+            modifiers &= Const.NATIVE;
+        }
+        if (special.equals("ABSTRACT")){
+            modifiers &= Const.ABSTRACT;
+        }
+        this.methodSign = methodSign;
+    }
+
     public static class ExceptionTable{
         Hashtable<Interval, Integer> table;
 

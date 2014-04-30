@@ -13,6 +13,11 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Method method) {
+        if((method.accessFlag & Const.NATIVE) != 0)
+            result = new VMMethod("NATIVE", method.getMethodSign());
+        if((method.accessFlag & Const.ABSTRACT) != 0)
+            result = new VMMethod("ABSTRACT", method.getMethodSign());
+
         opt.Instruction.T[] code = new opt.Instruction.T[method.statements.size()];
         for(int i = 0; i < method.statements.size(); i++) {
             ast.stm.T inst = method.statements.get(i);

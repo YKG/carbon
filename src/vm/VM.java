@@ -48,7 +48,7 @@ public final class VM {
         // TODO
     }
 
-    public synchronized void initClass(VMClass klass) throws Throwable {
+    public void initClass(VMClass klass) throws Throwable {
         // BE CAREFUL!!! sync
         /**
          * 1. Synchronize on the initialization lock,  LC , for  C . This involves waiting until the

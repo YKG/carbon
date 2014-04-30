@@ -21,6 +21,7 @@ public class VMClass extends LockbleObject {
 
     public VMClass(String className, String packageName, Hashtable<VMField, VMField> fields, Hashtable<VMMethod, VMMethod> methods, int modifiers) {
         this.lock = new ReentrantLock();
+        this.superinterfaces = new ArrayList<>();
 
         this.className = className;
         this.packageName = packageName;

@@ -50,6 +50,7 @@ public final class VMThread extends Thread{
                 code[pc].accept(interpreter);
             }catch (Exception e){
                 e.printStackTrace();
+                Debug.panic("I am died!");
                 exception = e;
             }
 

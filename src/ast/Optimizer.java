@@ -70,6 +70,7 @@ public class Optimizer extends VisitorAdapter {
            field.accessFlag =  getAccessFlag(field.accessList);
         }
         for(Method method : clazz.methods) {
+//            System.out.println("Debug: " + method.getMethodSign());
             method.accessFlag =  getAccessFlag(method.accessList);
             labelMap = new HashMap<String, Integer>();
             method.accept(this);
@@ -92,7 +93,9 @@ public class Optimizer extends VisitorAdapter {
 	public void visit(Method method) {
         if((method.accessFlag & Const.NATIVE) != 0)
             return ;
-		initLabelMap(method);
+        if((method.accessFlag & Const.ABSTRACT) != 0)
+            return ;
+        initLabelMap(method);
         method.regCount = Integer.parseInt(method.registers_directive_count);
 		this.pStart = method.regCount - 1;
 		this.pStart -= method.prototype.argsType.size();
@@ -536,103 +539,102 @@ public class Optimizer extends VisitorAdapter {
 		inst.addr = this.labelMap.get(inst.dest);
 	}
 
-	@Override
-	public void visit(Aget inst) {
+    @Override
+    public void visit(Aget inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
-	}
+        inst.vindex = simplifiedReg(inst.index);
+    }
 
-	@Override
-	public void visit(AgetWide inst) {
+    @Override
+    public void visit(AgetWide inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AgetObject inst) {
+    @Override
+    public void visit(AgetObject inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AgetBoolean inst) {
+    @Override
+    public void visit(AgetBoolean inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AgetByte inst) {
+    @Override
+    public void visit(AgetByte inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        
-        inst.vindex = this.labelMap.get(inst.index); // TODO: FIXME
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AgetChar inst) {
+    @Override
+    public void visit(AgetChar inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AgetShort inst) {
+    @Override
+    public void visit(AgetShort inst) {
         inst.vdest = simplifiedReg(inst.dest);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(Aput inst) {
+    @Override
+    public void visit(Aput inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputWide inst) {
+    @Override
+    public void visit(AputWide inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputObject inst) {
+    @Override
+    public void visit(AputObject inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputBoolean inst) {
+    @Override
+    public void visit(AputBoolean inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputByte inst) {
+    @Override
+    public void visit(AputByte inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputChar inst) {
+    @Override
+    public void visit(AputChar inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
-	@Override
-	public void visit(AputShort inst) {
+    @Override
+    public void visit(AputShort inst) {
         inst.vsrc = simplifiedReg(inst.src);
         inst.varray = simplifiedReg(inst.array);
-        inst.vindex = this.labelMap.get(inst.index);
+        inst.vindex = simplifiedReg(inst.index);
     }
 
 	@Override
