@@ -6,9 +6,9 @@ import opt.Instruction;
 import java.util.Hashtable;
 
 public class VMMethod {
+    public VMClass definingClass;
     int regCount;
     opt.Instruction.T code[];
-    VMClass definingClass;
     String methodSign;
     ExceptionTable exceptionTable;
     int modifiers;
@@ -80,6 +80,11 @@ public class VMMethod {
         if ((modifiers & Const.PRIVATE) != 0 && D.getDeclaredMethod(methodSign).equals(this))
             return true;
         return false;
+    }
+
+
+    public boolean isNative() {
+        return (modifiers & Const.NATIVE) != 0;
     }
 
     public boolean isAbstract() {

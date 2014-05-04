@@ -29,10 +29,7 @@ public class BootstrapClassLoader extends VMClassLoader{
             return classes.get(className);
         Debug.info("Loading " + className);
         ast.classs.Class clazz = getASTClass(className);
-        if (className.equals("Ljava/io/FileDescriptor;")){
-            int a = 1;
-            a++;
-        }
+
         clazz.accept(sourceRecover);
         clazz.accept(optimizer);
         clazz.accept(translator);
@@ -51,6 +48,7 @@ public class BootstrapClassLoader extends VMClassLoader{
             klass.superinterfaces.add(VM.resolveClassOrInterface(klass, str));
         }
         classes.put(className, klass);
+        vm.linkClass(klass);
         return klass;
     }
 

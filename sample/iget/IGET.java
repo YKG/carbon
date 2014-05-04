@@ -1,6 +1,8 @@
 
 public class IGET{
     public static void main(String[] args) {
+        SI s = new SI();
+        System.out.println(s.x);
         A3 a3 = new A3();
         System.out.println(a3.x);
         System.out.println(((A2)a3).x);
@@ -28,6 +30,11 @@ public class IGET{
         i.printX(a1);
     }
 }
+
+class SI {
+    static int x;    
+}
+
 
 interface I{
     public void print();

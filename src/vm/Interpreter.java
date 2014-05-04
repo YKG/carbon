@@ -7,8 +7,9 @@ import java.util.Stack;
 
 public class Interpreter implements Visitor {
     VMThread vmt;
-    Object[] reg;
     Stack<VMThread.Frame> stack;
+
+    Object[] reg;
     VMClass currentClass;
     VMMethod.ExceptionTable exceptionTable;
 
@@ -18,16 +19,30 @@ public class Interpreter implements Visitor {
         updateExecEnv(stack.peek());
     }
 
-    private void updateExecEnv(VMThread.Frame frame){
+    // return-*
+    public void updateExecEnv(VMThread.Frame frame){
         reg = frame.reg;
-        stack = vmt.stack;
         currentClass = frame.method.definingClass;
         exceptionTable = frame.exceptionTable;
+
+        vmt.pc = frame.pc;
+        vmt.currentFrame = frame;
+        vmt.currentMethod = frame.method;
+        vmt.currentClass = frame.method.definingClass;
     }
+
     void handleException(){
         // TODO
     }
 
+    void handleNative(VMMethod method){
+        String fullQualifiedName = method.definingClass.className + "->" + method.methodSign;
+        Debug.warning("handle native method: " + fullQualifiedName);
+        if (fullQualifiedName.equals("Ldalvik/system/VMStack;->getCallingClassLoader()Ljava/lang/ClassLoader;")){
+//            vmt.returnValue = vmt.vm.bootstrapClassLoader;
+            vmt.returnValue = null; // bootstrapClassLoader
+        }
+    }
     //////////////////////////////////////////////////////////////////////////
     @Override
     public void visit(Instruction.Nop I) {
@@ -269,7 +284,7 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.NewInstance I) {
         VMClass klass = currentClass.definingLoader.loadClass(I.className);
         try {
-            vmt.vm.initClass(klass);
+            vmt.vm.initClass(vmt, klass);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -441,12 +456,28 @@ public class Interpreter implements Visitor {
 
     @Override
     public void visit(Instruction.IfEqz I) {
-        vmt.pc = (Integer)reg[I.test] == 0 ? I.addr : vmt.pc + 1;
+        if (reg[I.test] == null) {
+            vmt.pc = I.addr;
+        }else{
+            if (reg[I.test] instanceof Integer){
+                vmt.pc = (Integer)reg[I.test] == 0 ? I.addr : vmt.pc + 1;
+            }else{
+                vmt.pc = vmt.pc + 1;
+            }
+        }
     }
 
     @Override
     public void visit(Instruction.IfNez I) {
-        vmt.pc = (Integer)reg[I.test] != 0 ? I.addr : vmt.pc + 1;
+        if (reg[I.test] == null) {
+            vmt.pc = vmt.pc + 1;
+        }else{
+            if (reg[I.test] instanceof Integer){
+                vmt.pc = (Integer)reg[I.test] != 0 ? I.addr : vmt.pc + 1;
+            }else{
+                vmt.pc = I.addr;
+            }
+        }
     }
 
     @Override
@@ -692,6 +723,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = C.lookupVirtualMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -704,6 +736,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = SC.lookupVirtualMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -712,10 +745,11 @@ public class Interpreter implements Visitor {
         Object object = reg[I.args[0]];
         assert object instanceof VMInstance;
         VMInstance obj = (VMInstance)object;
-        VMClass C = obj.type.superClass;
+        VMClass C = obj.type;
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
-        assert C.getDeclaredMethod(I.methodSign).equals(method);
+//        assert C.getDeclaredMethod(I.methodSign).equals(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -723,13 +757,20 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.InvokeStatic I) {
         VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
         try {
-            vmt.vm.initClass(C);
+            vmt.vm.initClass(vmt, C);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = C.lookupStaticMethod(method);
-        vmt.setExecuteEnv(method, I.args);
+
+        if (!method.isNative()){
+            vmt.currentFrame.pc = vmt.pc;
+            vmt.setExecuteEnv(method, I.args);
+        }else{
+            handleNative(method);
+            vmt.pc++;
+        }
     }
 
     @Override
@@ -741,6 +782,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveInterfaceMethod(currentClass, I.className, I.methodSign);
         method = C.lookupInterfaceMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -753,6 +795,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = SC.lookupVirtualMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -765,6 +808,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = SC.lookupVirtualMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -777,6 +821,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         assert C.getDeclaredMethod(I.methodSign).equals(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -784,12 +829,13 @@ public class Interpreter implements Visitor {
     public void visit(Instruction.InvokeStaticRange I) {
         VMClass C = VM.resolveClassOrInterface(currentClass, I.className);
         try {
-            vmt.vm.initClass(C);
+            vmt.vm.initClass(vmt, C);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
         VMMethod method = VM.resolveMethod(currentClass, I.className, I.methodSign);
         method = C.lookupStaticMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -802,6 +848,7 @@ public class Interpreter implements Visitor {
 
         VMMethod method = VM.resolveInterfaceMethod(currentClass, I.className, I.methodSign);
         method = C.lookupInterfaceMethod(method);
+        vmt.currentFrame.pc = vmt.pc;
         vmt.setExecuteEnv(method, I.args);
     }
 
@@ -1406,7 +1453,7 @@ public class Interpreter implements Visitor {
     private void sget(int dest, String className, String fieldName, String descriptor){
         VMClass klass = VM.resolveClassOrInterface(currentClass, className);
         try {
-            vmt.vm.initClass(klass);
+            vmt.vm.initClass(vmt, klass);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
@@ -1418,7 +1465,7 @@ public class Interpreter implements Visitor {
     private void sput(String className, String fieldName, String descriptor, int src){
         VMClass klass = VM.resolveClassOrInterface(currentClass, className);
         try {
-            vmt.vm.initClass(klass);
+            vmt.vm.initClass(vmt, klass);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

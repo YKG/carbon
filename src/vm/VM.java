@@ -27,16 +27,19 @@ public final class VM {
         // 4. invoke main([java.lang.String)V
 
         VMClass Klass = bootstrapClassLoader.loadClass(initialClassName);
-        linkClass(Klass);
-        initClass(Klass);
+//        linkClass(Klass);
 
         VMMethod main = Klass.getDeclaredMethod("main([Ljava/lang/String;)V");
-        new VMThread(this, main).start();
+        VMThread mainThread = new VMThread(this, main);
+
+        initClass(mainThread, Klass);
+        mainThread.start();
     }
 
     public void linkClass(VMClass klass){
         // 1. verify
         // 2. prepare (set static field default value)
+        Debug.info("Linking " + klass.className);
         Enumeration e = klass.fields.keys();
         while(e.hasMoreElements()) {
             VMField field = (VMField)e.nextElement();
@@ -48,7 +51,7 @@ public final class VM {
         // TODO
     }
 
-    public void initClass(VMClass klass) throws Throwable {
+    public void initClass(VMThread currentThread, VMClass klass) throws Throwable {
         // BE CAREFUL!!! sync
         /**
          * 1. Synchronize on the initialization lock,  LC , for  C . This involves waiting until the
@@ -69,9 +72,9 @@ public final class VM {
         String status =  klass.initialStatus;
         if(status.startsWith("initializing")) {
             String hashCode = status.substring(status.lastIndexOf('@')+1);
-            if(!hashCode.equals(Thread.currentThread().hashCode())) {
+            if(!hashCode.equals(currentThread.hashCode() + "")) {
                 klass.lock.unlock();
-                initClass(klass);
+                initClass(currentThread, klass);
             } else {
                 klass.lock.unlock();
                 return ;
@@ -101,7 +104,7 @@ public final class VM {
          *    static field of  C with the constant value in its  ConstantValue attribute
          *    (§4.7.2), in the order the fields appear in the  ClassFile structure.
          */
-        klass.initialStatus = "initializing@" + Thread.currentThread().hashCode();
+        klass.initialStatus = "initializing@" + currentThread.hashCode();
         klass.lock.unlock();
         Enumeration e = klass.fields.keys();
         while(e.hasMoreElements()) {
@@ -125,7 +128,7 @@ public final class VM {
             VMClass SC = klass.superClass;
             if(!SC.initialStatus.equals("initialized")) {
                 try {
-                    initClass(SC);
+                    initClass(currentThread, SC);
                 } catch (Throwable ex) {
                     klass.lock.lock();
                     klass.initialStatus = "erroneous";
@@ -147,9 +150,7 @@ public final class VM {
         VMMethod clinit = klass.getDeclaredMethod("<clinit>()V");
 
         if (clinit != null){
-            VMThread clinitThread = new VMThread(this, clinit);
-            clinitThread.start();
-            clinitThread.join();
+            currentThread.handleClinit(clinit);
         }
 
 
@@ -318,10 +319,13 @@ public final class VM {
          * 3. Otherwise, method lookup attempts to locate the referenced method in any of
          *    the superinterfaces of the specified class C.
          */
-        for(VMClass interfacee : C.superinterfaces) {
-            method = lookupMethod(interfacee, methodSign); // TODO: resolve interface method
-            if(method != null)
-                return method;
+        if (method == null){
+            for(VMClass interfacee : C.superinterfaces) {
+//                method = lookupMethod(interfacee, methodSign); // TODO: resolve interface method
+                method = resolveInterfaceMethod(D, N, methodSign);
+                if(method != null)
+                    return method;
+            }
         }
 
 

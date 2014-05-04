@@ -3,7 +3,7 @@ package vm;
 import ast.Const;
 
 public class VMField {
-    VMClass definingClass;
+    public VMClass definingClass;
     String name;
     String descriptor;
     Object value;
@@ -42,5 +42,11 @@ public class VMField {
 
     public boolean isDefaultAccess() {
         return (modifiers & (Const.PUBLIC | Const.PROTECT |Const.PRIVATE)) == 0;
+    }
+
+    public VMField clone(){
+        VMField field = new VMField(name, descriptor, value, modifiers);
+        field.definingClass = definingClass;
+        return field;
     }
 }

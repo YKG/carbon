@@ -285,41 +285,49 @@ public class Optimizer extends VisitorAdapter {
 	@Override
 	public void visit(Const4 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(Const16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ast.stm.Instruction.Const inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ConstHigh16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ConstWide16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ConstWide32 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override
 	public void visit(ConstWide inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2long(inst.value);
 	}
 
 	@Override
 	public void visit(ConstWideHigh16 inst) {
         inst.vdest = simplifiedReg(inst.dest);
+        inst.val = Util.hex2int(inst.value);
 	}
 
 	@Override

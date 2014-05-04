@@ -2,10 +2,12 @@ package ast;
 
 import ast.method.Method;
 import ast.stm.Instruction;
+import vm.Debug;
 import vm.VMClass;
 import vm.VMField;
 import vm.VMMethod;
 
+import java.util.Enumeration;
 import java.util.Hashtable;
 
 public class Translator extends VisitorAdapter {
@@ -45,6 +47,20 @@ public class Translator extends VisitorAdapter {
             methods.put((VMMethod)result,(VMMethod)result);
         }
         result = new VMClass(clazz.FullyQualifiedName, clazz.getPackageName(), fields, methods, clazz.accessFlag);
+
+        Enumeration e = fields.keys();
+        while(e.hasMoreElements()) {
+            VMField fieldKey = (VMField)e.nextElement();
+            fieldKey.definingClass = (VMClass)result;
+            fields.get(fieldKey).definingClass = (VMClass)result;
+        }
+
+        e = methods.keys();
+        while(e.hasMoreElements()) {
+            VMMethod methodKey = (VMMethod)e.nextElement();
+            methodKey.definingClass = (VMClass)result;
+            methods.get(methodKey).definingClass = (VMClass)result;
+        }
     }
 
     @Override
@@ -264,12 +280,14 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.PackedSwitch inst) {
-
+        // TODO
+        Debug.panic("FIXME!");
     }
 
     @Override
     public void visit(Instruction.SparseSwitch inst) {
-
+        // TODO
+        Debug.panic("FIXME!");
     }
 
     @Override
@@ -388,37 +406,37 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.Aput inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.Aput(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputWide inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.AputWide(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputObject inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.AputObject(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputBoolean inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.AputBoolean(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputByte inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.AputByte(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
     @Override
     public void visit(Instruction.AputChar inst) {
-        result = new opt.Instruction.AputShort(inst.vsrc, inst.varray, inst.vindex);
+        result = new opt.Instruction.AputChar(inst.vsrc, inst.varray, inst.vindex);
 
     }
 
@@ -431,37 +449,37 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.Iget inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.Iget(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetWide inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IgetWide(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetOjbect inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IgetOjbect(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetBoolean inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IgetBoolean(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetByte inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IgetByte(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IgetChar inst) {
-        result = new opt.Instruction.IgetShort(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IgetChar(inst.vdest, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
@@ -474,79 +492,79 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.Iput inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.Iput(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputWide inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputWide(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputObject inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputObject(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputBoolean inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputBoolean(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputByte inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputByte(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputChar inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputChar(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.IputShort inst) {
-        result = new opt.Instruction.IgetShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.IputShort(inst.vsrc, inst.vfield, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.Sget inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.Sget(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetWide inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SgetWide(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetObject inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SgetObject(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetBoolean inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SgetBoolean(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetByte inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SgetByte(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SgetChar inst) {
-        result = new opt.Instruction.SgetShort(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SgetChar(inst.vdest, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
@@ -558,43 +576,43 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.Sput inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.Sput(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputWide inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputWide(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputObject inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputObject(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputBoolean inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputBoolean(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputByte inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputByte(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputChar inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputChar(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
     @Override
     public void visit(Instruction.SputShort inst) {
-        result = new opt.Instruction.SgetShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
+        result = new opt.Instruction.SputShort(inst.vsrc, inst.type.classType, inst.type.fieldName, inst.type.fieldType);
 
     }
 
