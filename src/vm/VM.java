@@ -5,7 +5,7 @@ import ast.Const;
 import java.util.*;
 
 public final class VM {
-    BootstrapClassLoader bootstrapClassLoader;
+    static BootstrapClassLoader bootstrapClassLoader;
     Set<VMClassLoader> methodArea;
     List<VMThread> threads;
 
@@ -393,12 +393,12 @@ public final class VM {
          * To resolve an unresolved symbolic reference from D to an interface method in an interface C,
          * the symbolic reference to C given by the interface method reference is first resolved (§5.4.3.1).
          */
-        VMClass klass = VM.resolveClassOrInterface(D, N);
+        VMClass C = VM.resolveClassOrInterface(D, N);
 
         /**
          * If C is not an interface, interface method resolution throws an IncompatibleClassChangeError.
          */
-        if(klass.isInterface() == false) {
+        if(!C.isInterface()) {
             throw new IncompatibleClassChangeError();
         }
 
@@ -407,13 +407,20 @@ public final class VM {
          * or in one of the superinterfaces of C, or in class Object,
          * interface method resolution throws a NoSuchMethodError.
          */
-        VMClass current = klass;
         VMMethod method = null;
-        while((current != null) && (method == null)) {
-            method = current.methods.get(methodSign);
-            if(method != null)
-                break;
-            current = current.superClass;
+        VMClass currentInterface = C;
+        while (currentInterface != null){
+            method = currentInterface.getDeclaredMethod(methodSign);
+            if (method != null) break;
+            if (currentInterface.superinterfaces.size() == 0) break;
+            assert currentInterface.superinterfaces.size() == 1; // because it is an interface
+            VMClass SC = currentInterface.superinterfaces.get(0);
+            currentInterface = SC;
+        }
+        if (method == null){
+            assert bootstrapClassLoader.classes.containsKey("Ljava/lang/Object;");
+            VMClass ObjectKlass = bootstrapClassLoader.loadClass("Ljava/lang/Object;");
+            method = ObjectKlass.getDeclaredMethod(methodSign);
         }
         if(method == null) {
             throw new NoSuchMethodError();
