@@ -9,6 +9,7 @@ import java.util.concurrent.locks.ReentrantLock;
 public class VMInstance extends LockbleObject{
     VMClass type;
     Hashtable<VMField, VMField> fields;
+    VMInstance superInstance;
 
     public VMInstance(VMClass type) {
         this.lock = new ReentrantLock();
@@ -19,15 +20,29 @@ public class VMInstance extends LockbleObject{
         Enumeration e = type.fields.keys();
         while(e.hasMoreElements()) {
             VMField fieldKey = (VMField)e.nextElement();
-            VMField field = type.fields.get(fieldKey).clone();
+            VMField field = fieldKey.clone();
             if((field.modifiers & Const.STATIC) == 0) {
                 field.value = ast.Util.getNewObject(field.descriptor);
                 this.fields.put(fieldKey, field);
             }
         }
+
+        this.superInstance = null;
+        if (type.superClass != null){
+            this.superInstance = new VMInstance(type.superClass);
+        }
     }
 
     public VMField getInstanceField(VMField fieldKey){
-        return fields.get(fieldKey);
+        Hashtable<VMField, VMField> fields = this.fields;
+        while (fields != null){
+            if (fields.get(fieldKey) != null){
+                return fields.get(fieldKey);
+            }else{
+                if (superInstance == null) return null;
+                fields = superInstance.fields;
+            }
+        }
+        return null;
     }
 }

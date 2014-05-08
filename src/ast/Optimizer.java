@@ -149,19 +149,37 @@ public class Optimizer extends VisitorAdapter {
 				e.printStackTrace();
 			}
 		}
-		for (; stmIndex < insts.size(); stmIndex++) {
-			ast.stm.T stm = insts.get(stmIndex);
-			if (!(stm instanceof ast.stm.Instruction.Nop)) {
-				if (labelIndex >= labelList.size())
-					printErr("label mismatch in Optimize");
+// DELETE BY YKG.   2014-5-8 18:04:11
+//		for (; stmIndex < insts.size(); stmIndex++) {
+//			ast.stm.T stm = insts.get(stmIndex);
+//			if (!(stm instanceof ast.stm.Instruction.Nop)) {
+//				if (labelIndex >= labelList.size())
+//					printErr("label mismatch in Optimize");
+//
+//				this.labelMap.put(currentLabel.lab, stmIndex);
+//				labelIndex++;
+//				if (labelIndex < labelList.size()) {
+//					currentLabel = labelList.get(labelIndex);
+//					targetAddr = Integer.parseInt(currentLabel.add);
+//				}
+//			}
+//		}
 
-				this.labelMap.put(currentLabel.lab, stmIndex);
-				labelIndex++;
-				if (labelIndex < labelList.size()) {
-					currentLabel = labelList.get(labelIndex);
-					targetAddr = Integer.parseInt(currentLabel.add);
-				}
-			}
+        for (; stmIndex < insts.size(); stmIndex++) {
+			ast.stm.T stm = insts.get(stmIndex);
+            if (stm instanceof PackedSwitchDirective
+                    || stm instanceof SparseSwitchDirective
+                    || stm instanceof ArrayDataDirective) {
+                while (targetAddr == currentAddr && labelIndex < labelList.size()) {
+                    this.labelMap.put(currentLabel.lab, stmIndex);
+                    labelIndex++;
+                    if (labelIndex < labelList.size()) {
+                        currentLabel = labelList.get(labelIndex);
+                    }
+                }
+            }else{
+                printErr("Unexpected ast.stm.T");
+            }
 		}
 	}
 

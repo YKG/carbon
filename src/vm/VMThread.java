@@ -84,7 +84,7 @@ public final class VMThread extends Thread{
                         + " " + currentClass.className + "->" + currentMethod.methodSign + ":" + pc
                         + " " + count++ + " "
                         + currentMethod.code[pc].source);
-                if (count == 107){
+                if (count == 316){
                     int ax = 1;
                 }
                 currentMethod.code[pc].accept(interpreter);
