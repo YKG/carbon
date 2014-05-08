@@ -3257,7 +3257,7 @@ public class Instruction {
     }
 
     public abstract static class T implements Acceptable {
-        public String op;
         public String source; // source code, for debug.
+        public String op;
     }
 }

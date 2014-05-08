@@ -27,6 +27,7 @@ public class Translator extends VisitorAdapter {
             inst.accept(this);
             opt.Instruction.T newInst = (opt.Instruction.T)result;
             newInst.source = inst.source;
+            newInst.op = inst.op;
             code[i] = newInst;
         }
         //TODO : exception table = null

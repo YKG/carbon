@@ -67,7 +67,7 @@ public class Instruction
   // 28 10t goto +AA
   public static class Goto extends T
   {
-    public String op;
+    
     public String dest;
     public int addr;
 
@@ -92,7 +92,7 @@ public class Instruction
   // 00 10x nop
   public static class Nop extends T
   {
-    public String op;
+    
 
     public Nop(String op)
     {
@@ -109,7 +109,7 @@ public class Instruction
   // 0e 10x return-void
   public static class ReturnVoid extends T
   {
-    public String op;
+    
 
     public ReturnVoid(String op)
     {
@@ -129,7 +129,7 @@ public class Instruction
   // 12 11n const/4 vA, #+B
   public static class Const4 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -157,7 +157,7 @@ public class Instruction
   // 0a 11x move-result vAA
   public static class MoveResult extends T
   {
-    public String op;
+    
     public String dest;
     public int vdest;
 
@@ -178,7 +178,7 @@ public class Instruction
   // 0b 11x move-result-wide vAA
   public static class MoveResultWide extends T
   {
-    public String op;
+    
     public String dest;
     public int vdest;
 
@@ -199,7 +199,7 @@ public class Instruction
   // 0c 11x move-result-object vAA
   public static class MoveResultObject extends T
   {
-    public String op;
+    
     public String dest;
     public int vdest;
 
@@ -220,7 +220,7 @@ public class Instruction
   // 0d 11x move-exception vAA
   public static class MoveException extends T
   {
-    public String op;
+    
     public String dest;
     public int vdest;
 
@@ -241,7 +241,7 @@ public class Instruction
   // 0f 11x return vAA
   public static class Return extends T
   {
-    public String op;
+    
     public String ret;
     public int vret;
 
@@ -262,7 +262,7 @@ public class Instruction
   // 10 11x return-wide vAA
   public static class ReturnWide extends T
   {
-    public String op;
+    
     public String ret;
     public int vret;
 
@@ -283,7 +283,7 @@ public class Instruction
   // 11 11x return-object vAA
   public static class ReturnObject extends T
   {
-    public String op;
+    
     public String ret;
     public int vret;
 
@@ -304,7 +304,7 @@ public class Instruction
   // 1d 11x monitor-enter vAA
   public static class MonitorEnter extends T
   {
-    public String op;
+    
     public String ref;
     public int vref;
 
@@ -325,7 +325,7 @@ public class Instruction
   // 1e 11x monitor-exit vAA
   public static class MonitorExit extends T
   {
-    public String op;
+    
     public String ref;
     public int vref;
 
@@ -347,7 +347,7 @@ public class Instruction
 
   public static class Throw extends T
   {
-    public String op;
+    
     public String kind;
     public int vkind;
 
@@ -371,7 +371,7 @@ public class Instruction
   // 01 12x move vA, vB
   public static class Move extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -395,7 +395,7 @@ public class Instruction
   // 04 12x move-wide vA, vB
   public static class MoveWide extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -419,7 +419,7 @@ public class Instruction
   // 07 12x move-object vA, vB
   public static class MoveObject extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -445,7 +445,7 @@ public class Instruction
   // in entries
   public static class arrayLength extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -475,7 +475,7 @@ public class Instruction
   // 7b: neg-int
   public static class NegInt extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -499,7 +499,7 @@ public class Instruction
   // 7c: not-int
   public static class NotInt extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -523,7 +523,7 @@ public class Instruction
   // 7d: neg-long
   public static class NegLong extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -547,7 +547,7 @@ public class Instruction
   // 7e: not-long
   public static class NotLong extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -571,7 +571,7 @@ public class Instruction
   // 7f: neg-float
   public static class NegFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -595,7 +595,7 @@ public class Instruction
   // 80: neg-double
   public static class NegDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -619,7 +619,7 @@ public class Instruction
   // 81: int-to-long
   public static class IntToLong extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -643,7 +643,7 @@ public class Instruction
   // 82: int-to-float
   public static class IntToFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -667,7 +667,7 @@ public class Instruction
   // 83: int-to-double
   public static class IntToDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -691,7 +691,7 @@ public class Instruction
   // 84: long-to-int
   public static class LongToInt extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -715,7 +715,7 @@ public class Instruction
   // 85: long-to-float
   public static class LongToFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -739,7 +739,7 @@ public class Instruction
   // 86: long-to-double
   public static class LongToDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -763,7 +763,7 @@ public class Instruction
   // 87: float-to-int
   public static class FloatToInt extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -787,7 +787,7 @@ public class Instruction
   // 88: float-to-long
   public static class FloatToLong extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -811,7 +811,7 @@ public class Instruction
   // 89: float-to-double
   public static class FloatToDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -835,7 +835,7 @@ public class Instruction
   // 8a: double-to-int
   public static class DoubleToInt extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -859,7 +859,7 @@ public class Instruction
   // 8b: double-to-long
   public static class DoubleToLong extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -883,7 +883,7 @@ public class Instruction
   // 8c: double-to-float
   public static class DoubleToFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -907,7 +907,7 @@ public class Instruction
   // 8d: int-to-byte
   public static class IntToByte extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -931,7 +931,7 @@ public class Instruction
   // 8e: int-to-char
   public static class IntToChar extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -955,7 +955,7 @@ public class Instruction
   // 8f: int-to-short
   public static class IntToShort extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -982,7 +982,7 @@ public class Instruction
   // b0: add-int/2addr
   public static class AddInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1006,7 +1006,7 @@ public class Instruction
   // b1: sub-int/2addr
   public static class SubInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1030,7 +1030,7 @@ public class Instruction
   // b2: mul-int/2addr
   public static class MulInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1054,7 +1054,7 @@ public class Instruction
   // b3: div-int/2addr
   public static class DivInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1078,7 +1078,7 @@ public class Instruction
   // b4: rem-int/2addr
   public static class RemInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1102,7 +1102,7 @@ public class Instruction
   // b5: and-int/2addr
   public static class AndInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1126,7 +1126,7 @@ public class Instruction
   // b6: or-int/2addr
   public static class OrInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1150,7 +1150,7 @@ public class Instruction
   // b7: xor-int/2addr
   public static class XorInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1174,7 +1174,7 @@ public class Instruction
   // b8: shl-int/2addr
   public static class ShlInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1198,7 +1198,7 @@ public class Instruction
   // b9: shr-int/2addr
   public static class ShrInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1222,7 +1222,7 @@ public class Instruction
   // ba: ushr-int/2addr
   public static class UshrInt2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1246,7 +1246,7 @@ public class Instruction
   // bb: add-long/2addr
   public static class AddLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1270,7 +1270,7 @@ public class Instruction
   // bc: sub-long/2addr
   public static class SubLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1294,7 +1294,7 @@ public class Instruction
   // bd: mul-long/2addr
   public static class MulLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1318,7 +1318,7 @@ public class Instruction
   // be: div-long/2addr
   public static class DivLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1342,7 +1342,7 @@ public class Instruction
   // bf: rem-long/2addr
   public static class RemLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1366,7 +1366,7 @@ public class Instruction
   // c0: and-long/2addr
   public static class AndLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1391,7 +1391,7 @@ public class Instruction
   // c1: or-long/2addr
   public static class OrLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1415,7 +1415,7 @@ public class Instruction
   // c2: xor-long/2addr
   public static class XorLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1439,7 +1439,7 @@ public class Instruction
   // c3: shl-long/2addr
   public static class ShlLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1463,7 +1463,7 @@ public class Instruction
   // c4: shr-long/2addr
   public static class ShrLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1487,7 +1487,7 @@ public class Instruction
   // c5: ushr-long/2addr
   public static class UshrLong2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1511,7 +1511,7 @@ public class Instruction
   // c6: add-float/2addr
   public static class AddFloat2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1535,7 +1535,7 @@ public class Instruction
   // c7: sub-float/2addr
   public static class SubFloat2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1560,7 +1560,7 @@ public class Instruction
   // c8: mul-float/2addr
   public static class MulFloat2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1584,7 +1584,7 @@ public class Instruction
   // c9: div-float/2addr
   public static class DivFloat2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1608,7 +1608,7 @@ public class Instruction
   // ca: rem-float/2addr
   public static class RemFloat2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1632,7 +1632,7 @@ public class Instruction
   // cb: add-double/2addr
   public static class AddDouble2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1657,7 +1657,7 @@ public class Instruction
   // cc: sub-double/2addr
   public static class SubDouble2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1682,7 +1682,7 @@ public class Instruction
   // cd: mul-double/2addr
   public static class MulDouble2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1707,7 +1707,7 @@ public class Instruction
   // ce: div-double/2addr
   public static class DivDouble2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1731,7 +1731,7 @@ public class Instruction
   // cf: rem-double/2addr
   public static class RemDouble2Addr extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -1758,7 +1758,7 @@ public class Instruction
   // 29 20t goto/16 +AAAA
   public static class Goto16 extends T
   {
-    public String op;
+    
     public String dest;
     public int addr;
     public int vdest;
@@ -1786,7 +1786,7 @@ public class Instruction
   // 1a 21c const-string vAA, string@BBBB
   public static class ConstString extends T
   {
-    public String op;
+    
     public String dest;
     public String str;
     public int vdest;
@@ -1810,7 +1810,7 @@ public class Instruction
   // 1c 21c const-class vAA, type@BBBB
   public static class ConstClass extends T
   {
-    public String op;
+    
     public String dest;
     public String type;
     public int vdest;
@@ -1834,7 +1834,7 @@ public class Instruction
   // 1f 21c check-cast vAA, type@BBBB
   public static class CheckCast extends T
   {
-    public String op;
+    
     public String ref;
     public String type;
     public int vref;
@@ -1857,7 +1857,7 @@ public class Instruction
   // 22 21c new-instance vAA, type@BBBB
   public static class NewInstance extends T
   {
-    public String op;
+    
     public String dest;
     public String type;
     public int vdest;
@@ -1899,7 +1899,7 @@ public class Instruction
   public static class Sget extends T
 
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -1922,7 +1922,7 @@ public class Instruction
   // 61: sget-wide
   public static class SgetWide extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -1945,7 +1945,7 @@ public class Instruction
   // 62: sget-object
   public static class SgetObject extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -1968,7 +1968,7 @@ public class Instruction
   // 63: sget-boolean
   public static class SgetBoolean extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -1991,7 +1991,7 @@ public class Instruction
   // 64: sget-byte
   public static class SgetByte extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -2014,7 +2014,7 @@ public class Instruction
   // 65: sget-char
   public static class SgetChar extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -2037,7 +2037,7 @@ public class Instruction
   // 66: sget-short
   public static class SgetShort extends T
   {
-    public String op;
+    
     public String dest;
     public ast.classs.FieldItem type;
     public int vdest;
@@ -2060,7 +2060,7 @@ public class Instruction
   // 67: sput
   public static class Sput extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2083,7 +2083,7 @@ public class Instruction
   // 68: sput-wide
   public static class SputWide extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2106,7 +2106,7 @@ public class Instruction
   // 69: sput-object
   public static class SputObject extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2129,7 +2129,7 @@ public class Instruction
   // 6a: sput-boolean
   public static class SputBoolean extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2152,7 +2152,7 @@ public class Instruction
   // 6b: sput-byte
   public static class SputByte extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2175,7 +2175,7 @@ public class Instruction
   // 6c: sput-char
   public static class SputChar extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2198,7 +2198,7 @@ public class Instruction
   // 6d: sput-short
   public static class SputShort extends T
   {
-    public String op;
+    
     public String src;
     public ast.classs.FieldItem type;
     public int vsrc;
@@ -2224,7 +2224,7 @@ public class Instruction
   // 15 21h const/high16 vAA, #+BBBB0000
   public static class ConstHigh16 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -2248,7 +2248,7 @@ public class Instruction
   // 19 21h const-wide/high16 vAA, #+BBBB000000000000
   public static class ConstWideHigh16 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -2275,7 +2275,7 @@ public class Instruction
   // 13 21s const/16 vAA, #+BBBB
   public static class Const16 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -2299,7 +2299,7 @@ public class Instruction
   // 16 21s const-wide/16 vAA, #+BBBB
   public static class ConstWide16 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -2328,7 +2328,7 @@ public class Instruction
   // 38: if-eqz
   public static class IfEqz extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2352,7 +2352,7 @@ public class Instruction
   // 39: if-nez
   public static class IfNez extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2376,7 +2376,7 @@ public class Instruction
   // 3a: if-ltz
   public static class IfLtz extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2400,7 +2400,7 @@ public class Instruction
   // 3b: if-gez
   public static class IfGez extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2424,7 +2424,7 @@ public class Instruction
   // 3c: if-gtz
   public static class IfGtz extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2448,7 +2448,7 @@ public class Instruction
   // 3d: if-lez
   public static class IfLez extends T
   {
-    public String op;
+    
     public String test;
     public String dest;
     public int vtest;
@@ -2476,7 +2476,7 @@ public class Instruction
   // binop/lit8 vAA, vBB, #+CC
   // d8: add-int/lit8
   public static class AddIntLit8 extends T {
-      public String op;
+      
       public String dest;
       public String src;
       public String value;
@@ -2500,7 +2500,7 @@ public class Instruction
 
     // d9: rsub-int/lit8
     public static class RsubIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2524,7 +2524,7 @@ public class Instruction
 
     // da: mul-int/lit8
     public static class MulIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2548,7 +2548,7 @@ public class Instruction
 
     // db: div-int/lit8
     public static class DivIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2572,7 +2572,7 @@ public class Instruction
 
     // dc: rem-int/lit8
     public static class RemIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2596,7 +2596,7 @@ public class Instruction
 
     // dd: and-int/lit8
     public static class AndIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2620,7 +2620,7 @@ public class Instruction
 
     // de: or-int/lit8
     public static class OrIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2644,7 +2644,7 @@ public class Instruction
 
     // df: xor-int/lit8
     public static class XorIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2668,7 +2668,7 @@ public class Instruction
 
     // e0: shl-int/lit8
     public static class ShlIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2692,7 +2692,7 @@ public class Instruction
 
     // e1: shr-int/lit8
     public static class ShrIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2716,7 +2716,7 @@ public class Instruction
 
     // e2: ushr-int/lit8
     public static class UshrIntLit8 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -2751,7 +2751,7 @@ public class Instruction
   // 20 22c instance-of vA, vB, type@CCCC
   public static class InstanceOf extends T
   {
-    public String op;
+    
     public String dest;
     public String ref;
     public String type;
@@ -2777,7 +2777,7 @@ public class Instruction
   // 23 22c new-array vA, vB, type@CCCC
   public static class NewArray extends T
   {
-    public String op;
+    
     public String dest;
     public String size;
     public String type;
@@ -2806,7 +2806,7 @@ public class Instruction
   // 52: iget
   public static class Iget extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2832,7 +2832,7 @@ public class Instruction
   // 53: iget-wide
   public static class IgetWide extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2859,7 +2859,7 @@ public class Instruction
   // 54: iget-fieldect
   public static class IgetOjbect extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2886,7 +2886,7 @@ public class Instruction
   // 55: iget-boolean
   public static class IgetBoolean extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2913,7 +2913,7 @@ public class Instruction
   // 56: iget-byte
   public static class IgetByte extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2940,7 +2940,7 @@ public class Instruction
   // 57: iget-char
   public static class IgetChar extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2967,7 +2967,7 @@ public class Instruction
   // 58: iget-short
   public static class IgetShort extends T
   {
-    public String op;
+    
     public String dest;
     public String field;
     public ast.classs.FieldItem type;
@@ -2994,7 +2994,7 @@ public class Instruction
   // 59: iput
   public static class Iput extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3020,7 +3020,7 @@ public class Instruction
   // 5a: iput-wide
   public static class IputWide extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3047,7 +3047,7 @@ public class Instruction
   // 5b: iput-object
   public static class IputObject extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3074,7 +3074,7 @@ public class Instruction
   // 5c: iput-boolean
   public static class IputBoolean extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3101,7 +3101,7 @@ public class Instruction
   // 5d: iput-byte
   public static class IputByte extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3128,7 +3128,7 @@ public class Instruction
   // 5e: iput-char
   public static class IputChar extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3155,7 +3155,7 @@ public class Instruction
   // 5f: iput-short
   public static class IputShort extends T
   {
-    public String op;
+    
     public String src;
     public String field;
     public ast.classs.FieldItem type;
@@ -3187,7 +3187,7 @@ public class Instruction
   // binop/lit16 vA, vB, #+CCCC
   // d0: add-int/lit16
   public static class AddIntLit16 extends T {
-      public String op;
+      
       public String dest;
       public String src;
       public String value;
@@ -3211,7 +3211,7 @@ public class Instruction
 
     // d1: rsub-int (reverse subtract)
     public static class RsubInt extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3235,7 +3235,7 @@ public class Instruction
 
     // d2: mul-int/lit16
     public static class MulIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3259,7 +3259,7 @@ public class Instruction
 
     // d3: div-int/lit16
     public static class DivIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3283,7 +3283,7 @@ public class Instruction
 
     // d4: rem-int/lit16
     public static class RemIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3307,7 +3307,7 @@ public class Instruction
 
     // d5: and-int/lit16
     public static class AndIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3331,7 +3331,7 @@ public class Instruction
 
     // d6: or-int/lit16
     public static class OrIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3355,7 +3355,7 @@ public class Instruction
 
     // d7: xor-int/lit16
     public static class XorIntLit16 extends T {
-        public String op;
+        
         public String dest;
         public String src;
         public String value;
@@ -3387,7 +3387,7 @@ public class Instruction
   // 32: if-eq
   public static class IfEq extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3414,7 +3414,7 @@ public class Instruction
   // 33: if-ne
   public static class IfNe extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3441,7 +3441,7 @@ public class Instruction
   // 34: if-lt
   public static class IfLt extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3468,7 +3468,7 @@ public class Instruction
   // 35: if-ge
   public static class IfGe extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3495,7 +3495,7 @@ public class Instruction
   // 36: if-gt
   public static class IfGt extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3522,7 +3522,7 @@ public class Instruction
   // 37: if-le
   public static class IfLe extends T
   {
-    public String op;
+    
     public String first;
     public String second;
     public String dest;
@@ -3552,7 +3552,7 @@ public class Instruction
   // 02 22x move/from16 vAA, vBBBB
   public static class MoveFrom16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -3576,7 +3576,7 @@ public class Instruction
   // 05 22x move-wide/from16 vAA, vBBBB
   public static class MoveWideFrom16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -3600,7 +3600,7 @@ public class Instruction
   // 08 22x move-object/from16 vAA, vBBBB
   public static class MoveObjectFrom16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -3629,7 +3629,7 @@ public class Instruction
   // 2d: cmpl-float (lt bias)
   public static class CmplFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -3656,7 +3656,7 @@ public class Instruction
   // 2e: cmpg-float (gt bias)
   public static class CmpgFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -3683,7 +3683,7 @@ public class Instruction
   // 2f: cmpl-double (lt bias)
   public static class CmplDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -3710,7 +3710,7 @@ public class Instruction
   // 30: cmpg-double (gt bias)
   public static class Cmpgdouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -3737,7 +3737,7 @@ public class Instruction
   // 31: cmp-long
   public static class CmpLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -3769,7 +3769,7 @@ public class Instruction
   // 44: aget
   public static class Aget extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3796,7 +3796,7 @@ public class Instruction
   // 45: aget-wide
   public static class AgetWide extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3823,7 +3823,7 @@ public class Instruction
   // 46: aget-object
   public static class AgetObject extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3850,7 +3850,7 @@ public class Instruction
   // 47: aget-boolean
   public static class AgetBoolean extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3877,7 +3877,7 @@ public class Instruction
   // 48: aget-byte
   public static class AgetByte extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3904,7 +3904,7 @@ public class Instruction
   // 49: aget-char
   public static class AgetChar extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3931,7 +3931,7 @@ public class Instruction
   // 4a: aget-short
   public static class AgetShort extends T
   {
-    public String op;
+    
     public String dest;
     public String array;
     public String index;
@@ -3958,7 +3958,7 @@ public class Instruction
   // 4b: aput
   public static class Aput extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -3985,7 +3985,7 @@ public class Instruction
   // 4c: aput-wide
   public static class AputWide extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4012,7 +4012,7 @@ public class Instruction
   // 4d: aput-object
   public static class AputObject extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4039,7 +4039,7 @@ public class Instruction
   // 4e: aput-boolean
   public static class AputBoolean extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4066,7 +4066,7 @@ public class Instruction
   // 4f: aput-byte
   public static class AputByte extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4093,7 +4093,7 @@ public class Instruction
   // 50: aput-char
   public static class AputChar extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4120,7 +4120,7 @@ public class Instruction
   // 51: aput-short
   public static class AputShort extends T
   {
-    public String op;
+    
     public String src;
     public String array;
     public String index;
@@ -4151,7 +4151,7 @@ public class Instruction
   // 90: add-int
   public static class AddInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4178,7 +4178,7 @@ public class Instruction
   // 91: sub-int
   public static class SubInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4205,7 +4205,7 @@ public class Instruction
   // 92: mul-int
   public static class MulInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4232,7 +4232,7 @@ public class Instruction
   // 93: div-int
   public static class DivInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4259,7 +4259,7 @@ public class Instruction
   // 94: rem-int
   public static class RemInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4286,7 +4286,7 @@ public class Instruction
   // 95: and-int
   public static class AndInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4313,7 +4313,7 @@ public class Instruction
   // 96: or-int
   public static class OrInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4340,7 +4340,7 @@ public class Instruction
   // 97: xor-int
   public static class XorInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4367,7 +4367,7 @@ public class Instruction
   // 98: shl-int
   public static class ShlInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4394,7 +4394,7 @@ public class Instruction
   // 99: shr-int
   public static class ShrInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4421,7 +4421,7 @@ public class Instruction
   // 9a: ushr-int
   public static class UshrInt extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4448,7 +4448,7 @@ public class Instruction
   // 9b: add-long
   public static class AddLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4475,7 +4475,7 @@ public class Instruction
   // 9c: sub-long
   public static class SubLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4502,7 +4502,7 @@ public class Instruction
   // 9d: mul-long
   public static class MulLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4529,7 +4529,7 @@ public class Instruction
   // 9e: div-long
   public static class DivLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4556,7 +4556,7 @@ public class Instruction
   // 9f: rem-long
   public static class RemLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4583,7 +4583,7 @@ public class Instruction
   // a0: and-long
   public static class AndLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4610,7 +4610,7 @@ public class Instruction
   // a1: or-long
   public static class OrLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4637,7 +4637,7 @@ public class Instruction
   // a2: xor-long
   public static class XorLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4664,7 +4664,7 @@ public class Instruction
   // a3: shl-long
   public static class ShlLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4691,7 +4691,7 @@ public class Instruction
   // a4: shr-long
   public static class ShrLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4718,7 +4718,7 @@ public class Instruction
   // a5: ushr-long
   public static class UshrLong extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4745,7 +4745,7 @@ public class Instruction
   // a6: add-float
   public static class AddFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4772,7 +4772,7 @@ public class Instruction
   // a7: sub-float
   public static class SubFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4799,7 +4799,7 @@ public class Instruction
   // a8: mul-float
   public static class MulFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4826,7 +4826,7 @@ public class Instruction
   // a9: div-float
   public static class DivFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4853,7 +4853,7 @@ public class Instruction
   // aa: rem-float
   public static class RemFloat extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4880,7 +4880,7 @@ public class Instruction
   // ab: add-double
   public static class AddDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4907,7 +4907,7 @@ public class Instruction
   // ac: sub-double
   public static class SubDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4934,7 +4934,7 @@ public class Instruction
   // ad: mul-double
   public static class MulDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4961,7 +4961,7 @@ public class Instruction
   // ae: div-double
   public static class DivDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -4988,7 +4988,7 @@ public class Instruction
   // af: rem-double
   public static class RemDouble extends T
   {
-    public String op;
+    
     public String dest;
     public String first;
     public String second;
@@ -5018,7 +5018,7 @@ public class Instruction
   // 2a 30t goto/32 +AAAAAAAA
   public static class Goto32 extends T
   {
-    public String op;
+    
     public String dest;
     public int addr;
     public int vdest;
@@ -5043,7 +5043,7 @@ public class Instruction
   // 1b 31c const-string/jumbo vAA, string@BBBBBBBB
   public static class ConstStringJumbo extends T
   {
-    public String op;
+    
     public String dest;
     public String str;
     public int vdest;
@@ -5069,7 +5069,7 @@ public class Instruction
   // 14 31i const vAA, #+BBBBBBBB
   public static class Const extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -5093,7 +5093,7 @@ public class Instruction
   // 17 31i const-wide/32 vAA, #+BBBBBBBB
   public static class ConstWide32 extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
@@ -5123,7 +5123,7 @@ public class Instruction
   // "fill-array-data-payload Format")
   public static class FillArrayData extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int addr;
@@ -5152,7 +5152,7 @@ public class Instruction
   // B: signed "branch" offset to table data pseudo-instruction (32 bits)
   public static class PackedSwitch extends T
   {
-    public String op;
+    
     public String test;
     public String offset;
     public int addr;
@@ -5183,7 +5183,7 @@ public class Instruction
   // B: signed "branch" offset to table data pseudo-instruction (32 bits)
   public static class SparseSwitch extends T
   {
-    public String op;
+    
     public String test;
     public String offset;
     public int addr;
@@ -5213,7 +5213,7 @@ public class Instruction
   // 03 32x move/16 vAAAA, vBBBB
   public static class Move16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -5237,7 +5237,7 @@ public class Instruction
   // 06 32x move-wide/16 vAAAA, vBBBB
   public static class MoveWide16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -5261,7 +5261,7 @@ public class Instruction
   // 09 32x move-object/16 vAAAA, vBBBB
   public static class MoveObject16 extends T
   {
-    public String op;
+    
     public String dest;
     public String src;
     public int vdest;
@@ -5293,7 +5293,7 @@ public class Instruction
   // 24 35c filled-new-array {vC, vD, vE, vF, vG}, type@BBBB
   public static class FilledNewArray extends T
   {
-    public String op;
+    
     public List<String> argList;
     public String type;
     public int[] argvs;
@@ -5323,7 +5323,7 @@ public class Instruction
   // 6e: invoke-virtual
   public static class InvokeVirtual extends T
   {
-    public String op;
+    
     public List<String> argList;
     public ast.classs.MethodItem type;
     public int[] argvs;
@@ -5346,7 +5346,7 @@ public class Instruction
   // 6f: invoke-super
   public static class InvokeSuper extends T
   {
-    public String op;
+    
     public List<String> argList;
     public ast.classs.MethodItem type;
     public int[] argvs;
@@ -5369,7 +5369,7 @@ public class Instruction
   // 70: invoke-direct
   public static class InvokeDirect extends T
   {
-    public String op;
+    
     public List<String> argList;
     public ast.classs.MethodItem type;
     public int[] argvs;
@@ -5392,7 +5392,7 @@ public class Instruction
   // 71: invoke-static
   public static class InvokeStatic extends T
   {
-    public String op;
+    
     public List<String> argList;
     public ast.classs.MethodItem type;
     public int[] argvs;
@@ -5417,7 +5417,7 @@ public class Instruction
   // 72: invoke-interface
   public static class InvokeInterface extends T
   {
-    public String op;
+    
     public List<String> argList;
     public ast.classs.MethodItem type;
     public int[] argvs;
@@ -5454,7 +5454,7 @@ public class Instruction
   // 74: invoke-virtual/range
   public static class InvokeVirtualRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public ast.classs.MethodItem type;
@@ -5480,7 +5480,7 @@ public class Instruction
   // 75: invoke-super/range
   public static class InvokeSuperRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public ast.classs.MethodItem type;
@@ -5505,7 +5505,7 @@ public class Instruction
   // 76: invoke-direct/range
   public static class InvokeDirectRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public ast.classs.MethodItem type;
@@ -5531,7 +5531,7 @@ public class Instruction
   // 77: invoke-static/range
   public static class InvokeStaticRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public ast.classs.MethodItem type;
@@ -5557,7 +5557,7 @@ public class Instruction
   // 78: invoke-interface/range
   public static class InvokeInterfaceRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public ast.classs.MethodItem type;
@@ -5587,7 +5587,7 @@ public class Instruction
   // N = A + C - 1
   public static class FilledNewArrayRange extends T
   {
-    public String op;
+    
     public String start;
     public String end;
     public String type;
@@ -5616,7 +5616,7 @@ public class Instruction
   // 18 51l const-wide vAA, #+BBBBBBBBBBBBBBBB
   public static class ConstWide extends T
   {
-    public String op;
+    
     public String dest;
     public String value;
     public int vdest;
