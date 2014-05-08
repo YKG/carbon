@@ -13,10 +13,7 @@ import ast.program.Program;
 import ast.stm.Instruction;
 import ast.stm.Instruction.*;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Optimizer extends VisitorAdapter {
 
@@ -101,7 +98,7 @@ public class Optimizer extends VisitorAdapter {
 		this.pStart -= method.prototype.argsType.size();
 		for (int i = 0; i < method.accessList.size(); i++) {
 			if (method.accessList.get(i).equals("static")) {
-				this.pStart--;
+				this.pStart++; // no 'this'
 				break;
 			}
 		}
@@ -1579,7 +1576,7 @@ public class Optimizer extends VisitorAdapter {
 
 	@Override
 	public void visit(PackedSwitchDirective inst) {
-		Map<Integer, Integer> switchMap = new HashMap<Integer, Integer>();
+		Hashtable<Integer, Integer> switchMap = new Hashtable<>();
 		int firstKey = Util.hex2int(inst.key);
 		for (int i = 0; i < inst.labList.size(); i++) {
 			Integer key = new Integer(i + firstKey);
@@ -1591,7 +1588,7 @@ public class Optimizer extends VisitorAdapter {
 
 	@Override
 	public void visit(SparseSwitchDirective inst) {
-		Map<Integer, Integer> switchMap = new HashMap<Integer, Integer>();
+        Hashtable<Integer, Integer> switchMap = new Hashtable<>();
 		int size = inst.labList.size();
 		for (int i = 0; i < size; i++) {
 			int key = Util.hex2int(inst.keyList.get(i));

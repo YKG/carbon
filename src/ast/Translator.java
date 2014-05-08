@@ -2,7 +2,6 @@ package ast;
 
 import ast.method.Method;
 import ast.stm.Instruction;
-import vm.Debug;
 import vm.VMClass;
 import vm.VMField;
 import vm.VMMethod;
@@ -12,9 +11,11 @@ import java.util.Hashtable;
 
 public class Translator extends VisitorAdapter {
     public Object result;
+    private Method currentMethod;
 
     @Override
     public void visit(Method method) {
+        currentMethod = method;
         if((method.accessFlag & Const.NATIVE) != 0)
             result = new VMMethod("NATIVE", method.getMethodSign());
         if((method.accessFlag & Const.ABSTRACT) != 0)
@@ -280,14 +281,18 @@ public class Translator extends VisitorAdapter {
 
     @Override
     public void visit(Instruction.PackedSwitch inst) {
-        // TODO
-        Debug.panic("FIXME!");
+        assert currentMethod.statements.get(inst.addr) instanceof Instruction.PackedSwitchDirective;
+        Instruction.PackedSwitchDirective directive =
+                (Instruction.PackedSwitchDirective)currentMethod.statements.get(inst.addr);
+        result = new opt.Instruction.PackedSwitch(directive.switchMap, inst.vtest);
     }
 
     @Override
     public void visit(Instruction.SparseSwitch inst) {
-        // TODO
-        Debug.panic("FIXME!");
+        assert currentMethod.statements.get(inst.addr) instanceof Instruction.SparseSwitchDirective;
+        Instruction.SparseSwitchDirective directive =
+                (Instruction.SparseSwitchDirective)currentMethod.statements.get(inst.addr);
+        result = new opt.Instruction.SparseSwitch(directive.switchMap, inst.vtest);
     }
 
     @Override

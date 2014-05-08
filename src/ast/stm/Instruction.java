@@ -4,6 +4,7 @@ import ast.Visitor;
 import ast.classs.FieldItem;
 import ast.classs.MethodItem;
 
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 
@@ -5687,7 +5688,7 @@ public class Instruction
     public String key;
     public String count;
     public List<String> labList;
-    public Map<Integer, Integer> switchMap;
+    public Hashtable<Integer, Integer> switchMap;
 
     public PackedSwitchDirective(String key, String count, List<String> labList)
     {
@@ -5711,7 +5712,7 @@ public class Instruction
     public String count;
     public List<String> keyList;
     public List<String> labList;
-    public Map<Integer, Integer> switchMap;
+    public Hashtable<Integer, Integer> switchMap;
 
     public SparseSwitchDirective(String count, List<String> keyList,
         List<String> labList)
