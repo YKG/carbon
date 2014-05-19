@@ -1,0 +1,36 @@
+题目
+Dalvik虚拟机原型系统
+
+摘要
+[本项目研究使用Java语言实现一个Dalvik虚拟机原型的可能性。虚拟机设计目标为与Android 4.1.2兼容。如果研发成功，则项目研究成果将对Android应用程序的调试、逆向分析以及软件测试都有着很高的实用价值。]
+
+
+目录
+1. 背景知识
+	VM
+	Dalvik
+	apk & dex
+	JVM	
+2. 整体架构
+	输入前端 & 虚拟机
+3. 输入前端
+	[hong]
+4. 虚拟机
+	VM结构
+	BootstrapClassLoader
+	类的表示
+		Method的Field的表示
+		Loading
+		Linking
+		Initialization
+		Method & Field Resolution
+	对象的表示
+		普通对象
+		数组对象
+	解释器
+	线程的处理
+	JNI的处理
+	特殊类的处理(拦截)
+	调试辅助
+5. 项目现状
+6. 后续工作
