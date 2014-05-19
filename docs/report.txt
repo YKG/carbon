@@ -1,4 +1,4 @@
-题目
+﻿题目
 Dalvik虚拟机原型系统
 
 摘要
@@ -18,7 +18,11 @@ Dalvik虚拟机原型系统
 2. 整体架构
 	输入前端 & 虚拟机
 3. 输入前端
-	[hong]
+	app反汇编
+	AST生成
+		smali文件在AST中的表示
+		用antlr构造AST
+	AST优化
 4. 虚拟机
 	VM结构
 	BootstrapClassLoader
