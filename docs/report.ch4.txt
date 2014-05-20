@@ -1,0 +1,33 @@
+﻿4. 虚拟机
+	4.1 VM结构
+	4.2 BootstrapClassLoader
+	4.3 类的表示
+		4.3.1 Method的Field的表示
+		4.3.2 Loading
+		4.3.3 Linking
+		4.3.4 Initialization
+		4.3.5 Method & Field Resolution
+	4.4 对象的表示
+		4.4.1 普通对象
+		4.4.2 数组对象
+	4.5 解释器
+	4.6 线程的处理
+	4.7 JNI的处理
+	4.8 特殊类的处理(拦截)
+	4.9 调试辅助
+
+
+4.1 VM结构
+为了启动一个JVM，需要为虚拟机指定一个初始化类，所以我们的VM类中有一个域为initialClassName，来标识该初始化类。
+知道了初始化类的名字，VM要能够根据这个名字找到对应的类的外部存储形式，然后将其加载、解析成该类的内部表示，因此我们需要一个ClassLoader，根据JVM Specification(JavaSE 7)，VM需要有一个BootstrapClassLoader，所以我们的VM类中有了第二个域bootstrapClassLoader。
+根据规范，类是存放在Method Area中的，我们的VM类中有了第三个域methodArea，这是一个ClassLoader的集合，至于为什么不是Class的集合，解释请参考4.3节(类的表示)。
+为了要支持Java的多线程，我们的虚拟机需要记录程序运行过程中所有创建的线程，所以我们的VM类中便有了第四个域threads，所有线程记录在这个列表中。
+以上4个域就是整个VM类的所有域。
+
+
+
+4.2 BootstrapClassLoader
+
+
+
+

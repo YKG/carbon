@@ -15,4 +15,4 @@ smalioutput/
 .idea/*
 out/
 *.iml
-
+libcore/
