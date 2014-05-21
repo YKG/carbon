@@ -1,6 +1,7 @@
 ﻿4. 虚拟机
 	4.1 VM结构
 	4.2 BootstrapClassLoader
+		4.2.1 指令优化
 	4.3 类的表示
 		4.3.1 Method的Field的表示
 		4.3.2 Loading
@@ -23,11 +24,17 @@
 根据规范，类是存放在Method Area中的，我们的VM类中有了第三个域methodArea，这是一个ClassLoader的集合，至于为什么不是Class的集合，解释请参考4.3节(类的表示)。
 为了要支持Java的多线程，我们的虚拟机需要记录程序运行过程中所有创建的线程，所以我们的VM类中便有了第四个域threads，所有线程记录在这个列表中。
 以上4个域就是整个VM类的所有域。
+vm包下的其他类，如果需要得到VM类的支持，一般都在它们的构造函数里有一个VM参数，可以想象成计算机5大部件中的总线。
 
 
 
 4.2 BootstrapClassLoader
+虚拟机与输入前端的对接是通过ClassMap完成的，另外ClassLoader的部分功能需要VM类的支持，所以BootstrapClassLoader类中包含clazzMap和vm两个域。
+4.2.1 指令优化
+为了调试方便，我们打算将所有Instruction下的类增加一个source域，用来存放该条指令对应的smali形式，为此使用了一个Visitor——sourceRecover。
+前端处理的结果是所有域均存为String类型，为了给解释器提供一个良好的接口，我们对指令进行了优化，比如寄存器使用int，数值类型转为具体值。为完成这一目标，我们的代码中使用了两个Visitor——optimizer和translator。使用一个Visitor当然可以完成这个任务，我们之所以这样做，是因为我们前期已经做过这种工作，那时没有单独分离出来另外一套ast，而只是在原来的ast.stm包下的指令中增加优化后的域(使用optimizer这个Visitor来更新这些域)。这样的结果是原来的AST变得臃肿，而且实际上域有冗余（凡是数值类型均会出现两次，一个为数值类型，一个为其对应的字符串类型）。我们随后新建了opt包，里面有我们认为的理想情况下应该提供给解释器的指令格式。原先在为了避免以前的工作浪费，我们只是使用了一个translator这个Visitor来从原来的ast中拷贝我们需要的部分。
 
 
-
+4.3 类的表示
+需要强调的是，类不是仅由包名和类名唯一确定的。同一个class文件，被不同的ClassLoader加载进虚拟机后，虚拟机会认为这是两个类，具体参考双亲代理模型（关于双亲代理模型，如果说的直白点儿，就是父ClassLoader优先加载模型）。在虚拟机中，一个类是由它的<Defining ClasssLoader, 包名+类名>或<Initializing ClasssLoader, 包名+类名>确定的。
 
