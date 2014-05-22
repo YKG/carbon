@@ -27,7 +27,6 @@
 vm包下的其他类，如果需要得到VM类的支持，一般都在它们的构造函数里有一个VM参数，可以想象成计算机5大部件中的总线。
 
 
-
 4.2 BootstrapClassLoader
 虚拟机与输入前端的对接是通过ClassMap完成的，另外ClassLoader的部分功能需要VM类的支持，所以BootstrapClassLoader类中包含clazzMap和vm两个域。
 4.2.1 指令优化
@@ -37,4 +36,30 @@ vm包下的其他类，如果需要得到VM类的支持，一般都在它们的�
 
 4.3 类的表示
 需要强调的是，类不是仅由包名和类名唯一确定的。同一个class文件，被不同的ClassLoader加载进虚拟机后，虚拟机会认为这是两个类，具体参考双亲代理模型（关于双亲代理模型，如果说的直白点儿，就是父ClassLoader优先加载模型）。在虚拟机中，一个类是由它的<Defining ClasssLoader, 包名+类名>或<Initializing ClasssLoader, 包名+类名>确定的。
+
+在我们的虚拟机中，每一个类对应一个VMClass。使用Java语言定义一个类的每个部分，都可以在VMClass中找到对应的域。我们根据虚拟机的需求，增加了三个域，前两个分别是definingLoader和initialLoader，另外还有一个initialStatus用于类的初始化过程，记录当前类的初始化进度。
+
+4.3.1 Method的Field的表示
+Method的构成可参考它的Smali形式。有方法签名methodSign，修饰符modifiers，使用的寄存器个数regCount，Dalvik指令code以及异常表exceptionTable。另外加上一个definingClass，算是一个反向指针，通过这个方法找到谁定义了这个它。
+Field中name、value、modifiers、definingClass都很好解释。descriptor域按照我们的理解，就是记录该变量的类型，这个域之所以取这个名字而不是type，是为了与规范保持一致。
+
+4.3.2 Loading
+4.3.3 Linking
+4.3.4 Initialization
+4.3.5 Method & Field Resolution
+这些应该参考JVM规范，我们严格按照规范来写的。
+
+关于Resolution（解析），对于Field和Method，我们在VMClass类中用的是Hashtable来存的。对于Field，传给Hashtable的key就是一个VMField，返回值仍然是一个VMField。Mehtod与此类似。原因是为了和从对象（Object）中取Field保持一致，传入一个在某个类中的Field，可以得到这个类的对象中对应的Field，所以虚拟机中的对象（VMInstance）中fields就是一个以VMField为键和值的Hashtable。VMClass为了和VMInstance保持一致，仍采用这种结构。
+
+4.4 对象的表示
+虚拟机中普通对象用VMInstance表示，数组用VMArray表示。
+虚拟机中的每个普通对象都是由一个VMInstance包装起来的。这个词可能会引发误解，它不是一个虚拟机实例(VM instance)。在我们的虚拟机中，每次new一个对象，都是new一个VMInstance，这个VMInstance中包含那个带创建对象的所有内容。
+
+4.4.1 普通对象
+VMInstance结构很简单，三个域都很容易理解。
+
+4.4.2 数组对象
+暂时没有完全支持。
+
+4.5 解释器
 
